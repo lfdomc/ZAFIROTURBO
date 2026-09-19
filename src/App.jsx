@@ -1151,6 +1151,9 @@ function CalendarioView() {
 }
 
 function HomeView({ general, checkInGeneral, checkOutGeneral, masterTable, onOpenProperty }) {
+  general = { mensajesFrecuentes: [], contactos: [], faqs: [], ...(general || {}) };
+  general.formulario = { texto: "", link: "", linkLabel: "", ...(general.formulario || {}) };
+  masterTable = masterTable || [];
   return (
     <div className="space-y-4">
       <div>
