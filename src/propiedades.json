@@ -2413,6 +2413,10 @@
         [
           "Zona",
           "El condominio se llama Nosara Estates y está ubicado en una zona muy tranquila y rodeada de naturaleza. En carro, aproximadamente está a 15–20 minutos de Playa Garza y unos 20–30 minutos de Playa Guiones. El pueblo de Nosara también queda a pocos minutos en carro, donde encontrarán restaurantes, cafés y diferentes comercios."
+        ],
+        [
+          "Vehículo requerido",
+          "4x4 obligatorio — el último tramo es camino de lastre"
         ]
       ],
       "publicInfo": {
@@ -2436,18 +2440,40 @@
           "Se requiere vehículo 4x4 para el último tramo (camino de lastre) — manejar con cuidado.",
           "No alimentar a los monos; mantener puertas y mosquiteros cerrados.",
           "Ducharse antes de usar la piscina; avisar de inmediato si algo necesita atención."
+        ],
+        "nearby": [
+          {
+            "text": "Restaurante La Luna — Restaurante Mediterráneo ★4.4 (2064 reseñas)",
+            "url": ""
+          },
+          {
+            "text": "Sunrise Coffee — Cafetería ★4.7 (361 reseñas)",
+            "url": ""
+          },
+          {
+            "text": "Coyol Restaurant — Restaurante ★4.6 (435 reseñas)",
+            "url": ""
+          },
+          {
+            "text": "Orgánico Bakery — Restaurante ★4.4 (621 reseñas)",
+            "url": ""
+          },
+          {
+            "text": "Howler's Beach Lounge — Bar de Cócteles ★4.8 (371 reseñas)",
+            "url": ""
+          }
         ]
       },
       "messages": [
         {
           "id": "welcome-playa-es",
           "title": "Welcome Message (Español)",
-          "body": "¡Hola! 😊\n\nNos alegra mucho recibirte. Con gusto estaremos coordinando todo para tu llegada.\n\nPara poder gestionar la autorización de ingreso en la caseta de seguridad, por favor envíanos la siguiente información:\n\n- Nombre completo de todos los huéspedes\n- Cédula o pasaporte de todos los huéspedes\n- Cantidad total de huéspedes y cuántos son adultos\n- Placa del vehículo (si vienen en carro)\n\nCon esta información podemos coordinar tu autorización de entrada a tiempo. ¡Muchas gracias por tu colaboración! Será un placer recibirte y darte la bienvenida."
+          "body": "¡Hola! 😊\n\nNos alegra mucho recibirte en Casa Lévita + Studio, en Nosara. Antes de tu llegada, por favor completá el formulario de check-in que te enviamos por correo — con eso ya queda todo listo, esta propiedad no tiene caseta de seguridad ni control en la entrada.\n\n¡Será un placer recibirte y esperamos que disfrutes muchísimo tu estadía!"
         },
         {
           "id": "welcome-playa-en",
           "title": "Welcome Message",
-          "body": "Hi there! 😊\n\nWe're so happy to welcome you! We'll be glad to coordinate everything for your arrival.\n\nTo manage your entry authorization at the security gate, please send us the following information:\n\n- Full name of all guests\n- ID or passport number for all guests\n- Total number of guests and how many are adults\n- Vehicle license plate (if arriving by car)\n\nWith this information we can coordinate your entry authorization ahead of time. Thank you so much for your help! We look forward to welcoming you."
+          "body": "Hi there! 😊\n\nWe're so happy to welcome you to Casa Lévita + Studio in Nosara. Before your arrival, please complete the check-in form we sent you by email — that's all you need, this property has no security gate or entrance check-in.\n\nWe look forward to welcoming you and hope you have a wonderful stay!"
         }
       ],
       "units": [
@@ -2466,12 +2492,12 @@
             {
               "id": "levita-checkin",
               "title": "Check In Casa Levita (genérico, Español)",
-              "body": "¡Hola! 😊\n\nTu día de llegada ya está aquí y queremos asegurarnos de que todo vaya lo mejor posible.\n\nCheck-in: 3:00 PM\nCheck-out: 11:00 AM\n\nSe recomienda vehículo 4x4 para el último tramo de camino de lastre hacia la propiedad — manejar con cuidado.\n\n⚠️ Nota interna: todavía no tenemos registrado el código de acceso ni los datos de WiFi de esta propiedad en el sistema — completar antes de enviar este mensaje a un huésped real, o coordinar el ingreso directamente con el equipo de la zona.\n\nReglas de la casa:\n- No fiestas ni eventos — es una comunidad residencial tranquila.\n- No fumar ni vapear en la propiedad.\n- Horario de silencio 10 pm–7 am.\n- No alimentar a los monos; mantener puertas y mosquiteros cerrados.\n\n¡Esperamos tu estancia!"
+              "body": "¡Hola! 😊\n\nTu día de llegada ya está aquí y queremos asegurarnos de que todo vaya lo mejor posible.\n\nCheck-in: 3:00 PM\nCheck-out: 11:00 AM\n\nSe necesita vehículo 4x4 para el último tramo de camino de lastre hacia la propiedad — manejar con cuidado. No hay caseta de seguridad en la entrada, así que pueden entrar manejando directo hasta Casa 67.\n\nPara entrar a la casa principal, usen el código del teclado: 2313. Las llaves de la segunda casa (el Studio) están dentro de la casa principal, las van a encontrar ahí una vez adentro.\n\nWiFi:\nRed: Bazinga / Contraseña: Bazinga202517\nRed de invitados: Bazingaguest / Contraseña: Bazingag202517\n\nReglas de la casa:\n- No fiestas ni eventos — es una comunidad residencial tranquila.\n- No fumar ni vapear en la propiedad.\n- Horario de silencio 10 pm–7 am.\n- No alimentar a los monos; mantener puertas y mosquiteros cerrados.\n\n¡Esperamos su estancia!"
             },
             {
               "id": "levita-checkin-en",
               "title": "Check In Casa Levita (generic)",
-              "body": "Hi there! 😊\n\nYour arrival day is here and we want to make sure everything goes as smoothly as possible.\n\nCheck-in: 3:00 PM\nCheck-out: 11:00 AM\n\nA 4x4 vehicle is recommended for the last stretch of gravel road to the property — please drive carefully.\n\n⚠️ Internal note: we still don't have the access code or WiFi details for this property registered in the system — complete before sending this message to a real guest, or coordinate check-in directly with the local team.\n\nHouse rules:\n- No parties or events — it's a quiet residential community.\n- No smoking or vaping on the property.\n- Quiet hours 10 pm–7 am.\n- Please don't feed the monkeys; keep doors and screens closed.\n\nWe look forward to your stay!"
+              "body": "Hi there! 😊\n\nYour arrival day is here and we want to make sure everything goes as smoothly as possible.\n\nCheck-in: 3:00 PM\nCheck-out: 11:00 AM\n\nA 4x4 vehicle is required for the last stretch of gravel road to the property — please drive carefully. There's no guard gate at the entrance, so you can drive straight in up to Casa 67.\n\nTo enter the main house, use the keypad code: 2313. The keys to the second house (the Studio) are inside the main house — you'll find them once you're in.\n\nWiFi:\nNetwork: Bazinga / Password: Bazinga202517\nGuest network: Bazingaguest / Password: Bazingag202517\n\nHouse rules:\n- No parties or events — it's a quiet residential community.\n- No smoking or vaping on the property.\n- Quiet hours 10 pm–7 am.\n- Please don't feed the monkeys; keep doors and screens closed.\n\nWe look forward to your stay!"
             }
           ],
           "listing": {
@@ -2491,9 +2517,27 @@
               "https://img.hostify.com/400000158/property/f963ae98b0b4a960f63f4fdefb0e3ffe-lg.jpg",
               "https://img.hostify.com/400000158/property/d602aa8dad0e18d77da6ad162190720b-lg.jpg"
             ]
-          }
+          },
+          "accessCode": "2313",
+          "extra": [
+            [
+              "WiFi",
+              "Red: Bazinga / Contraseña: Bazinga202517"
+            ],
+            [
+              "WiFi invitados",
+              "Red: Bazingaguest / Contraseña: Bazingag202517"
+            ],
+            [
+              "Llaves del Studio",
+              "Están dentro de la casa principal — se encuentran una vez adentro."
+            ]
+          ]
         }
-      ]
+      ],
+      "guiaDigital": {
+        "comoLlegar": "Casa 67, Nosara Estates — comunidad residencial privada arriba de Nosara. Coordenadas: 9.949683, -85.624069. Es indispensable un vehículo 4x4 / de alto despeje — el último tramo es un camino rural de lastre (más difícil en época verde). No hay caseta de guardia ni control de ingreso en la entrada: se puede entrar manejando directamente. Seguir el camino hacia arriba hasta Casa 67 y parquear en el parqueo de la finca, junto a las casas."
+      }
     },
     {
       "id": "malinches",
