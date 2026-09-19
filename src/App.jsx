@@ -1519,6 +1519,168 @@ function RevisarGuiaPanel({ propertyId, adminKey, urlGuia }) {
   );
 }
 
+function MessageListEditor({ items, onChange }) {
+  const set = (i, campo, v) => onChange(items.map((it, j) => (j === i ? { ...it, [campo]: v } : it)));
+  const quitar = (i) => onChange(items.filter((_, j) => j !== i));
+  const agregar = () => onChange([...items, { id: `msg-${Date.now()}`, title: "", body: "" }]);
+  return (
+    <div className="space-y-2">
+      {items.map((it, i) => (
+        <div key={it.id || i} className="rounded-lg border border-slate-200 p-2 space-y-1.5">
+          <div className="flex gap-1.5">
+            <input value={it.title || ""} onChange={(e) => set(i, "title", e.target.value)} placeholder="Título del mensaje"
+              className="flex-1 min-w-0 rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
+            <button onClick={() => quitar(i)} className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-red-600 hover:bg-red-50">
+              <Trash2 size={14} />
+            </button>
+          </div>
+          <textarea value={it.body || ""} onChange={(e) => set(i, "body", e.target.value)} placeholder="Contenido del mensaje" rows={4}
+            className="w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
+        </div>
+      ))}
+      <button onClick={agregar} className="text-xs text-blue-900 font-medium flex items-center gap-1">
+        <Plus size={13} /> Agregar mensaje
+      </button>
+    </div>
+  );
+}
+
+function UnitEditCard({ unidad, onChange, onEliminar, camposUnidad }) {
+  const set = (campo, v) => onChange({ ...unidad, [campo]: v });
+  const setListing = (campo, v) => onChange({ ...unidad, listing: { ...(unidad.listing || {}), [campo]: v } });
+  const setGuia = (campo, v) => onChange({ ...unidad, guiaDigital: { ...(unidad.guiaDigital || {}), [campo]: v } });
+  const setCampoPersonalizado = (id, v) =>
+    onChange({ ...unidad, camposPersonalizados: { ...(unidad.camposPersonalizados || {}), [id]: v } });
+
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
+      <div className="flex items-center justify-between gap-2">
+        <input value={unidad.name || ""} onChange={(e) => set("name", e.target.value)} placeholder="Nombre de la unidad (ej. Praia 41)"
+          className="flex-1 min-w-0 font-semibold text-sm text-slate-800 rounded-lg border border-slate-300 px-2.5 py-1.5" />
+        <button onClick={onEliminar} className="shrink-0 text-red-600 hover:bg-red-50 rounded-lg w-9 h-9 flex items-center justify-center">
+          <Trash2 size={16} />
+        </button>
+      </div>
+
+      <div className="grid gap-2 sm:grid-cols-2">
+        <label className="text-xs text-slate-500">Número / identificador
+          <input value={unidad.num || ""} onChange={(e) => set("num", e.target.value)} className="mt-1 w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
+        </label>
+        <label className="text-xs text-slate-500">Capacidad (personas)
+          <input value={unidad.pax || ""} onChange={(e) => set("pax", e.target.value)} className="mt-1 w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
+        </label>
+        <label className="text-xs text-slate-500">Parqueo
+          <input value={unidad.parqueo || ""} onChange={(e) => set("parqueo", e.target.value)} className="mt-1 w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
+        </label>
+        <label className="text-xs text-slate-500">Código de acceso
+          <input value={unidad.accessCode || ""} onChange={(e) => set("accessCode", e.target.value)} className="mt-1 w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
+        </label>
+        <label className="text-xs text-slate-500">App de ingreso
+          <input value={unidad.app || ""} onChange={(e) => set("app", e.target.value)} className="mt-1 w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
+        </label>
+        <label className="text-xs text-slate-500">WhatsApp de seguridad
+          <input value={unidad.whatsapp || ""} onChange={(e) => set("whatsapp", e.target.value)} className="mt-1 w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
+        </label>
+      </div>
+
+      {camposUnidad.length > 0 && (
+        <div className="space-y-2 pt-2 border-t border-slate-100">
+          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Campos personalizados de esta unidad</p>
+          {camposUnidad.map((c) => (
+            <label key={c.id} className="block text-xs text-slate-500">
+              {c.etiqueta}
+              <input
+                value={(unidad.camposPersonalizados || {})[c.id] || ""}
+                onChange={(e) => setCampoPersonalizado(c.id, e.target.value)}
+                className="mt-1 w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm"
+              />
+            </label>
+          ))}
+        </div>
+      )}
+
+      <details className="pt-2 border-t border-slate-100">
+        <summary className="text-xs font-semibold text-slate-500 uppercase tracking-wide cursor-pointer">WiFi y otros datos</summary>
+        <div className="mt-2"><PairListEditor pares={unidad.extra || []} onChange={(v) => set("extra", v)} placeholderA="ej. WiFi" placeholderB="ej. red / contraseña" /></div>
+      </details>
+
+      <details className="pt-2 border-t border-slate-100">
+        <summary className="text-xs font-semibold text-slate-500 uppercase tracking-wide cursor-pointer">Habitaciones</summary>
+        <div className="mt-2"><StringListEditor items={unidad.rooms || []} onChange={(v) => set("rooms", v)} placeholder="ej. Habitación 1: cama king" /></div>
+      </details>
+
+      <details className="pt-2 border-t border-slate-100">
+        <summary className="text-xs font-semibold text-slate-500 uppercase tracking-wide cursor-pointer">Mensajes de check-in de esta unidad</summary>
+        <div className="mt-2"><MessageListEditor items={unidad.checkin || []} onChange={(v) => set("checkin", v)} /></div>
+      </details>
+
+      <details className="pt-2 border-t border-slate-100">
+        <summary className="text-xs font-semibold text-slate-500 uppercase tracking-wide cursor-pointer">Ficha pública (listing)</summary>
+        <div className="mt-2 grid gap-2 sm:grid-cols-2">
+          <input value={unidad.listing?.title || ""} onChange={(e) => setListing("title", e.target.value)} placeholder="Título del listing"
+            className="sm:col-span-2 rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
+          <input value={unidad.listing?.url || ""} onChange={(e) => setListing("url", e.target.value)} placeholder="URL del listing"
+            className="sm:col-span-2 rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
+          <input value={unidad.listing?.airbnbUrl || ""} onChange={(e) => setListing("airbnbUrl", e.target.value)} placeholder="URL de Airbnb"
+            className="sm:col-span-2 rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
+          <input value={unidad.listing?.guests ?? ""} onChange={(e) => setListing("guests", e.target.value)} placeholder="Huéspedes"
+            className="rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
+          <input value={unidad.listing?.bedrooms ?? ""} onChange={(e) => setListing("bedrooms", e.target.value)} placeholder="Habitaciones"
+            className="rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
+          <input value={unidad.listing?.beds ?? ""} onChange={(e) => setListing("beds", e.target.value)} placeholder="Camas"
+            className="rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
+          <input value={unidad.listing?.bathrooms ?? ""} onChange={(e) => setListing("bathrooms", e.target.value)} placeholder="Baños"
+            className="rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
+          <textarea value={unidad.listing?.description || ""} onChange={(e) => setListing("description", e.target.value)} placeholder="Descripción" rows={3}
+            className="sm:col-span-2 rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
+          <div className="sm:col-span-2">
+            <p className="text-xs text-slate-500 mb-1">Fotos (URLs)</p>
+            <StringListEditor items={unidad.listing?.images || []} onChange={(v) => setListing("images", v)} placeholder="https://..." />
+          </div>
+        </div>
+      </details>
+
+      <details className="pt-2 border-t border-slate-100">
+        <summary className="text-xs font-semibold text-slate-500 uppercase tracking-wide cursor-pointer">Guía digital de esta unidad</summary>
+        <div className="mt-2 space-y-1.5">
+          <input value={unidad.guiaDigital?.url || ""} onChange={(e) => setGuia("url", e.target.value)} placeholder="URL de la guía"
+            className="w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
+          <input value={unidad.guiaDigital?.comoLlegar || ""} onChange={(e) => setGuia("comoLlegar", e.target.value)} placeholder="Cómo llegar"
+            className="w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
+          <textarea value={unidad.guiaDigital?.nota || ""} onChange={(e) => setGuia("nota", e.target.value)} placeholder="Nota sobre esta guía" rows={2}
+            className="w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
+        </div>
+      </details>
+
+      <label className="block text-xs text-slate-500 pt-2 border-t border-slate-100">
+        Nota interna de esta unidad (nunca se le muestra al huésped)
+        <textarea value={unidad.note || ""} onChange={(e) => set("note", e.target.value)} rows={2}
+          className="mt-1 w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
+      </label>
+    </div>
+  );
+}
+
+function UnitsEditor({ unidades, onChange, camposUnidad }) {
+  const actualizar = (i, nueva) => onChange(unidades.map((u, j) => (j === i ? nueva : u)));
+  const eliminar = (i) => {
+    if (!confirm("¿Eliminar esta unidad del formulario?")) return;
+    onChange(unidades.filter((_, j) => j !== i));
+  };
+  const agregar = () => onChange([...unidades, { id: `unidad-${Date.now()}`, name: "", num: "", pax: "" }]);
+
+  return (
+    <div className="space-y-3">
+      {unidades.map((u, i) => (
+        <UnitEditCard key={u.id || i} unidad={u} onChange={(n) => actualizar(i, n)} onEliminar={() => eliminar(i)} camposUnidad={camposUnidad} />
+      ))}
+      <button onClick={agregar} className="w-full rounded-xl border border-dashed border-slate-300 py-2.5 text-sm text-slate-500 hover:border-blue-800 hover:text-blue-900 flex items-center justify-center gap-1.5">
+        <Plus size={15} /> Agregar unidad (casa/apartamento)
+      </button>
+    </div>
+  );
+}
+
 function PropertyForm({ propiedadInicial, esNueva, camposPersonalizados, onGuardar, onCancelar, guardando, error, adminKey }) {
   const base = propiedadInicial || PROPERTY_VACIA;
   const [form, setForm] = useState({
@@ -1528,15 +1690,23 @@ function PropertyForm({ propiedadInicial, esNueva, camposPersonalizados, onGuard
     quickInfo: base.quickInfo || [], rules: base.rules || [],
     camposPersonalizados: base.camposPersonalizados || {},
   });
-  const [unitsJson, setUnitsJson] = useState(JSON.stringify(base.units || [], null, 2));
-  const [messagesJson, setMessagesJson] = useState(JSON.stringify(base.messages || [], null, 2));
-  const [extraJson, setExtraJson] = useState(JSON.stringify({
-    publicInfo: base.publicInfo, localExperiences: base.localExperiences,
-    correoTemplate: base.correoTemplate, guiaDigital: base.guiaDigital, note: base.note,
-  }, null, 2));
+  const [units, setUnits] = useState(base.units || []);
+  const [messages, setMessages] = useState(base.messages || []);
+  const [publicInfo, setPublicInfo] = useState(base.publicInfo || { rules: [], amenities: [], nearby: [] });
+  const [localExperiences, setLocalExperiences] = useState(base.localExperiences || { url: "", resumen: "", categorias: [], destacados: [] });
+  const [correoTemplate, setCorreoTemplate] = useState(base.correoTemplate || { title: "", body: "" });
+  const [guiaDigitalProp, setGuiaDigitalProp] = useState(base.guiaDigital || { url: "", nota: "", comoLlegar: "" });
+  const [notaInterna, setNotaInterna] = useState(base.note || "");
   const [jsonError, setJsonError] = useState("");
 
+  const camposUnidad = camposPersonalizados.filter((c) => c.nivel === "unidad");
+  const camposPropiedad = camposPersonalizados.filter((c) => c.nivel !== "unidad");
+
   const set = (campo, v) => setForm((f) => ({ ...f, [campo]: v }));
+  const setPublicInfoField = (campo, v) => setPublicInfo((p) => ({ ...p, [campo]: v }));
+  const setLocalExpField = (campo, v) => setLocalExperiences((p) => ({ ...p, [campo]: v }));
+  const setCorreoField = (campo, v) => setCorreoTemplate((p) => ({ ...p, [campo]: v }));
+  const setGuiaPropField = (campo, v) => setGuiaDigitalProp((p) => ({ ...p, [campo]: v }));
 
   const submit = () => {
     setJsonError("");
@@ -1544,16 +1714,18 @@ function PropertyForm({ propiedadInicial, esNueva, camposPersonalizados, onGuard
       setJsonError("id y nombre son obligatorios.");
       return;
     }
-    let units, messages, extra;
-    try {
-      units = JSON.parse(unitsJson);
-      messages = JSON.parse(messagesJson);
-      extra = JSON.parse(extraJson);
-    } catch (e) {
-      setJsonError(`JSON inválido en uno de los bloques avanzados: ${e.message}`);
-      return;
-    }
-    onGuardar({ ...form, units, messages, ...extra });
+    const tieneLocalExp = localExperiences.url || localExperiences.resumen || (localExperiences.categorias || []).length || (localExperiences.destacados || []).length;
+    const tieneCorreo = correoTemplate.title || correoTemplate.body;
+    const tieneGuia = guiaDigitalProp.url || guiaDigitalProp.nota || guiaDigitalProp.comoLlegar;
+
+    onGuardar({
+      ...form, units, messages,
+      publicInfo,
+      localExperiences: tieneLocalExp ? localExperiences : undefined,
+      correoTemplate: tieneCorreo ? correoTemplate : undefined,
+      guiaDigital: tieneGuia ? guiaDigitalProp : undefined,
+      note: notaInterna || undefined,
+    });
   };
 
   return (
@@ -1617,10 +1789,10 @@ function PropertyForm({ propiedadInicial, esNueva, camposPersonalizados, onGuard
         <RevisarGuiaPanel propertyId={form.id} adminKey={adminKey} urlGuia={form.camposPersonalizados.link_guia_publica} />
       )}
 
-      {camposPersonalizados.length > 0 && (
+      {camposPropiedad.length > 0 && (
         <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
           <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Campos personalizados</p>
-          {camposPersonalizados.map((c) => (
+          {camposPropiedad.map((c) => (
             <label key={c.id} className="block text-xs text-slate-500">
               {c.etiqueta}
               <input
@@ -1633,30 +1805,83 @@ function PropertyForm({ propiedadInicial, esNueva, camposPersonalizados, onGuard
         </div>
       )}
 
-      <details className="rounded-2xl border border-slate-200 bg-white p-4">
-        <summary className="text-xs font-semibold text-slate-500 uppercase tracking-wide cursor-pointer">
-          Unidades (JSON avanzado)
-        </summary>
-        <p className="text-xs text-slate-400 mt-2 mb-1">Array de unidades — mismo formato que el resto del sitio (id, name, num, pax, listing, extra, checkin...).</p>
-        <textarea value={unitsJson} onChange={(e) => setUnitsJson(e.target.value)} rows={14} spellCheck={false}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-mono" />
-      </details>
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
+        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Unidades (casas / apartamentos)</p>
+        <p className="text-xs text-slate-400">Cada unidad es una casa o apartamento real dentro de esta propiedad/condominio.</p>
+        <UnitsEditor unidades={units} onChange={setUnits} camposUnidad={camposUnidad} />
+      </div>
 
-      <details className="rounded-2xl border border-slate-200 bg-white p-4">
-        <summary className="text-xs font-semibold text-slate-500 uppercase tracking-wide cursor-pointer">
-          Mensajes de la propiedad (JSON avanzado)
-        </summary>
-        <textarea value={messagesJson} onChange={(e) => setMessagesJson(e.target.value)} rows={10} spellCheck={false}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-mono mt-2" />
-      </details>
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-2">
+        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Mensajes de la propiedad</p>
+        <p className="text-xs text-slate-400">Bienvenida, check-out, y otros mensajes generales de toda la propiedad (no de una unidad puntual).</p>
+        <MessageListEditor items={messages} onChange={setMessages} />
+      </div>
 
-      <details className="rounded-2xl border border-slate-200 bg-white p-4">
-        <summary className="text-xs font-semibold text-slate-500 uppercase tracking-wide cursor-pointer">
-          Otros campos avanzados — publicInfo, localExperiences, correoTemplate, guiaDigital, note (JSON)
-        </summary>
-        <textarea value={extraJson} onChange={(e) => setExtraJson(e.target.value)} rows={10} spellCheck={false}
-          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-mono mt-2" />
-      </details>
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
+        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Ficha pública</p>
+        <div>
+          <p className="text-xs text-slate-500 mb-1">Amenidades</p>
+          <StringListEditor items={publicInfo.amenities || []} onChange={(v) => setPublicInfoField("amenities", v)} placeholder="ej. Piscina privada" />
+        </div>
+        <div className="pt-2 border-t border-slate-100">
+          <p className="text-xs text-slate-500 mb-1">Reglas (ficha pública)</p>
+          <StringListEditor items={publicInfo.rules || []} onChange={(v) => setPublicInfoField("rules", v)} placeholder="Regla" />
+        </div>
+        <div className="pt-2 border-t border-slate-100">
+          <p className="text-xs text-slate-500 mb-1">Lugares cercanos</p>
+          <PairListEditor
+            pares={(publicInfo.nearby || []).map((n) => (typeof n === "object" ? [n.text || "", n.url || ""] : [n, ""]))}
+            onChange={(pares) => setPublicInfoField("nearby", pares.map(([text, url]) => ({ text, url })))}
+            placeholderA="Descripción" placeholderB="URL (opcional)"
+          />
+        </div>
+      </div>
+
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
+        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Experiencias locales</p>
+        <input value={localExperiences.url || ""} onChange={(e) => setLocalExpField("url", e.target.value)}
+          placeholder="Link (ej. LocalBird)" className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+        <textarea value={localExperiences.resumen || ""} onChange={(e) => setLocalExpField("resumen", e.target.value)}
+          placeholder="Resumen" rows={2} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+        <div>
+          <p className="text-xs text-slate-500 mb-1">Categorías</p>
+          <StringListEditor items={localExperiences.categorias || []} onChange={(v) => setLocalExpField("categorias", v)} placeholder="ej. Tours de aventura" />
+        </div>
+        <div className="pt-2 border-t border-slate-100">
+          <p className="text-xs text-slate-500 mb-1">Destacados</p>
+          <PairListEditor
+            pares={(localExperiences.destacados || []).map((d) => [d.nombre || "", d.precio || ""])}
+            onChange={(pares) => setLocalExpField("destacados", pares.map(([nombre, precio]) => ({ nombre, precio })))}
+            placeholderA="Nombre" placeholderB="Precio (ej. Desde $70)"
+          />
+        </div>
+      </div>
+
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-2">
+        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Guía digital de la propiedad</p>
+        <p className="text-xs text-slate-400">Solo si aplica a toda la propiedad y no a una unidad puntual (esas se cargan dentro de cada unidad).</p>
+        <input value={guiaDigitalProp.url || ""} onChange={(e) => setGuiaPropField("url", e.target.value)} placeholder="URL de la guía"
+          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+        <input value={guiaDigitalProp.comoLlegar || ""} onChange={(e) => setGuiaPropField("comoLlegar", e.target.value)} placeholder="Cómo llegar"
+          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+        <textarea value={guiaDigitalProp.nota || ""} onChange={(e) => setGuiaPropField("nota", e.target.value)} placeholder="Nota" rows={2}
+          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+      </div>
+
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-2">
+        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Plantilla de correo a recepción (interno)</p>
+        <input value={correoTemplate.title || ""} onChange={(e) => setCorreoField("title", e.target.value)} placeholder="Asunto"
+          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+        <textarea value={correoTemplate.body || ""} onChange={(e) => setCorreoField("body", e.target.value)} placeholder="Cuerpo del correo" rows={4}
+          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+      </div>
+
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-2">
+        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Nota interna de la propiedad</p>
+        <p className="text-xs text-slate-400">Nunca se le muestra al huésped.</p>
+        <textarea value={notaInterna} onChange={(e) => setNotaInterna(e.target.value)} rows={3}
+          className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+      </div>
 
       {(jsonError || error) && (
         <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{jsonError || error}</p>
@@ -1675,6 +1900,7 @@ function PropertyForm({ propiedadInicial, esNueva, camposPersonalizados, onGuard
 
 function CamposPersonalizadosPanel({ campos, adminKey, onCambio }) {
   const [nuevaEtiqueta, setNuevaEtiqueta] = useState("");
+  const [nuevoNivel, setNuevoNivel] = useState("propiedad");
   const [creando, setCreando] = useState(false);
   const [error, setError] = useState("");
 
@@ -1686,7 +1912,7 @@ function CamposPersonalizadosPanel({ campos, adminKey, onCambio }) {
     setCreando(true);
     setError("");
     try {
-      await adminFetch("/admin/campos", adminKey, { method: "POST", body: JSON.stringify({ id, etiqueta, tipo: "texto" }) });
+      await adminFetch("/admin/campos", adminKey, { method: "POST", body: JSON.stringify({ id, etiqueta, tipo: "texto", nivel: nuevoNivel }) });
       setNuevaEtiqueta("");
       onCambio();
     } catch (e) {
@@ -1697,7 +1923,7 @@ function CamposPersonalizadosPanel({ campos, adminKey, onCambio }) {
   };
 
   const eliminar = async (c) => {
-    if (!confirm(`¿Eliminar el campo "${c.etiqueta}"? Esto no borra los valores ya guardados en cada propiedad.`)) return;
+    if (!confirm(`¿Eliminar el campo "${c.etiqueta}"? Esto no borra los valores ya guardados en cada propiedad/unidad.`)) return;
     try {
       await adminFetch(`/admin/campos/${c.id}`, adminKey, { method: "DELETE" });
       onCambio();
@@ -1709,20 +1935,35 @@ function CamposPersonalizadosPanel({ campos, adminKey, onCambio }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
       <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
-        Campos personalizados (disponibles para todas las propiedades)
+        Campos personalizados
+      </p>
+      <p className="text-xs text-slate-400">
+        "Propiedad" agrega el campo una vez por propiedad. "Unidad" agrega el campo a cada casa/apartamento por separado.
       </p>
       {campos.map((c) => (
         <div key={c.id} className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 px-3 py-2">
-          <span className="text-sm text-slate-700">{c.etiqueta} <span className="text-slate-400">({c.id})</span></span>
-          <button onClick={() => eliminar(c)} className="text-red-600 hover:bg-red-50 rounded-lg w-7 h-7 flex items-center justify-center">
-            <Trash2 size={14} />
-          </button>
+          <span className="text-sm text-slate-700">
+            {c.etiqueta} <span className="text-slate-400">({c.id})</span>
+          </span>
+          <div className="flex items-center gap-2 shrink-0">
+            <span className={`text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ${c.nivel === "unidad" ? "bg-amber-50 text-amber-700" : "bg-blue-50 text-blue-700"}`}>
+              {c.nivel === "unidad" ? "Unidad" : "Propiedad"}
+            </span>
+            <button onClick={() => eliminar(c)} className="text-red-600 hover:bg-red-50 rounded-lg w-7 h-7 flex items-center justify-center">
+              <Trash2 size={14} />
+            </button>
+          </div>
         </div>
       ))}
-      <div className="flex gap-1.5 pt-1">
+      <div className="flex flex-wrap gap-1.5 pt-1">
         <input value={nuevaEtiqueta} onChange={(e) => setNuevaEtiqueta(e.target.value)}
           placeholder="ej. ¿Aceptan animales?"
-          className="flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+          className="flex-1 min-w-[140px] rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+        <select value={nuevoNivel} onChange={(e) => setNuevoNivel(e.target.value)}
+          className="rounded-lg border border-slate-300 px-2 py-2 text-sm bg-white">
+          <option value="propiedad">Por propiedad</option>
+          <option value="unidad">Por unidad</option>
+        </select>
         <button onClick={crear} disabled={creando || !nuevaEtiqueta.trim()}
           className="rounded-lg bg-blue-900 text-white text-sm font-semibold px-3 disabled:opacity-40">
           Agregar
