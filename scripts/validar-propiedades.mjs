@@ -10,6 +10,11 @@
 // problema real que motivó este script originalmente (ej. una unidad sin
 // "images" que rompía la página completa al abrirla).
 //
+// Un array "properties" vacío NO es un error — es el estado normal antes de
+// la primera importación desde el panel Admin (huevo y gallina: el sitio
+// tiene que poder construirse para poder usar el botón de importar). Solo se
+// valida la estructura de las propiedades que SÍ existen.
+//
 // Si imprime "❌", el build se detiene (exit code 1). Si todo está bien,
 // imprime "✅" y la build sigue hacia vite build.
 // ============================================================================
@@ -34,12 +39,14 @@ try {
 const GRUPOS_VALIDOS = ["sanjose", "jaco", "guanacaste"];
 const idsVistos = new Set();
 
-if (data) {
-  if (!Array.isArray(data.properties) || data.properties.length === 0) {
-    errores.push('El JSON no tiene "properties" (o está vacío).');
-  }
+if (data && !Array.isArray(data.properties)) {
+  errores.push('El JSON no tiene "properties" (debería ser al menos un array, aunque esté vacío).');
+} else if (data && data.properties.length === 0) {
+  avisos.push('No hay ninguna propiedad cargada todavía — normal antes de la primera importación desde el panel Admin. El sitio se va a ver vacío hasta que importes datos.');
+}
 
-  (data.properties || []).forEach((p) => {
+if (data && Array.isArray(data.properties)) {
+  data.properties.forEach((p) => {
     if (!p.id) { errores.push(`Una propiedad no tiene "id".`); return; }
     if (idsVistos.has(p.id)) errores.push(`El id "${p.id}" está repetido en más de una propiedad.`);
     idsVistos.add(p.id);
@@ -88,4 +95,4 @@ if (errores.length > 0) {
   process.exit(1);
 }
 
-console.log(`✅ Validación de propiedades.json completa: ${data.properties.length} propiedades revisadas, sin errores.`);
+console.log(`✅ Validación de propiedades.json completa: ${(data.properties || []).length} propiedades revisadas, sin errores.`);

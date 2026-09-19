@@ -50,3 +50,5 @@ también podés simplemente correr `npm run dev` cada vez que lo necesites.
 - React 19 + Vite
 - Tailwind CSS 4
 - lucide-react (íconos)
+
+<!-- forzando rebuild real -->
