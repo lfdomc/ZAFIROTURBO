@@ -2269,6 +2269,16 @@ function AdminView() {
                   <div>
                     <p className="text-sm font-medium text-slate-800">{p.nombre}</p>
                     <p className="text-xs text-slate-400">{p.zona}</p>
+                    {p.avisos?.length > 0 && (
+                      <details className="mt-1">
+                        <summary className="text-xs text-red-600 font-medium cursor-pointer">
+                          ⚠ {p.avisos.length} dato{p.avisos.length === 1 ? "" : "s"} importante{p.avisos.length === 1 ? "" : "s"} faltante{p.avisos.length === 1 ? "" : "s"}
+                        </summary>
+                        <ul className="mt-1 space-y-0.5">
+                          {p.avisos.map((a, i) => <li key={i} className="text-xs text-red-500">• {a}</li>)}
+                        </ul>
+                      </details>
+                    )}
                   </div>
                 )}
                 onEdit={abrirEdicion}

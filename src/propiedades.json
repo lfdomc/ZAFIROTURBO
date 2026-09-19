@@ -2703,6 +2703,28 @@
           "No se permiten fiestas ni eventos.",
           "Capacidad máxima fija de 22 personas — no se puede exceder (camas, baños y reglas de la comunidad).",
           "Comunidad cerrada (Hacienda Pinilla) con entrada controlada."
+        ],
+        "nearby": [
+          {
+            "text": "Lola's — Restaurante ★4.4 (2482 reseñas)",
+            "url": "https://maps.google.com/?cid=14754113381433584347"
+          },
+          {
+            "text": "El Mercadito de Tamarindo Food and Cocktail Market — Restaurante ★4.6 (2697 reseñas)",
+            "url": "https://maps.google.com/?cid=339225820671964313"
+          },
+          {
+            "text": "El Chiringuito — Restaurante ★4.3 (1228 reseñas)",
+            "url": "https://maps.google.com/?cid=9989620688696004242"
+          },
+          {
+            "text": "Langosta Beach Club — Restaurante ★4.3 (814 reseñas)",
+            "url": "https://maps.google.com/?cid=8661615348354458630"
+          },
+          {
+            "text": "Dragonfly Bar & Grill — Restaurante ★4.7 (1039 reseñas)",
+            "url": "https://maps.google.com/?cid=16748676877245021109"
+          }
         ]
       },
       "units": [
@@ -2737,9 +2759,22 @@
               "https://a0.muscache.com/im/pictures/hosting/Hosting-1757383237540886870/original/f5c94462-765d-42b6-830f-f228c5b281c3.jpeg",
               "https://a0.muscache.com/im/pictures/hosting/Hosting-1757383237540886870/original/e7c92673-b097-48b3-b2c3-d7d44c218869.jpeg"
             ]
-          }
+          },
+          "extra": [
+            [
+              "WiFi",
+              "Red: Reserva97 / Contraseña: Reserva97$"
+            ]
+          ]
         }
-      ]
+      ],
+      "guiaDigital": {
+        "comoLlegar": "HACIENDA PINILLA, RESERVA DE GOLF CASA 97, Pinilla. Coordenadas: 10.250222, -85.839389. La mejor manera de llegar a Casa Providencia es en carro. Desde el Aeropuerto Internacional de Liberia (LIR) el trayecto toma alrededor de 1 hora y 15 minutos; desde San José (SJO), entre 4,5 y 5 horas según el tráfico. Recomendamos alquilar carro: dentro de Hacienda Pinilla las distancias son cortas pero no aptas para caminar. En la entrada principal de Hacienda Pinilla los recibe seguridad: dar el nombre y el de los acompañantes (Zafiro pre-registra a los huéspedes antes de la llegada). Ya adentro, seguir hasta Reserva de Golf, casa 97."
+      },
+      "localExperiences": {
+        "url": "https://p.localbird.io/zafiro-tamarindo",
+        "resumen": "Reservá tours, aventuras y servicios con LocalBird, nuestro socio local en Costa Rica — proveedores verificados y precios justos."
+      }
     },
     {
       "id": "farmstay",
@@ -2839,6 +2874,58 @@
               "https://img.hostify.com/400000158/property/4d31c8c3c096ac211ff41c8f3e11483f-lg.jpg"
             ]
           }
+        }
+      ]
+    },
+    {
+      "id": "ocean-nest-live-jaco",
+      "name": "Ocean Nest · Live Jaco",
+      "group": "jaco",
+      "zone": "Jacó · Live Jaco",
+      "owner": "Geiner Jimenez Jimenez",
+      "requisitosCheckIn": {
+        "resumen": "Generar y enviar el código QR de acceso al condominio a través de la app de Live Jaco.",
+        "detalle": "El ingreso al condominio y a las áreas comunes es con un código QR generado desde la app del condominio — se le envía al huésped junto con las instrucciones de llegada."
+      },
+      "quickInfo": [
+        [
+          "Check in",
+          "3:00 p.m."
+        ],
+        [
+          "Check out",
+          "11:00 a.m."
+        ],
+        [
+          "Parqueo",
+          "Espacio 172, incluido en la estadía (1 carro)"
+        ]
+      ],
+      "rules": [
+        "Al salir: apagar las luces y el aire acondicionado.",
+        "Al salir: cerrar las ventanas.",
+        "Al salir: dejar la basura en el área designada.",
+        "Al salir: asegurar la puerta y devolver las llaves a la caja de llaves.",
+        "No hace falta lavar los platos ni la ropa de cama — de eso se encarga el equipo de limpieza."
+      ],
+      "guiaDigital": {
+        "comoLlegar": "Condominio Live Jaco, Avenida Pastor Díaz, Barrio Santa Lucía, Jacó, Garabito, Puntarenas. En carro: unas 2 horas desde el Aeropuerto Juan Santamaría (SJO). En bus: Transportes Jacó sale de la Terminal Atlántico Norte en San José hasta la terminal de Jacó; desde ahí el condominio queda 200 metros al norte."
+      },
+      "units": [
+        {
+          "id": "ocean-nest-1801",
+          "name": "Ocean Nest",
+          "num": "1801",
+          "extra": [
+            [
+              "WiFi",
+              "Red: Ocean Nest / Clave: Nest1801"
+            ],
+            [
+              "Caja de llaves",
+              "1801"
+            ]
+          ]
         }
       ]
     }
