@@ -143,7 +143,6 @@ export default function ConsultaView() {
     );
   }
 
-  const req = propiedad.requisitosCheckIn || {};
   const pub = propiedad.publicInfo || {};
   const le = propiedad.localExperiences || {};
 
@@ -175,17 +174,11 @@ export default function ConsultaView() {
           )
         ) : (
           <>
-            {(req.resumen || req.detalle) && (
-              <Card title="Check-in">
-                {req.resumen && <p className="text-sm text-slate-700 mb-1">{req.resumen}</p>}
-                {req.detalle && <p className="text-sm text-slate-600">{req.detalle}</p>}
-                {req.link && (
-                  <a href={req.link} target="_blank" rel="noreferrer" className="text-blue-900 text-sm font-medium underline break-all block mt-2">
-                    {req.linkLabel || "Abrir formulario"}
-                  </a>
-                )}
+            {propiedad.messages?.filter((m) => /welcome|bienvenid/i.test(m.title || "")).map((m) => (
+              <Card key={m.id} title="¡Bienvenido! 👋">
+                <p className="text-sm text-slate-700 whitespace-pre-line">{m.body}</p>
               </Card>
-            )}
+            ))}
 
             {propiedad.quickInfo?.length > 0 && (
               <Card title="Información rápida">
@@ -254,11 +247,22 @@ export default function ConsultaView() {
               </Card>
             )}
 
-            {propiedad.messages?.map((m) => (
-              <Card key={m.id} title={m.title}>
-                <p className="text-sm text-slate-700 whitespace-pre-line">{m.body}</p>
-              </Card>
-            ))}
+            {propiedad.messages?.filter((m) => !/welcome|bienvenid/i.test(m.title || "")).map((m) => {
+              const esReglas = /regla|rule/i.test(m.title || "");
+              if (esReglas) {
+                return (
+                  <details key={m.id} className="rounded-2xl border border-slate-200 bg-white p-4">
+                    <summary className="text-sm font-semibold text-slate-800 cursor-pointer">📋 {m.title}</summary>
+                    <p className="text-sm text-slate-700 whitespace-pre-line mt-3">{m.body}</p>
+                  </details>
+                );
+              }
+              return (
+                <Card key={m.id} title={m.title}>
+                  <p className="text-sm text-slate-700 whitespace-pre-line">{m.body}</p>
+                </Card>
+              );
+            })}
           </>
         )}
       </div>
