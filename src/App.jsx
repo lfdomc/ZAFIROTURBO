@@ -2106,6 +2106,62 @@ function NuevaPropiedadIntro({ adminKey, onListo, onOmitir }) {
   );
 }
 
+function ConfiguracionGeneralPanel({ adminKey }) {
+  const [config, setConfig] = useState(null);
+  const [guardando, setGuardando] = useState(false);
+  const [error, setError] = useState("");
+  const [aviso, setAviso] = useState("");
+
+  useEffect(() => {
+    adminFetch("/admin/configuracion", adminKey)
+      .then(setConfig)
+      .catch((e) => setError(e.message));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [adminKey]);
+
+  const set = (clave, v) => setConfig((c) => ({ ...c, [clave]: v }));
+
+  const guardar = async () => {
+    setGuardando(true);
+    setError("");
+    setAviso("");
+    try {
+      await adminFetch("/admin/configuracion", adminKey, { method: "POST", body: JSON.stringify(config) });
+      setAviso("Guardado.");
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setGuardando(false);
+    }
+  };
+
+  if (!config) return null;
+
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
+      <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Configuración general</p>
+      <label className="block text-xs text-slate-500">WhatsApp de mantenimiento (para todas las propiedades)
+        <input value={config.whatsapp_mantenimiento_default || ""} onChange={(e) => set("whatsapp_mantenimiento_default", e.target.value)}
+          placeholder="+506xxxxxxxx" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+      </label>
+      <label className="block text-xs text-slate-500">WhatsApp de limpieza (para todas las propiedades)
+        <input value={config.whatsapp_limpieza_default || ""} onChange={(e) => set("whatsapp_limpieza_default", e.target.value)}
+          placeholder="+506xxxxxxxx" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+      </label>
+      <p className="text-xs text-slate-400">
+        Si una propiedad puntual necesita un número distinto, se puede anular con un campo personalizado
+        ("whatsapp_mantenimiento" / "whatsapp_limpieza") en esa propiedad.
+      </p>
+      {error && <p className="text-xs text-red-600">{error}</p>}
+      {aviso && <p className="text-xs text-emerald-700">{aviso}</p>}
+      <button onClick={guardar} disabled={guardando}
+        className="rounded-lg bg-blue-900 text-white text-sm font-semibold px-4 py-2 disabled:opacity-40">
+        {guardando ? "Guardando…" : "Guardar"}
+      </button>
+    </div>
+  );
+}
+
 function AdminView() {
   const [adminKey, setAdminKey] = useAdminKey();
   const [vista, setVista] = useState("lista"); // 'lista' | 'nueva' | id de propiedad
@@ -2202,6 +2258,7 @@ function AdminView() {
 
         {vista === "lista" && !cargando && (
           <>
+            <ConfiguracionGeneralPanel adminKey={adminKey} />
             <ImportarJsonPanel adminKey={adminKey} />
             <CamposPersonalizadosPanel campos={camposPersonalizados} adminKey={adminKey} onCambio={cargarListas} />
             <div className="rounded-2xl border border-slate-200 bg-white p-4">
