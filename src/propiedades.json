@@ -415,16 +415,6 @@
       ],
       "messages": [
         {
-          "id": "urban-checkin",
-          "title": "Check In",
-          "body": "Hello again [guest first name]. Your arrival It's almost here! Here you have some important instructions.\n\nWe want you to feel at home and enjoy your stay in this space designed for you! It's important to mention that this apartment is a home, please treat it as you would treat your friend or family's space, we would really appreciate if you can review our house rules by accessing this link: https://zafiro-rules.vercel.app/\n\n[check-in method]\n\nWe have left some items in the kitchen for your convenience: Costa Rican coffee, black pepper, olive oil, salt and other spices.\n\nThe following common areas are open to public, alcohol or drugs are not allowed.\n\nCOMMON AREAS SCHEDULE:\n- POOL: 5AM - 9PM (Closed for maintenance: MON, WED & FRI from 3PM to 4PM). Located on the 7th floor.\n- GYM: 3:30AM - 10:30PM (Closed for cleaning from 11AM to 12MD). Located on the 7th floor.\n- COWORKING, YOGA ROOM & LOUNGE: 8AM to 11PM. Located on the 29th floor.\n- COMMON AREAS, ROOFTOP, TV ROOM, TERRACE: 8AM to 11PM. Located on the 29th floor. (Meeting rooms reservation needed, subject to availability)\n\nWe kindly request you take care of the sheet bedding and towels, be careful about stain or damage them, we are home not a hotel.\n\nWifi Name: [wifi name]\nPassword: [wifi password]\n\nWe hope you feel at home in this beautiful space, and if anything is missing, please don't hesitate to reach out to our team to ask! Messaging us through Airbnb is always the best option.\n\nThank you, have a good stay.\nVaro & Michi"
-        },
-        {
-          "id": "urban-checkin-es",
-          "title": "Check In (Español)",
-          "body": "Hola de nuevo, [nombre del huésped]. ¡Tu llegada está muy cerca! Aquí tenés algunas instrucciones importantes.\n\n¡Queremos que te sientas como en casa y disfrutes tu estadía en este espacio diseñado para vos! Es importante mencionar que este apartamento es un hogar, por favor trátalo como tratarías el espacio de tu amigo o familia — te agradeceríamos que revisés nuestras normas de la casa accediendo a este enlace: https://zafiro-rules.vercel.app/\n\n[método de check-in]\n\nDejamos algunos artículos en la cocina para tu comodidad: café costarricense, pimienta negra, aceite de oliva, sal y otras especias.\n\nLas siguientes zonas comunes están abiertas al público; no se permiten bebidas alcohólicas ni drogas.\n\nHORARIO DE LAS ZONAS COMUNES:\n- PISCINA: 5AM–9PM (cerrada por mantenimiento lunes, miércoles y viernes de 3PM a 4PM). Piso 7.\n- GIMNASIO: 3:30AM–10:30PM (cerrado por limpieza de 11AM a 12MD). Piso 7.\n- COWORKING, SALA DE YOGA Y SALÓN: 8AM a 11PM. Piso 29.\n- ZONAS COMUNES, AZOTEA, SALA DE TV, TERRAZA: 8AM a 11PM. Piso 29. (Se necesita reservar las salas, sujeto a disponibilidad)\n\nTe pedimos por favor cuidar la ropa de cama y las toallas, evitando mancharlas o dañarlas — estamos en un hogar, no en un hotel.\n\nNombre del WiFi: [nombre del wifi]\nContraseña: [contraseña del wifi]\n\nEsperamos que te sientas como en casa en este hermoso espacio, y si falta algo, no dudes en contactar a nuestro equipo para preguntar. Escribirnos por Airbnb siempre es la mejor opción.\n\nGracias, que tengas una buena estadía.\nVaro & Michi"
-        },
-        {
           "id": "urban-house-rules",
           "title": "Reglas de la Casa (Español)",
           "body": "BIENVENIDOS A ZAFIRO PROPERTY MANAGEMENT\n\nNORMAS DE LA CASA A RESPETAR\nAquí hay algunas reglas que solicitamos cumplir. Si tiene alguna pregunta, por favor consulte.\n\nReglas de estadía:\n- Horarios: Entrada (Check-in) 3:00 PM | Salida (Check-out) 11:00 AM.\n- Fumado: Prohibido fumar dentro del edificio o en el balcón.\n- Energía: Apague los dispositivos cuando no estén en uso.\n- Convivencia: Sea silencioso y discreto con sus vecinos.\n- Basura: El ducto de basura es solo para residuos convencionales. No introduzca botellas de vidrio.\n- Prohibiciones: No se permiten fiestas ni drogas. No se permiten visitas.\n- Reciclaje: El centro de reciclaje está en el sótano #1 (S1).\n- Toallas: No use las toallas para limpiar suciedad o quitar el maquillaje.\n- Seguridad: Cuide las llaves y la tarjeta de acceso.\n- Objetos: No arroje objetos en los pasillos, áreas comunes, balcón o ventanas.\n- Restricciones legales: La prostitución o el turismo sexual están prohibidos.\n- Alcohol: No se permite alcohol en las áreas comunes.\n- Fotografía: Se prohíbe el video o fotografía profesional fuera del apartamento.\n- Áreas comunes: Las áreas comunes requieren reservación.\n\n¡DISFRUTE SU ESTADÍA!\n\nDirectorio de contactos:\n- Emergencias: 911 | Policía: 117 | Bomberos: 118\n- Persona a cargo: +506 8831 4833\n- Taxi Copetico: 2224-7979 | Taxi Alfaro: 2221-8466 | Taxi Aeropuerto: 2221-6865"
@@ -433,11 +423,6 @@
           "id": "urban-house-rules-en",
           "title": "House Rules",
           "body": "WELCOME TO ZAFIRO PROPERTY MANAGEMENT\n\nHOUSE GUIDELINES TO RESPECT\nHere are some rules that we ask to apply. If you ever have any question, please ask.\n\nStay rules:\n- Hours: Check in 3:00 PM | Check out 11:00 AM.\n- Smoking: No smoking inside the building or balcony.\n- Energy: Turn off devices when not in use.\n- Neighbors: Be silent and discrete with your neighbours.\n- Trash: Trash duct only for conventional waste. No glass bottles.\n- Not allowed: Parties or drugs are not allowed. No visits are allowed.\n- Recycling: Recycling center is in basement #1 (S1).\n- Towels: Do not use towels to remove dirt or make up.\n- Security: Take care of the keys and access card.\n- Objects: Don't throw objects in hallways, common areas, balcony or windows.\n- Legal: Prostitution or sexual tourism is prohibited.\n- Alcohol: No alcohol in common areas.\n- Photography: Professional video or photography is prohibited outside the apartment.\n- Common areas: Common areas require reservation.\n\nENJOY YOUR STAY!\n\nContact directory:\n- Emergencies: 911 | Police: 117 | Fireman: 118\n- Person in charge: +506 8831 4833\n- Taxi Copetico: 2224-7979 | Taxi Alfaro: 2221-8466 | Taxi Airport: 2221-6865"
-        },
-        {
-          "id": "urban-checkout",
-          "title": "Check Out",
-          "body": "Hello [guest first name], we sincerely hope you had an amazing time during your stay at [listing name]. We wanted to take a moment to express our gratitude and remind you that check-out is today at [checkout time].\n\nWhen you're ready to leave, kindly drop off the keys along with the access card at the lobby. Before you go, please double-check that all windows, doors, and faucets are securely closed, and that all lights and electronic devices are switched off.\n\nWe want to make sure that you didn't leave anything behind, so we'll be conducting a thorough inspection of the unit.\n\nIf you ever plan to return to the area, please don't hesitate to reach out to us. We would be absolutely thrilled to have the opportunity to host you again.\n\nHave an absolutely fantastic day!\n\nWarm regards,\nVaro & Michi"
         },
         {
           "id": "urban-welcome",
@@ -531,11 +516,6 @@
         "body": "Buenos dias, Adjunto la información de los huéspedes de hoy:\n\nNombres y apellidos:\n[nombre y apellidos del huésped principal]\n\nNúmero de documento de identidad o pasaporte:\n[número de documento]\n\nCorreo electrónico del huésped principal:\n[correo electrónico]\n\n¿Ocupa espacio de parqueo?:\n[Sí / No]\n\nGracias, saludos."
       },
       "messages": [
-        {
-          "id": "qbo-checkout",
-          "title": "Check Out",
-          "body": "Hello [guest first name], we sincerely hope you had an amazing time during your stay at [listing name]. We wanted to take a moment to express our gratitude and remind you that check-out is today at [checkout time].\n\nWhen you're ready to leave, kindly drop off the keys along with the access card at the apartment. Before you go, please double-check that all windows, doors, and faucets are securely closed, and that all lights and electronic devices are switched off.\n\nWe want to make sure that you didn't leave anything behind, so we'll be conducting a thorough inspection of the unit.\n\nWe kindly ask you to consider leaving us a review. Your feedback means the world to us and helps us maintain the high-quality service we strive for.\n\nIf you ever plan to return to the area, please don't hesitate to reach out to us. We would be absolutely thrilled to have the opportunity to host you again.\n\nHave an absolutely fantastic day!\n\nWarm regards,\nVaro & Michi"
-        },
         {
           "id": "qbo-welcome",
           "title": "Welcome Message",
@@ -726,16 +706,6 @@
           "id": "welcome-playa-en",
           "title": "Welcome Message",
           "body": "Hi there! 😊\n\nWe're so happy to welcome you! We'll be glad to coordinate everything for your arrival.\n\nTo manage your entry authorization at the security gate, please send us the following information:\n\n- Full name of all guests\n- ID or passport number for all guests\n- Total number of guests and how many are adults\n- Vehicle license plate (if arriving by car)\n\nWith this information we can coordinate your entry authorization ahead of time. Thank you so much for your help! We look forward to welcoming you."
-        },
-        {
-          "id": "checkout-playa-es",
-          "title": "Check Out (Español)",
-          "body": "¡Hola! 😊\n\nEsperamos que hayas disfrutado muchísimo tu estadía con nosotros. ¡Fue un placer recibirte!\n\nRecordá que el check-out es a las 11:00 AM. Antes de salir, por favor:\n\n- Cerrá con llave puertas y ventanas.\n- Apagá el aire acondicionado, las luces y los electrodomésticos.\n- Dejá las llaves y controles donde te indicaron al llegar.\n- Sacá la basura al lugar correspondiente.\n- Dejá los platos lavados o en el lavavajillas.\n- Revisá que no se te quede nada personal.\n\nSi necesitás un poco más de tiempo, avisanos con anticipación y con gusto lo coordinamos según disponibilidad.\n\nSi la pasaste bien, nos ayudaría muchísimo que nos dejes una reseña — orienta a los próximos huéspedes y significa mucho para nosotros.\n\n¡Gracias por elegirnos, esperamos verte de nuevo pronto!"
-        },
-        {
-          "id": "checkout-playa-en",
-          "title": "Check Out",
-          "body": "Hi there! 😊\n\nWe really hope you had an amazing time staying with us — it was a pleasure hosting you!\n\nJust a reminder that check-out is at 11:00 AM. Before you go, please:\n\n- Lock all doors and windows.\n- Turn off the air conditioning, lights, and electronics.\n- Leave the keys and remotes where they were given to you at check-in.\n- Take the trash to the designated area.\n- Leave the dishes washed or in the dishwasher.\n- Double-check you haven't left any personal items behind.\n\nIf you need a bit more time, just let us know in advance and we'll be happy to coordinate based on availability.\n\nIf you had a great stay, we'd really appreciate a review — it means a lot to us and helps future guests.\n\nThank you for choosing us, we hope to host you again soon!"
         }
       ],
       "units": [
@@ -1053,26 +1023,6 @@
           "id": "welcome-playa-en",
           "title": "Welcome Message",
           "body": "Hi there! 😊\n\nWe're so happy to welcome you! We'll be glad to coordinate everything for your arrival.\n\nTo manage your entry authorization at the security gate, please send us the following information:\n\n- Full name of all guests\n- ID or passport number for all guests\n- Total number of guests and how many are adults\n- Vehicle license plate (if arriving by car)\n\nWith this information we can coordinate your entry authorization ahead of time. Thank you so much for your help! We look forward to welcoming you."
-        },
-        {
-          "id": "roble-checkin",
-          "title": "Check In",
-          "body": "Hello!\nYour arrival day is here and we want to make sure it goes as smoothly as possible. If you have not yet provided the information requested in the previous message, please do so, as without it, entry will not be possible.\n\nArrival links:\nWaze: Hacienda Pinilla (MAIN ENTRANCE) - https://waze.com/ul/hd1ffrq5b7\nLagos de palma Real (ONCE YOU ARE INSIDE HACIENDA PINILLA) - https://waze.com/ul/hd1ffqd1cv\nGoogle Maps: https://goo.gl/maps/wocaUdp4KHJrEZzm7\n\nEntrance to the house:\nAt the main entrance, you will check in with the security staff, identifying yourself and your visitors. Ask the guard to direct you to house #41 In Lagos de Palma Real. Once there, use the safe box at the main door to access the keys (code: #4102).\n\nGeneral information\n\nInternet:\nUsername: LPR 241\nPassword: PinillaLagos241\n\nPool access:\nThe condo facilities, including the pool, are available for guest use from 8 a.m. to 9 p.m.\n\nHouse Rules:\n* Respect the pool rules to avoid interruptions.\n*Visitors are not allowed due to condominium policies.\n*Glass objects are not allowed in the pool area.\n*Moderate noise after 10:00 p.m.\n* Smoking prohibited inside; Fees and penalties apply.\n* Clean and wash kitchen utensils after using them.\n* DO NOT rearrange furniture.\n* Parties or events are not allowed.\n*Pets allowed at our discretion; an additional charge applies.\n*Guests must be identified before the arrival so authorization can be sent to security.\n* The consumption of illegal drugs is not allowed.\nIf the towels or cloths become irreversibly stained, a charge of $40 will also be applied.\n* Lastly, as this is an Airbnb community and a private family home, please respect and keep the property clean before departure.\n\nBeach access:\nYou have full access to all the beaches inside Hacienda Pinilla. The beaches closer to the House are called Playa Mansita and Playa Langosta, they have amazing sunsets to check out.\n\nGeneral Map inside Hacienda Pinilla:\nhttps://www.flipsnack.com/CCC967BBDC9/general-map-hacienda-pinilla/full-view.html\n\nLagos de Palma Real Map: (Your unit 241)\nhttps://www.flipsnack.com/CCC967BBDC9/palma-real-residential-map/full-view.html\n\nGolf cart information:\nWe recommend this supplier in case you need to rent a golf cart\nSea Scape Rentals (Paulina Suarez) phone number +50684836903\n\nWe look forward to your stay!\n\nKind regards,\nZafiro Property Management"
-        },
-        {
-          "id": "roble-checkin-es",
-          "title": "Check In (Español)",
-          "body": "¡Holaaa!\n\nTu día de llegada ya está aquí y queremos asegurarnos de que todo vaya lo mejor posible. Si aún no has proporcionado la información solicitada en el mensaje anterior, te rogamos que lo hagas, ya que sin ella no será posible la entrada.\n\nEnlaces de llegada:\nWaze: Hacienda Pinilla (ENTRADA PRINCIPAL)\nhttps://waze.com/ul/hd1ffrq5b7\n\nLagos de Palma Real (UNA VEZ QUE ESTÉS DENTRO DE HACIENDA PINILLA)\nhttps://waze.com/ul/hd1ffqd1cv\n\nGoogle Maps: https://goo.gl/maps/wocaUdp4KHJrEZzm7\n\nEntrada a la casa:\nEn la entrada principal, te registrarás con el personal de seguridad, identificándote a ti y a tus visitantes. Pídele al guardia que te dirija a la casa n.º 41 en Lagos de Palma Real. Una vez allí, utiliza la caja fuerte de la puerta principal para acceder a las llaves.\nCódigo: 4102\n\nInformación general\n\nInternet:\nNombre: 4102\nContraseña: PinillaLagos241\n\nAcceso a la piscina:\nLas instalaciones del apartamento, incluida la piscina, están disponibles para el uso de los huéspedes de 8:00 a 21:00 horas.\n\nReglas de la casa:\n- Respetar las reglas de la piscina para evitar interrupciones.\n- No se permiten visitas debido a las políticas del condominio.\n- No se permiten objetos de vidrio en la zona de la alberca.\n- Ruido moderado después de las 22:00 h.\n- Prohibido fumar en el interior; se aplican tarifas y penalizaciones.\n- Limpia y lava los utensilios de cocina después de usarlos.\n- NO REORDENES los muebles.\n- Las fiestas o eventos no están permitidas.\n- Se admiten mascotas a nuestra discreción; se aplica un cargo adicional.\n- Los huéspedes deben identificarse antes de la llegada para que se pueda enviar la autorización al servicio de seguridad.\n- No está permitido el consumo de drogas ilegales.\nSi las toallas o los paños se manchan irreversiblemente, también se aplicará un cargo de 40 $.\n- Por último, como se trata de una comunidad de Airbnb y una vivienda familiar privada, respeta y mantén la propiedad limpia antes de la salida.\n\nAcceso a la playa:\nTienes acceso completo a todas las playas dentro de Hacienda Pinilla. Las playas más cercanas a la casa se llaman Playa Mansita y Playa Langosta, tienen puestas de sol increíbles para ver.\n\nMapa general dentro de Hacienda Pinilla:\nhttps://www.flipsnack.com/CCC967BBDC9/general-map-hacienda-pinilla/full-view.html\n\nMapa de Lagos de Palma Real: (Tu unidad 241)\nhttps://www.flipsnack.com/CCC967BBDC9/palma-real-residential-map/full-view.html\n\nInformación sobre el carrito de golf:\nRecomendamos este proveedor en caso de que necesites alquilar un carrito de golf.\nSea Scape Rentals (Paulina Suarez) número de teléfono +50684836903\n\n¡Esperamos tu estancia!\n\nSaludos cordiales,\nZafiro Property Management"
-        },
-        {
-          "id": "checkout-playa-es",
-          "title": "Check Out (Español)",
-          "body": "¡Hola! 😊\n\nEsperamos que hayas disfrutado muchísimo tu estadía con nosotros. ¡Fue un placer recibirte!\n\nRecordá que el check-out es a las 11:00 AM. Antes de salir, por favor:\n\n- Cerrá con llave puertas y ventanas.\n- Apagá el aire acondicionado, las luces y los electrodomésticos.\n- Dejá las llaves y controles donde te indicaron al llegar.\n- Sacá la basura al lugar correspondiente.\n- Dejá los platos lavados o en el lavavajillas.\n- Revisá que no se te quede nada personal.\n\nSi necesitás un poco más de tiempo, avisanos con anticipación y con gusto lo coordinamos según disponibilidad.\n\nSi la pasaste bien, nos ayudaría muchísimo que nos dejes una reseña — orienta a los próximos huéspedes y significa mucho para nosotros.\n\n¡Gracias por elegirnos, esperamos verte de nuevo pronto!"
-        },
-        {
-          "id": "checkout-playa-en",
-          "title": "Check Out",
-          "body": "Hi there! 😊\n\nWe really hope you had an amazing time staying with us — it was a pleasure hosting you!\n\nJust a reminder that check-out is at 11:00 AM. Before you go, please:\n\n- Lock all doors and windows.\n- Turn off the air conditioning, lights, and electronics.\n- Leave the keys and remotes where they were given to you at check-in.\n- Take the trash to the designated area.\n- Leave the dishes washed or in the dishwasher.\n- Double-check you haven't left any personal items behind.\n\nIf you need a bit more time, just let us know in advance and we'll be happy to coordinate based on availability.\n\nIf you had a great stay, we'd really appreciate a review — it means a lot to us and helps future guests.\n\nThank you for choosing us, we hope to host you again soon!"
         }
       ]
     },
@@ -1276,26 +1226,6 @@
           "id": "welcome-playa-en",
           "title": "Welcome Message",
           "body": "Hi there! 😊\n\nWe're so happy to welcome you! We'll be glad to coordinate everything for your arrival.\n\nTo manage your entry authorization at the security gate, please send us the following information:\n\n- Full name of all guests\n- ID or passport number for all guests\n- Total number of guests and how many are adults\n- Vehicle license plate (if arriving by car)\n\nWith this information we can coordinate your entry authorization ahead of time. Thank you so much for your help! We look forward to welcoming you."
-        },
-        {
-          "id": "mistica-ingreso",
-          "title": "Check In (Español)",
-          "body": "Muy buenas tardes:\n\nEsperamos sinceramente que te encuentres muy bien y que tu viaje haya sido placentero. Nos complace darte la bienvenida y brindarte las indicaciones necesarias para tu ingreso a la propiedad.\n\nAl llegar a Místico, por favor dirígete al puesto de seguridad para realizar tu registro de ingreso. Indica al oficial de seguridad que te diriges a Barca 5; él te proporcionará las llaves correspondientes.\n\nUna vez que hayas ingresado al residencial, podrás estacionar tu vehículo en el espacio de parqueo número 5, el cual está asignado exclusivamente a Barca 5.\n\nKeyPad de la puerta: 74742\n\nCon respecto al WIFI:\nEl usuario sería: TicoPassCasa5ONU\nLa clave: Jose2024$\n\nPor favor, no dudes en comunicarte con nosotros si surge alguna pregunta o si necesitas asistencia adicional durante tu estadía. Estamos a tu disposición para ayudarte en lo que necesites y deseamos que disfrutes al máximo tu tiempo con nosotros.\n\n¡Que tengas una excelente estadía!"
-        },
-        {
-          "id": "mistica-ingreso-en",
-          "title": "Check In",
-          "body": "Good afternoon:\n\nWe sincerely hope you are doing well and that your trip was a pleasant one. We're happy to welcome you and give you the instructions you'll need to enter the property.\n\nUpon arriving at Místico, please head to the security post to complete your entry check-in. Let the security officer know you're heading to Barca 5; he'll provide you with the corresponding keys.\n\nOnce you've entered the residential community, you can park your vehicle in parking spot number 5, which is assigned exclusively to Barca 5.\n\nDoor KeyPad: 74742\n\nRegarding the WIFI:\nUsername: TicoPassCasa5ONU\nPassword: Jose2024$\n\nPlease don't hesitate to reach out if you have any questions or need additional assistance during your stay. We're here to help with whatever you need, and we hope you enjoy your time with us to the fullest.\n\nHave a wonderful stay!"
-        },
-        {
-          "id": "checkout-playa-es",
-          "title": "Check Out (Español)",
-          "body": "¡Hola! 😊\n\nEsperamos que hayas disfrutado muchísimo tu estadía con nosotros. ¡Fue un placer recibirte!\n\nRecordá que el check-out es a las 11:00 AM. Antes de salir, por favor:\n\n- Cerrá con llave puertas y ventanas.\n- Apagá el aire acondicionado, las luces y los electrodomésticos.\n- Dejá las llaves y controles donde te indicaron al llegar.\n- Sacá la basura al lugar correspondiente.\n- Dejá los platos lavados o en el lavavajillas.\n- Revisá que no se te quede nada personal.\n\nSi necesitás un poco más de tiempo, avisanos con anticipación y con gusto lo coordinamos según disponibilidad.\n\nSi la pasaste bien, nos ayudaría muchísimo que nos dejes una reseña — orienta a los próximos huéspedes y significa mucho para nosotros.\n\n¡Gracias por elegirnos, esperamos verte de nuevo pronto!"
-        },
-        {
-          "id": "checkout-playa-en",
-          "title": "Check Out",
-          "body": "Hi there! 😊\n\nWe really hope you had an amazing time staying with us — it was a pleasure hosting you!\n\nJust a reminder that check-out is at 11:00 AM. Before you go, please:\n\n- Lock all doors and windows.\n- Turn off the air conditioning, lights, and electronics.\n- Leave the keys and remotes where they were given to you at check-in.\n- Take the trash to the designated area.\n- Leave the dishes washed or in the dishwasher.\n- Double-check you haven't left any personal items behind.\n\nIf you need a bit more time, just let us know in advance and we'll be happy to coordinate based on availability.\n\nIf you had a great stay, we'd really appreciate a review — it means a lot to us and helps future guests.\n\nThank you for choosing us, we hope to host you again soon!"
         }
       ]
     },
@@ -1478,16 +1408,6 @@
           "id": "welcome-playa-en",
           "title": "Welcome Message",
           "body": "Hi there! 😊\n\nWe're so happy to welcome you! We'll be glad to coordinate everything for your arrival.\n\nTo manage your entry authorization at the security gate, please send us the following information:\n\n- Full name of all guests\n- ID or passport number for all guests\n- Total number of guests and how many are adults\n- Vehicle license plate (if arriving by car)\n\nWith this information we can coordinate your entry authorization ahead of time. Thank you so much for your help! We look forward to welcoming you."
-        },
-        {
-          "id": "checkout-playa-es",
-          "title": "Check Out (Español)",
-          "body": "¡Hola! 😊\n\nEsperamos que hayas disfrutado muchísimo tu estadía con nosotros. ¡Fue un placer recibirte!\n\nRecordá que el check-out es a las 11:00 AM. Antes de salir, por favor:\n\n- Cerrá con llave puertas y ventanas.\n- Apagá el aire acondicionado, las luces y los electrodomésticos.\n- Dejá las llaves y controles donde te indicaron al llegar.\n- Sacá la basura al lugar correspondiente.\n- Dejá los platos lavados o en el lavavajillas.\n- Revisá que no se te quede nada personal.\n\nSi necesitás un poco más de tiempo, avisanos con anticipación y con gusto lo coordinamos según disponibilidad.\n\nSi la pasaste bien, nos ayudaría muchísimo que nos dejes una reseña — orienta a los próximos huéspedes y significa mucho para nosotros.\n\n¡Gracias por elegirnos, esperamos verte de nuevo pronto!"
-        },
-        {
-          "id": "checkout-playa-en",
-          "title": "Check Out",
-          "body": "Hi there! 😊\n\nWe really hope you had an amazing time staying with us — it was a pleasure hosting you!\n\nJust a reminder that check-out is at 11:00 AM. Before you go, please:\n\n- Lock all doors and windows.\n- Turn off the air conditioning, lights, and electronics.\n- Leave the keys and remotes where they were given to you at check-in.\n- Take the trash to the designated area.\n- Leave the dishes washed or in the dishwasher.\n- Double-check you haven't left any personal items behind.\n\nIf you need a bit more time, just let us know in advance and we'll be happy to coordinate based on availability.\n\nIf you had a great stay, we'd really appreciate a review — it means a lot to us and helps future guests.\n\nThank you for choosing us, we hope to host you again soon!"
         }
       ],
       "units": [
@@ -2252,26 +2172,6 @@
           "id": "welcome-playa-en",
           "title": "Welcome Message",
           "body": "Hi there! 😊\n\nWe're so happy to welcome you! We'll be glad to coordinate everything for your arrival.\n\nTo manage your entry authorization at the security gate, please send us the following information:\n\n- Full name of all guests\n- ID or passport number for all guests\n- Total number of guests and how many are adults\n- Vehicle license plate (if arriving by car)\n\nWith this information we can coordinate your entry authorization ahead of time. Thank you so much for your help! We look forward to welcoming you."
-        },
-        {
-          "id": "villaverde-checkin",
-          "title": "Check In Villa Verde (Español)",
-          "body": "Importante: si no se llenó el formulario con todos los nombres completos de los huéspedes, no van a dejar entrar. Hay que ingresar también a la app y enviar un mensaje a la caseta de seguridad con los nombres completos antes de la llegada."
-        },
-        {
-          "id": "villaverde-checkin-en",
-          "title": "Check In Villa Verde",
-          "body": "Important: if the form hasn't been filled out with the full names of all guests, entry will not be allowed. You'll also need to log into the app and send a message to the security gate with the full names before arrival."
-        },
-        {
-          "id": "checkout-playa-es",
-          "title": "Check Out (Español)",
-          "body": "¡Hola! 😊\n\nEsperamos que hayas disfrutado muchísimo tu estadía con nosotros. ¡Fue un placer recibirte!\n\nRecordá que el check-out es a las 11:00 AM. Antes de salir, por favor:\n\n- Cerrá con llave puertas y ventanas.\n- Apagá el aire acondicionado, las luces y los electrodomésticos.\n- Dejá las llaves y controles donde te indicaron al llegar.\n- Sacá la basura al lugar correspondiente.\n- Dejá los platos lavados o en el lavavajillas.\n- Revisá que no se te quede nada personal.\n\nSi necesitás un poco más de tiempo, avisanos con anticipación y con gusto lo coordinamos según disponibilidad.\n\nSi la pasaste bien, nos ayudaría muchísimo que nos dejes una reseña — orienta a los próximos huéspedes y significa mucho para nosotros.\n\n¡Gracias por elegirnos, esperamos verte de nuevo pronto!"
-        },
-        {
-          "id": "checkout-playa-en",
-          "title": "Check Out",
-          "body": "Hi there! 😊\n\nWe really hope you had an amazing time staying with us — it was a pleasure hosting you!\n\nJust a reminder that check-out is at 11:00 AM. Before you go, please:\n\n- Lock all doors and windows.\n- Turn off the air conditioning, lights, and electronics.\n- Leave the keys and remotes where they were given to you at check-in.\n- Take the trash to the designated area.\n- Leave the dishes washed or in the dishwasher.\n- Double-check you haven't left any personal items behind.\n\nIf you need a bit more time, just let us know in advance and we'll be happy to coordinate based on availability.\n\nIf you had a great stay, we'd really appreciate a review — it means a lot to us and helps future guests.\n\nThank you for choosing us, we hope to host you again soon!"
         }
       ]
     },
@@ -2425,16 +2325,6 @@
           "id": "welcome-playa-en",
           "title": "Welcome Message",
           "body": "Hi there! 😊\n\nWe're so happy to welcome you! We'll be glad to coordinate everything for your arrival.\n\nTo manage your entry authorization at the security gate, please send us the following information:\n\n- Full name of all guests\n- ID or passport number for all guests\n- Total number of guests and how many are adults\n- Vehicle license plate (if arriving by car)\n\nWith this information we can coordinate your entry authorization ahead of time. Thank you so much for your help! We look forward to welcoming you."
-        },
-        {
-          "id": "checkout-playa-es",
-          "title": "Check Out (Español)",
-          "body": "¡Hola! 😊\n\nEsperamos que hayas disfrutado muchísimo tu estadía con nosotros. ¡Fue un placer recibirte!\n\nRecordá que el check-out es a las 11:00 AM. Antes de salir, por favor:\n\n- Cerrá con llave puertas y ventanas.\n- Apagá el aire acondicionado, las luces y los electrodomésticos.\n- Dejá las llaves y controles donde te indicaron al llegar.\n- Sacá la basura al lugar correspondiente.\n- Dejá los platos lavados o en el lavavajillas.\n- Revisá que no se te quede nada personal.\n\nSi necesitás un poco más de tiempo, avisanos con anticipación y con gusto lo coordinamos según disponibilidad.\n\nSi la pasaste bien, nos ayudaría muchísimo que nos dejes una reseña — orienta a los próximos huéspedes y significa mucho para nosotros.\n\n¡Gracias por elegirnos, esperamos verte de nuevo pronto!"
-        },
-        {
-          "id": "checkout-playa-en",
-          "title": "Check Out",
-          "body": "Hi there! 😊\n\nWe really hope you had an amazing time staying with us — it was a pleasure hosting you!\n\nJust a reminder that check-out is at 11:00 AM. Before you go, please:\n\n- Lock all doors and windows.\n- Turn off the air conditioning, lights, and electronics.\n- Leave the keys and remotes where they were given to you at check-in.\n- Take the trash to the designated area.\n- Leave the dishes washed or in the dishwasher.\n- Double-check you haven't left any personal items behind.\n\nIf you need a bit more time, just let us know in advance and we'll be happy to coordinate based on availability.\n\nIf you had a great stay, we'd really appreciate a review — it means a lot to us and helps future guests.\n\nThank you for choosing us, we hope to host you again soon!"
         }
       ],
       "units": [
@@ -2558,16 +2448,6 @@
           "id": "welcome-playa-en",
           "title": "Welcome Message",
           "body": "Hi there! 😊\n\nWe're so happy to welcome you! We'll be glad to coordinate everything for your arrival.\n\nTo manage your entry authorization at the security gate, please send us the following information:\n\n- Full name of all guests\n- ID or passport number for all guests\n- Total number of guests and how many are adults\n- Vehicle license plate (if arriving by car)\n\nWith this information we can coordinate your entry authorization ahead of time. Thank you so much for your help! We look forward to welcoming you."
-        },
-        {
-          "id": "checkout-playa-es",
-          "title": "Check Out (Español)",
-          "body": "¡Hola! 😊\n\nEsperamos que hayas disfrutado muchísimo tu estadía con nosotros. ¡Fue un placer recibirte!\n\nRecordá que el check-out es a las 11:00 AM. Antes de salir, por favor:\n\n- Cerrá con llave puertas y ventanas.\n- Apagá el aire acondicionado, las luces y los electrodomésticos.\n- Dejá las llaves y controles donde te indicaron al llegar.\n- Sacá la basura al lugar correspondiente.\n- Dejá los platos lavados o en el lavavajillas.\n- Revisá que no se te quede nada personal.\n\nSi necesitás un poco más de tiempo, avisanos con anticipación y con gusto lo coordinamos según disponibilidad.\n\nSi la pasaste bien, nos ayudaría muchísimo que nos dejes una reseña — orienta a los próximos huéspedes y significa mucho para nosotros.\n\n¡Gracias por elegirnos, esperamos verte de nuevo pronto!"
-        },
-        {
-          "id": "checkout-playa-en",
-          "title": "Check Out",
-          "body": "Hi there! 😊\n\nWe really hope you had an amazing time staying with us — it was a pleasure hosting you!\n\nJust a reminder that check-out is at 11:00 AM. Before you go, please:\n\n- Lock all doors and windows.\n- Turn off the air conditioning, lights, and electronics.\n- Leave the keys and remotes where they were given to you at check-in.\n- Take the trash to the designated area.\n- Leave the dishes washed or in the dishwasher.\n- Double-check you haven't left any personal items behind.\n\nIf you need a bit more time, just let us know in advance and we'll be happy to coordinate based on availability.\n\nIf you had a great stay, we'd really appreciate a review — it means a lot to us and helps future guests.\n\nThank you for choosing us, we hope to host you again soon!"
         }
       ],
       "units": [
@@ -2699,16 +2579,6 @@
           "id": "welcome-playa-en",
           "title": "Welcome Message",
           "body": "Hi there! 😊\n\nWe're so happy to welcome you! We'll be glad to coordinate everything for your arrival.\n\nTo manage your entry authorization at the security gate, please send us the following information:\n\n- Full name of all guests\n- ID or passport number for all guests\n- Total number of guests and how many are adults\n- Vehicle license plate (if arriving by car)\n\nWith this information we can coordinate your entry authorization ahead of time. Thank you so much for your help! We look forward to welcoming you."
-        },
-        {
-          "id": "checkout-playa-es",
-          "title": "Check Out (Español)",
-          "body": "¡Hola! 😊\n\nEsperamos que hayas disfrutado muchísimo tu estadía con nosotros. ¡Fue un placer recibirte!\n\nRecordá que el check-out es a las 11:00 AM. Antes de salir, por favor:\n\n- Cerrá con llave puertas y ventanas.\n- Apagá el aire acondicionado, las luces y los electrodomésticos.\n- Dejá las llaves y controles donde te indicaron al llegar.\n- Sacá la basura al lugar correspondiente.\n- Dejá los platos lavados o en el lavavajillas.\n- Revisá que no se te quede nada personal.\n\nSi necesitás un poco más de tiempo, avisanos con anticipación y con gusto lo coordinamos según disponibilidad.\n\nSi la pasaste bien, nos ayudaría muchísimo que nos dejes una reseña — orienta a los próximos huéspedes y significa mucho para nosotros.\n\n¡Gracias por elegirnos, esperamos verte de nuevo pronto!"
-        },
-        {
-          "id": "checkout-playa-en",
-          "title": "Check Out",
-          "body": "Hi there! 😊\n\nWe really hope you had an amazing time staying with us — it was a pleasure hosting you!\n\nJust a reminder that check-out is at 11:00 AM. Before you go, please:\n\n- Lock all doors and windows.\n- Turn off the air conditioning, lights, and electronics.\n- Leave the keys and remotes where they were given to you at check-in.\n- Take the trash to the designated area.\n- Leave the dishes washed or in the dishwasher.\n- Double-check you haven't left any personal items behind.\n\nIf you need a bit more time, just let us know in advance and we'll be happy to coordinate based on availability.\n\nIf you had a great stay, we'd really appreciate a review — it means a lot to us and helps future guests.\n\nThank you for choosing us, we hope to host you again soon!"
         }
       ],
       "guiaDigital": {
@@ -2933,16 +2803,6 @@
           "id": "farmstay-welcome-en",
           "title": "Welcome Message",
           "body": "Hi there! 😊\n\nWe're so happy to welcome you to Heavenly Highlands! We'll be glad to coordinate everything for your arrival.\n\nTo manage your arrival, please send us the following information:\n\n- Full name of all guests\n- ID or passport number for all guests\n- Total number of guests and how many are adults\n- Vehicle license plate (an SUV is recommended for the access road)\n\nWith this information we can coordinate your arrival ahead of time. Thank you so much for your help! We look forward to welcoming you."
-        },
-        {
-          "id": "checkout-playa-es",
-          "title": "Check Out (Español)",
-          "body": "¡Hola! 😊\n\nEsperamos que hayas disfrutado muchísimo tu estadía con nosotros. ¡Fue un placer recibirte!\n\nRecordá que el check-out es a las 11:00 AM. Antes de salir, por favor:\n\n- Cerrá con llave puertas y ventanas.\n- Apagá el aire acondicionado, las luces y los electrodomésticos.\n- Dejá las llaves y controles donde te indicaron al llegar.\n- Sacá la basura al lugar correspondiente.\n- Dejá los platos lavados o en el lavavajillas.\n- Revisá que no se te quede nada personal.\n\nSi necesitás un poco más de tiempo, avisanos con anticipación y con gusto lo coordinamos según disponibilidad.\n\nSi la pasaste bien, nos ayudaría muchísimo que nos dejes una reseña — orienta a los próximos huéspedes y significa mucho para nosotros.\n\n¡Gracias por elegirnos, esperamos verte de nuevo pronto!"
-        },
-        {
-          "id": "checkout-playa-en",
-          "title": "Check Out",
-          "body": "Hi there! 😊\n\nWe really hope you had an amazing time staying with us — it was a pleasure hosting you!\n\nJust a reminder that check-out is at 11:00 AM. Before you go, please:\n\n- Lock all doors and windows.\n- Turn off the air conditioning, lights, and electronics.\n- Leave the keys and remotes where they were given to you at check-in.\n- Take the trash to the designated area.\n- Leave the dishes washed or in the dishwasher.\n- Double-check you haven't left any personal items behind.\n\nIf you need a bit more time, just let us know in advance and we'll be happy to coordinate based on availability.\n\nIf you had a great stay, we'd really appreciate a review — it means a lot to us and helps future guests.\n\nThank you for choosing us, we hope to host you again soon!"
         }
       ],
       "units": [
