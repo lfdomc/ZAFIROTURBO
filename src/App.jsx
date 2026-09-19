@@ -3,6 +3,23 @@ import { createPortal } from "react-dom";
 import { Copy, Check, ChevronDown, ChevronUp, ChevronRight, ChevronLeft, Home, MessageSquareText, Phone, Menu, X, Calendar, CalendarDays, RefreshCw, Settings, Plus, Trash2, Save, Pencil } from "lucide-react";
 import DATA from "./propiedades.json";
 
+// Blindaje: normaliza DATA una sola vez acá, para que todos los usos de
+// DATA.general / DATA.properties / etc. en el resto del archivo sean
+// seguros sin tener que tocar cada uno — cubre el caso de Supabase
+// todavía vacío (antes de la primera importación) o cualquier campo
+// que el backend no haya llegado a exportar todavía.
+DATA.properties = Array.isArray(DATA.properties) ? DATA.properties : [];
+DATA.masterTable = Array.isArray(DATA.masterTable) ? DATA.masterTable : [];
+DATA.checkInGeneral = DATA.checkInGeneral || "";
+DATA.checkOutGeneral = DATA.checkOutGeneral || "";
+DATA.general = {
+  mensajesFrecuentes: [], contactos: [], faqs: [],
+  formulario: { texto: "", link: "", linkLabel: "" },
+  comunicacion: null, reservaDirecta: null,
+  ...(DATA.general || {}),
+};
+DATA.general.formulario = { texto: "", link: "", linkLabel: "", ...(DATA.general.formulario || {}) };
+
 // URL del backend del bot (FastAPI en Railway) — se usa desde la pestaña Admin
 // para leer/guardar propiedades en Supabase. Configurar en Vercel como variable
 // de entorno VITE_BOT_API_URL; mientras no esté configurada, usa este valor de
