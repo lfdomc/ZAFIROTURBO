@@ -471,7 +471,7 @@
       "units": [
         {
           "id": "u1422",
-          "name": "Apartamento",
+          "name": "Qbo 1422",
           "num": "1422",
           "pax": "4",
           "parqueo": "304",
@@ -496,6 +496,10 @@
               "title": "Check In Qbo 1422",
               "body": "Hello again, [guest first name]\n\nYour arrival is almost here!\n\nWe want you to feel at home and enjoy your stay in this space designed for you! It's important to mention that this apartment is a home, so please treat it as you would treat your friend or family's space.\n\nWhen you arrive at Q-Bo Skyhomes, you can park in front of the building. Enter and let the concierge know that you are staying in apartment 1422. They will give you access to the apartment, you will find the access card and the key at the apartment, so please take good care of them.\n\nParking Spot:\nIf you requested a parking spot, after you check in and have your access card, you can park your car. Parking is located at the back of the building (North), on the 3rd floor (306). Once you are parked, you can take the elevator by the ramp, press 1 (first floor), and head to the elevators by the lobby. With your card in hand, place it on the black access box and press 14.\n\nWe have left some items in the kitchen for your convenience: Costa Rican coffee, black pepper, olive oil, salt, and other spices.\n\nWe appreciate if you can review our house rules.\n\nCOMMON AREAS SCHEDULE:\nContrast Jacuzzis (Floor 2): Open Monday to Sunday from 5:00 a.m. to 10:00 p.m. Closed for maintenance on Mondays from 9 a.m. to 1 p.m. and Fridays from 10 a.m. to 12 p.m.\nSemi-Olympic Pool: Open Monday to Sunday from 5:00 a.m. to 10:00 p.m. Closed for maintenance on Mondays from 9 a.m. to 1 p.m. and Fridays from 10 a.m. to 12 p.m.\nGYM (Weights on Floor 2, Cardio on Floor 15): Open Monday to Sunday from 5:00 a.m. to 10:00 p.m.\nSauna and Spa: Open Monday to Sunday from 7:00 a.m. to 10:00 p.m. Reservations are made through us (subject to availability).\nMassage Room: Open Monday to Sunday from 7:00 a.m. to 10:00 p.m. Reservations are made through us (subject to availability).\nCo-Working: Open Monday to Sunday from 7:00 a.m. to 12:00 p.m. The maximum reservation time for rooms is 2 hours. Reservations are made through us (subject to availability).\nJacuzzi (Floor 15): Open Monday to Sunday from 7:00 a.m. to 10:00 p.m. Bubble hours are Monday-Friday: 10:00 a.m. to 12:00 p.m. / 2:00 p.m. to 4:00 p.m. / 6:00 p.m. to 10:00 p.m.; Saturdays and Sundays: 7:00 a.m. to 10:00 p.m.\n\nPlease note that any damage to the areas will result in a penalty fee for repairs that the guest must cover. Smoking and alcohol consumption are not allowed.\n\nWe kindly request you take care of the bedding and towels. Be careful not to stain or damage them, as this is a home, not a hotel. If any damage is detected, a fee of $35 per damaged item will be charged.\n\nAfter your check-out, we will inspect the apartment. If any items are damaged, stained, or lost, we'll inform you and proceed with a charge if applicable.\n\nWifi Name: JunglyPH\nPassword: PuraVida\n\nWe hope you feel at home in this beautiful space, and if anything is missing, please don't hesitate to reach out to our team to ask!\n\nMessaging us through Airbnb is always the best option.\n\nThank you, and have a good stay.\nVaro & Michi"
             }
+          ],
+          "alias": [
+            "1422",
+            "Apartamento 1422"
           ]
         }
       ],
@@ -848,7 +852,7 @@
     {
       "id": "del-roble",
       "group": "guanacaste",
-      "name": "Del Roble Refuge - Hacienda Pinilla",
+      "name": "Lagos de Palma Real - Hacienda Pinilla",
       "zone": "Guanacaste · Hacienda Pinilla (Lagos de Palma Real)",
       "owner": "Melissa Marie",
       "requisitosCheckIn": {
@@ -959,7 +963,7 @@
       "units": [
         {
           "id": "roble-241",
-          "name": "Unidad",
+          "name": "Palma Real",
           "num": "LPR 241",
           "pax": "10",
           "parqueo": "2 parqueos",
@@ -1010,6 +1014,14 @@
               "Piscina",
               "8AM–9PM"
             ]
+          ],
+          "alias": [
+            "Palma Real",
+            "LPR241",
+            "LPR 241",
+            "LPR",
+            "Del Roble Refuge",
+            "Del Roble"
           ]
         }
       ],
