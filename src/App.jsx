@@ -2176,6 +2176,10 @@ function ConfiguracionGeneralPanel({ adminKey }) {
         <input value={config.whatsapp_limpieza_default || ""} onChange={(e) => set("whatsapp_limpieza_default", e.target.value)}
           placeholder="+506xxxxxxxx" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
       </label>
+      <label className="block text-xs text-slate-500">Destinatarios del informe mensual (separados por coma)
+        <input value={config.informe_mensual_destinatarios || ""} onChange={(e) => set("informe_mensual_destinatarios", e.target.value)}
+          placeholder="gerencia@zafiropm.com, dueno@ejemplo.com" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+      </label>
       <p className="text-xs text-slate-400">
         Si una propiedad puntual necesita un número distinto, se puede anular con un campo personalizado
         ("whatsapp_mantenimiento" / "whatsapp_limpieza") en esa propiedad.
@@ -2186,6 +2190,131 @@ function ConfiguracionGeneralPanel({ adminKey }) {
         className="rounded-lg bg-blue-900 text-white text-sm font-semibold px-4 py-2 disabled:opacity-40">
         {guardando ? "Guardando…" : "Guardar"}
       </button>
+    </div>
+  );
+}
+
+function InformeMensualPanel({ adminKey }) {
+  const ahora = new Date();
+  const [anio, setAnio] = useState(ahora.getFullYear());
+  const [mes, setMes] = useState(ahora.getMonth() + 1); // mes actual (parcial) por defecto; el mes anterior suele ser el más útil para un cierre
+  const [informe, setInforme] = useState(null);
+  const [cargando, setCargando] = useState(false);
+  const [enviando, setEnviando] = useState(false);
+  const [avisoEnvio, setAvisoEnvio] = useState("");
+  const [error, setError] = useState("");
+
+  const cargar = async () => {
+    setCargando(true);
+    setError("");
+    try {
+      const datos = await adminFetch(`/admin/informe-mensual?anio=${anio}&mes=${mes}`, adminKey);
+      setInforme(datos);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setCargando(false);
+    }
+  };
+
+  const descargar = () => {
+    if (!informe) return;
+    const blob = new Blob([JSON.stringify(informe, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `informe_${anio}-${String(mes).padStart(2, "0")}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  };
+
+  const enviarPorCorreo = async () => {
+    setEnviando(true);
+    setError("");
+    setAvisoEnvio("");
+    try {
+      const resultado = await adminFetch(`/admin/informe-mensual/enviar?anio=${anio}&mes=${mes}`, adminKey, { method: "POST" });
+      setAvisoEnvio(`Enviado a: ${resultado.enviado_a.join(", ")}`);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setEnviando(false);
+    }
+  };
+
+  const nombresMes = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
+      <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Informe mensual de consultas</p>
+      <p className="text-xs text-slate-400">
+        Desglose de las consultas del mes por tipo (informativa, mantenimiento, limpieza, queja...) y por
+        sentimiento (positivo/neutral/negativo), en base al historial histórico.
+      </p>
+
+      <div className="flex gap-2">
+        <select value={mes} onChange={(e) => setMes(Number(e.target.value))} className="rounded-lg border border-slate-300 px-2 py-2 text-sm bg-white">
+          {nombresMes.map((n, i) => <option key={i} value={i + 1}>{n}</option>)}
+        </select>
+        <input type="number" value={anio} onChange={(e) => setAnio(Number(e.target.value))}
+          className="w-24 rounded-lg border border-slate-300 px-2 py-2 text-sm" />
+        <button onClick={cargar} disabled={cargando}
+          className="rounded-lg bg-blue-900 text-white text-sm font-semibold px-4 disabled:opacity-40">
+          {cargando ? "Cargando…" : "Ver"}
+        </button>
+      </div>
+
+      {error && <p className="text-xs text-red-600">{error}</p>}
+
+      {informe && (
+        <div className="space-y-3 pt-2 border-t border-slate-100">
+          <p className="text-sm text-slate-700">
+            <span className="font-semibold">{informe.total_consultas}</span> consultas en {nombresMes[informe.mes - 1]} {informe.anio}
+          </p>
+
+          {informe.total_consultas > 0 && (
+            <>
+              <div>
+                <p className="text-xs font-semibold text-slate-500 mb-1">Por tipo</p>
+                {Object.entries(informe.por_tipo).sort((a, b) => b[1] - a[1]).map(([tipo, n]) => (
+                  <p key={tipo} className="text-xs text-slate-600">
+                    {tipo}: {n} ({Math.round((n / informe.total_consultas) * 100)}%)
+                  </p>
+                ))}
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-slate-500 mb-1">Por sentimiento</p>
+                {Object.entries(informe.por_sentimiento).sort((a, b) => b[1] - a[1]).map(([s, n]) => (
+                  <p key={s} className="text-xs text-slate-600">
+                    {s}: {n} ({Math.round((n / informe.total_consultas) * 100)}%)
+                  </p>
+                ))}
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-slate-500 mb-1">Por propiedad</p>
+                {Object.entries(informe.por_propiedad).map(([prop, tipos]) => (
+                  <p key={prop} className="text-xs text-slate-600">
+                    <span className="font-medium">{prop}</span>: {Object.entries(tipos).map(([t, n]) => `${t} ${n}`).join(", ")}
+                  </p>
+                ))}
+              </div>
+            </>
+          )}
+
+          <div className="flex gap-2">
+            <button onClick={descargar} className="text-sm rounded-lg border border-slate-300 px-3 py-2 text-slate-600">
+              ⬇ Descargar (JSON)
+            </button>
+            <button onClick={enviarPorCorreo} disabled={enviando}
+              className="text-sm rounded-lg bg-blue-900 text-white px-3 py-2 disabled:opacity-40">
+              {enviando ? "Enviando…" : "✉ Enviar por correo"}
+            </button>
+          </div>
+          {avisoEnvio && <p className="text-xs text-emerald-700">{avisoEnvio}</p>}
+        </div>
+      )}
     </div>
   );
 }
@@ -2287,6 +2416,7 @@ function AdminView() {
         {vista === "lista" && !cargando && (
           <>
             <ConfiguracionGeneralPanel adminKey={adminKey} />
+            <InformeMensualPanel adminKey={adminKey} />
             <ImportarJsonPanel adminKey={adminKey} />
             <CamposPersonalizadosPanel campos={camposPersonalizados} adminKey={adminKey} onCambio={cargarListas} />
             <div className="rounded-2xl border border-slate-200 bg-white p-4">

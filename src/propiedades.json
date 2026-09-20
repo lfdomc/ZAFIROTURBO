@@ -22,6 +22,14 @@
       {
         "a": "En ninguna propiedad se permiten visitas adicionales a las personas registradas en la reserva.",
         "q": "Visitas"
+      },
+      {
+        "q": "¿Dónde hay escoba y pala/recogedor?",
+        "a": "Generalmente están en el cuarto de lavado, cerca de la lavadora."
+      },
+      {
+        "q": "¿Por qué amaneció el basurero volcado o la basura regada por el suelo?",
+        "a": "En zonas como Jacó es común que fauna local (mapaches, gatos, etc.) revuelva los basureros durante la noche — no necesariamente es un problema de la propiedad. De todas formas, avisale al equipo para coordinar la limpieza del área."
       }
     ],
     "contactos": [
