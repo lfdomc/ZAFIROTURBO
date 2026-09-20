@@ -2008,6 +2008,31 @@ function ImportarJsonPanel({ adminKey }) {
     }
   };
 
+  const [descargando, setDescargando] = useState(false);
+
+  const descargarJson = async () => {
+    setDescargando(true);
+    setError("");
+    try {
+      const resp = await fetch(`${BOT_API_URL}/export/propiedades.json`);
+      if (!resp.ok) throw new Error(`No se pudo descargar (HTTP ${resp.status})`);
+      const datos = await resp.json();
+      const blob = new Blob([JSON.stringify(datos, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `propiedades_${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setDescargando(false);
+    }
+  };
+
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
       <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Importar JSON completo (carga inicial o reemplazo total)</p>
@@ -2015,6 +2040,11 @@ function ImportarJsonPanel({ adminKey }) {
         Sube tu propiedades.json completo. Reemplaza TODAS las propiedades y la info general en Supabase.
         Puede tardar varios minutos — se hace en segundo plano, podés cerrar esta pestaña y volver después.
       </p>
+
+      <button onClick={descargarJson} disabled={descargando}
+        className="text-sm rounded-lg border border-slate-300 px-3 py-2 text-slate-600 disabled:opacity-40">
+        {descargando ? "Descargando…" : "⬇ Descargar JSON actual (respaldo)"}
+      </button>
 
       {estado?.corriendo ? (
         <div className="space-y-1.5">

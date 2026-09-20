@@ -200,7 +200,7 @@
       "propertyId": "nosara-estates"
     },
     {
-      "property": "Del Roble Refuge - Hacienda Pinilla",
+      "property": "Lagos de Palma Real - Hacienda Pinilla",
       "unit": "Hacienda Pinilla — Palma Real (LPR 241)",
       "pax": "10",
       "parqueo": "2 parqueos",
@@ -242,6 +242,17 @@
       "whatsapp": "—",
       "app": "—",
       "propertyId": "farmstay"
+    },
+    {
+      "property": "Ocean Nest · Live Jaco",
+      "unit": "Ocean Nest (1801)",
+      "pax": "",
+      "parqueo": "Espacio 172, incluido en la estadía (1 carro)",
+      "forms": "NO",
+      "correo": "NO",
+      "whatsapp": "NO",
+      "app": "NO",
+      "propertyId": "ocean-nest-live-jaco"
     }
   ],
   "properties": [
