@@ -2014,9 +2014,7 @@ function ImportarJsonPanel({ adminKey }) {
     setDescargando(true);
     setError("");
     try {
-      const resp = await fetch(`${BOT_API_URL}/export/propiedades.json`);
-      if (!resp.ok) throw new Error(`No se pudo descargar (HTTP ${resp.status})`);
-      const datos = await resp.json();
+      const datos = await adminFetch("/export/propiedades.json", adminKey);
       const blob = new Blob([JSON.stringify(datos, null, 2)], { type: "application/json" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
