@@ -114,7 +114,7 @@ const PROPERTY_GROUP = Object.fromEntries(DATA.properties.map((p) => [p.id, p.gr
 function TelegramFloat() {
   return (
     <a
-      href="https://t.me/Zafirocrbot"
+      href="https://t.me/TurboZafiro_bot"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat en Telegram"
@@ -259,7 +259,7 @@ function MessageCard({ msg, variantes: variantesProp, baseTitle: baseTitleProp }
         className="w-full flex items-center justify-between px-4 py-3 text-left"
       >
         <div className="flex items-center gap-2 min-w-0">
-          <MessageSquareText size={16} className="text-blue-900 shrink-0" />
+          <MessageSquareText size={16} className="text-[#1F2A3D] shrink-0" />
           <span className="font-semibold text-slate-800 text-sm truncate"><Highlight text={base} /></span>
           {nota && (
             <span className="shrink-0 inline-flex items-center gap-1 text-[10px] font-bold text-amber-700 bg-amber-100 border border-amber-300 rounded-full px-2 py-0.5">
@@ -267,7 +267,7 @@ function MessageCard({ msg, variantes: variantesProp, baseTitle: baseTitleProp }
             </span>
           )}
         </div>
-        {open ? <ChevronUp size={18} className="text-slate-400 shrink-0" /> : <ChevronDown size={18} className="text-slate-400 shrink-0" />}
+        {open ? <ChevronUp size={18} className="text-slate-500 shrink-0" /> : <ChevronDown size={18} className="text-slate-500 shrink-0" />}
       </button>
       {open && (
         <div className="px-4 pb-4">
@@ -403,12 +403,12 @@ function ListingGallery({ listing }) {
           </button>
         )}
         {listing.url && listing.url !== listing.airbnbUrl && (
-          <a href={listing.url} target="_blank" rel="noreferrer" className="text-blue-900 text-xs font-semibold underline">
+          <a href={listing.url} target="_blank" rel="noreferrer" className="text-[#1F2A3D] text-xs font-semibold underline">
             Ver ficha pública en Zafiro PM ↗
           </a>
         )}
         {listing.airbnbUrl && (
-          <a href={listing.airbnbUrl} target="_blank" rel="noreferrer" className="block text-blue-900 text-xs font-semibold underline mt-1">
+          <a href={listing.airbnbUrl} target="_blank" rel="noreferrer" className="block text-[#1F2A3D] text-xs font-semibold underline mt-1">
             Ver anuncio en Airbnb ↗
           </a>
         )}
@@ -433,7 +433,7 @@ function InfoRow({ k, v }) {
     <div className="flex justify-between gap-3 py-1.5 border-b border-slate-100 last:border-0 text-sm break-inside-avoid">
       <span className="text-slate-500 shrink-0"><Highlight text={k} /></span>
       {esLink ? (
-        <a href={v} target="_blank" rel="noreferrer" className="text-blue-900 font-semibold text-right underline break-all min-w-0">
+        <a href={v} target="_blank" rel="noreferrer" className="text-[#1F2A3D] font-semibold text-right underline break-all min-w-0">
           {v} ↗
         </a>
       ) : (
@@ -448,25 +448,25 @@ function GuiaDigitalCard({ guia }) {
     <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-2">
       {guia.nota && <p className="text-sm text-slate-600 mb-1">{guia.nota}</p>}
       {guia.comoLlegar && (
-        <a href={guia.comoLlegar} target="_blank" rel="noreferrer" className="block text-blue-900 text-sm font-semibold underline break-all">
+        <a href={guia.comoLlegar} target="_blank" rel="noreferrer" className="block text-[#1F2A3D] text-sm font-semibold underline break-all">
           Cómo llegar (Google Maps) ↗
         </a>
       )}
-      <a href={guia.url} target="_blank" rel="noreferrer" className="block text-blue-900 text-sm font-semibold underline break-all">
+      <a href={guia.url} target="_blank" rel="noreferrer" className="block text-[#1F2A3D] text-sm font-semibold underline break-all">
         Abrir guía digital ↗
       </a>
       {guia.whatsappConcierge && (
-        <a href={guia.whatsappConcierge} target="_blank" rel="noreferrer" className="block text-blue-900 text-sm underline break-all">
+        <a href={guia.whatsappConcierge} target="_blank" rel="noreferrer" className="block text-[#1F2A3D] text-sm underline break-all">
           WhatsApp concierge de experiencias (Localbird) ↗
         </a>
       )}
       {guia.linkReview && (
-        <a href={guia.linkReview} target="_blank" rel="noreferrer" className="block text-blue-900 text-sm underline break-all">
+        <a href={guia.linkReview} target="_blank" rel="noreferrer" className="block text-[#1F2A3D] text-sm underline break-all">
           Link de reseña en Airbnb ↗
         </a>
       )}
       {guia.linkReservaDirecta && (
-        <a href={guia.linkReservaDirecta} target="_blank" rel="noreferrer" className="block text-blue-900 text-sm underline break-all">
+        <a href={guia.linkReservaDirecta} target="_blank" rel="noreferrer" className="block text-[#1F2A3D] text-sm underline break-all">
           Link de reserva directa (Zafiro PM) ↗
         </a>
       )}
@@ -483,11 +483,11 @@ function UnitCard({ unit }) {
         <div className="min-w-0">
           <p className="font-semibold text-slate-800 text-sm break-words"><Highlight text={unit.name} />{unit.num ? ` · ${unit.num}` : ""}</p>
           {unit.listing && unit.listing.airbnbTitle && (
-            <p className="text-xs text-slate-400 italic mt-0.5"><Highlight text={unit.listing.airbnbTitle} /> (Airbnb)</p>
+            <p className="text-xs text-slate-500 italic mt-0.5"><Highlight text={unit.listing.airbnbTitle} /> (Airbnb)</p>
           )}
         </div>
         {hasDetail && (
-          <button onClick={() => setOpen(!open)} className="text-blue-900 text-xs font-medium shrink-0 flex items-center gap-0.5">
+          <button onClick={() => setOpen(!open)} className="text-[#1F2A3D] text-xs font-medium shrink-0 flex items-center gap-0.5">
             {open ? "Ocultar" : "Detalle"} {open ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
           </button>
         )}
@@ -520,14 +520,14 @@ function UnitCard({ unit }) {
             <div>
               <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Habitaciones</p>
               <ul className="space-y-1">
-                {unit.rooms.map((r, i) => <li key={i} className="text-sm text-slate-700 flex gap-2"><span className="text-blue-800">•</span><Highlight text={r} /></li>)}
+                {unit.rooms.map((r, i) => <li key={i} className="text-sm text-slate-700 flex gap-2"><span className="text-[#2E3F58]">•</span><Highlight text={r} /></li>)}
               </ul>
             </div>
           )}
           {unit.listing && <ListingGallery listing={unit.listing} />}
           {unit.guiaDigital && <GuiaDigitalCard guia={unit.guiaDigital} />}
           {!unit.guiaDigital && unit.comoLlegar && (
-            <a href={unit.comoLlegar} target="_blank" rel="noreferrer" className="block text-blue-900 text-sm font-semibold underline break-all">
+            <a href={unit.comoLlegar} target="_blank" rel="noreferrer" className="block text-[#1F2A3D] text-sm font-semibold underline break-all">
               Cómo llegar (Google Maps) ↗
             </a>
           )}
@@ -602,7 +602,7 @@ function PropertyView({ property }) {
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
           <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Horarios de áreas comunes</p>
           <ul className="space-y-1.5 lg:columns-2 lg:gap-x-8">
-            {property.rules.map((r, i) => <li key={i} className="text-sm text-slate-700 flex gap-2 break-inside-avoid"><span className="text-blue-800">•</span><Highlight text={r} /></li>)}
+            {property.rules.map((r, i) => <li key={i} className="text-sm text-slate-700 flex gap-2 break-inside-avoid"><span className="text-[#2E3F58]">•</span><Highlight text={r} /></li>)}
           </ul>
         </div>
       )}
@@ -667,7 +667,7 @@ function LocalExperiencesCard({ info }) {
         className="w-full flex items-center justify-between px-4 py-3 text-left"
       >
         <span className="font-semibold text-slate-800 text-sm">Tours, actividades y experiencias</span>
-        {open ? <ChevronUp size={18} className="text-slate-400 shrink-0" /> : <ChevronDown size={18} className="text-slate-400 shrink-0" />}
+        {open ? <ChevronUp size={18} className="text-slate-500 shrink-0" /> : <ChevronDown size={18} className="text-slate-500 shrink-0" />}
       </button>
       {open && (
         <div className="px-4 pb-4 space-y-4">
@@ -691,15 +691,15 @@ function LocalExperiencesCard({ info }) {
                 {info.destacados.map((d, i) => (
                   <li key={i} className="text-sm text-slate-700 flex justify-between gap-2">
                     <span>{d.nombre}</span>
-                    <span className="text-slate-400 shrink-0">{d.precio}</span>
+                    <span className="text-slate-500 shrink-0">{d.precio}</span>
                   </li>
                 ))}
               </ul>
-              <p className="text-xs text-slate-400 italic mt-2">Precios y ofertas cambian seguido — confirmar siempre en el link antes de citarle un precio a un huésped.</p>
+              <p className="text-xs text-slate-500 italic mt-2">Precios y ofertas cambian seguido — confirmar siempre en el link antes de citarle un precio a un huésped.</p>
             </div>
           )}
 
-          <a href={info.url} target="_blank" rel="noreferrer" className="text-blue-900 text-xs font-semibold underline">
+          <a href={info.url} target="_blank" rel="noreferrer" className="text-[#1F2A3D] text-xs font-semibold underline">
             Ver todas las experiencias en Localbird ↗
           </a>
         </div>
@@ -718,7 +718,7 @@ function PublicInfoCard({ info }) {
         className="w-full flex items-center justify-between px-4 py-3 text-left"
       >
         <span className="font-semibold text-slate-800 text-sm">Amenidades y reglas de la casa</span>
-        {open ? <ChevronUp size={18} className="text-slate-400 shrink-0" /> : <ChevronDown size={18} className="text-slate-400 shrink-0" />}
+        {open ? <ChevronUp size={18} className="text-slate-500 shrink-0" /> : <ChevronDown size={18} className="text-slate-500 shrink-0" />}
       </button>
       {open && (
         <div className="px-4 pb-4 space-y-4">
@@ -742,9 +742,9 @@ function PublicInfoCard({ info }) {
                   const text = isLink ? n.text : n;
                   return (
                     <li key={i} className="text-sm text-slate-700 flex gap-2 break-words">
-                      <span className="text-blue-800">•</span>
+                      <span className="text-[#2E3F58]">•</span>
                       {isLink ? (
-                        <a href={n.url} target="_blank" rel="noreferrer" className="text-blue-900 underline">
+                        <a href={n.url} target="_blank" rel="noreferrer" className="text-[#1F2A3D] underline">
                           <Highlight text={text} />
                         </a>
                       ) : (
@@ -764,13 +764,13 @@ function PublicInfoCard({ info }) {
                 <CopyButton text={rulesText} small />
               </div>
               <ul className="space-y-1.5">
-                {info.rules.map((r, i) => <li key={i} className="text-sm text-slate-700 flex gap-2 break-words"><span className="text-blue-800">•</span><Highlight text={r} /></li>)}
+                {info.rules.map((r, i) => <li key={i} className="text-sm text-slate-700 flex gap-2 break-words"><span className="text-[#2E3F58]">•</span><Highlight text={r} /></li>)}
               </ul>
             </div>
           )}
 
           {info.note && (
-            <p className="text-xs text-slate-400 italic"><Highlight text={info.note} /></p>
+            <p className="text-xs text-slate-500 italic"><Highlight text={info.note} /></p>
           )}
         </div>
       )}
@@ -783,7 +783,7 @@ function Badge({ label, value }) {
   return (
     <span
       className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-md ${
-        neutral ? "bg-slate-100 text-slate-400" : positive ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-500"
+        neutral ? "bg-slate-100 text-slate-500" : positive ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-500"
       }`}
       title={label}
     >
@@ -803,7 +803,7 @@ function MasterTableRow({ row, onOpen }) {
       <div className="min-w-0 flex-1 pl-1.5">
         <p className="font-semibold text-slate-800 text-sm truncate">{row.property}</p>
         <p className="text-xs text-slate-500 truncate mt-0.5">{row.unit} · Pax {row.pax}</p>
-        <p className="text-xs text-slate-400 truncate mt-0.5">Parqueo: {row.parqueo}</p>
+        <p className="text-xs text-slate-500 truncate mt-0.5">Parqueo: {row.parqueo}</p>
         <div className="flex flex-wrap gap-1 mt-1.5">
           <Badge label="Form" value={row.forms} />
           <Badge label="WSP" value={row.whatsapp} />
@@ -984,7 +984,7 @@ function CalendarioView() {
   }, [datos]);
 
   if (cargando) {
-    return <p className="text-sm text-slate-400 text-center pt-10">Cargando calendario…</p>;
+    return <p className="text-sm text-slate-500 text-center pt-10">Cargando calendario…</p>;
   }
 
   return (
@@ -1059,8 +1059,8 @@ function CalendarioView() {
                       key={i}
                       className={`text-center py-2 border-r border-slate-300 ${finde ? "bg-slate-50" : ""} ${esHoy ? "bg-blue-50" : ""}`}
                     >
-                      <div className={`text-[10px] ${esHoy ? "text-blue-900 font-bold" : "text-slate-400"}`}>{DIAS_SEMANA_CORTO[d.getDay()]}</div>
-                      <div className={`text-xs ${esHoy ? "text-blue-900 font-bold" : "text-slate-700 font-medium"}`}>{d.getDate()}</div>
+                      <div className={`text-[10px] ${esHoy ? "text-[#1F2A3D] font-bold" : "text-slate-500"}`}>{DIAS_SEMANA_CORTO[d.getDay()]}</div>
+                      <div className={`text-xs ${esHoy ? "text-[#1F2A3D] font-bold" : "text-slate-700 font-medium"}`}>{d.getDate()}</div>
                     </div>
                   );
                 })}
@@ -1159,7 +1159,7 @@ function CalendarioView() {
       </div>
 
       {datos.actualizado && (
-        <p className="text-[11px] text-slate-400 text-center">
+        <p className="text-[11px] text-slate-500 text-center">
           Última actualización: {new Date(datos.actualizado).toLocaleString("es-CR")}
         </p>
       )}
@@ -1188,7 +1188,7 @@ function HomeView({ general, checkInGeneral, checkOutGeneral, masterTable, onOpe
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
           <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Formulario diario</p>
           <p className="text-sm text-slate-700 mb-2"><Highlight text={general.formulario.texto} /></p>
-          <a href={general.formulario.link} target="_blank" rel="noreferrer" className="text-blue-900 text-sm font-medium underline break-all">
+          <a href={general.formulario.link} target="_blank" rel="noreferrer" className="text-[#1F2A3D] text-sm font-medium underline break-all">
             {general.formulario.linkLabel}
           </a>
           {general.formulario.espaciosObligatorios && (
@@ -1202,7 +1202,7 @@ function HomeView({ general, checkInGeneral, checkOutGeneral, masterTable, onOpe
           <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">{general.comunicacion.titulo}</p>
           <ul className="space-y-1.5">
             {general.comunicacion.bullets.map((b, i) => (
-              <li key={i} className="text-sm text-slate-700 flex gap-2"><span className="text-blue-800">•</span><Highlight text={b} /></li>
+              <li key={i} className="text-sm text-slate-700 flex gap-2"><span className="text-[#2E3F58]">•</span><Highlight text={b} /></li>
             ))}
           </ul>
         </div>
@@ -1212,7 +1212,7 @@ function HomeView({ general, checkInGeneral, checkOutGeneral, masterTable, onOpe
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
           <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Reserva directa (Zafiro PM)</p>
           <p className="text-sm text-slate-600 mb-2">{general.reservaDirecta.nota}</p>
-          <a href={general.reservaDirecta.url} target="_blank" rel="noreferrer" className="text-blue-900 text-sm font-semibold underline break-all">
+          <a href={general.reservaDirecta.url} target="_blank" rel="noreferrer" className="text-[#1F2A3D] text-sm font-semibold underline break-all">
             Abrir zafiropm.com ↗
           </a>
         </div>
@@ -1234,10 +1234,10 @@ function HomeView({ general, checkInGeneral, checkOutGeneral, masterTable, onOpe
             <div key={c.label} className="rounded-2xl border border-slate-200 bg-white p-4 flex items-center justify-between gap-3">
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-slate-800 flex items-center gap-1.5">
-                  <Phone size={13} className="text-blue-900 shrink-0" /> <Highlight text={c.label} />
+                  <Phone size={13} className="text-[#1F2A3D] shrink-0" /> <Highlight text={c.label} />
                 </p>
                 <p className="text-sm text-slate-600"><Highlight text={c.value} /></p>
-                {c.note && <p className="text-xs text-slate-400 mt-0.5"><Highlight text={c.note} /></p>}
+                {c.note && <p className="text-xs text-slate-500 mt-0.5"><Highlight text={c.note} /></p>}
               </div>
               <CopyButton text={c.value} small />
             </div>
@@ -1356,7 +1356,7 @@ function ListaConEdicion({ items, renderLabel, onEdit, onDelete, addLabel, onAdd
           </div>
         </div>
       ))}
-      <button onClick={onAdd} className="w-full rounded-xl border border-dashed border-slate-300 py-2.5 text-sm text-slate-500 hover:border-blue-800 hover:text-blue-900 flex items-center justify-center gap-1.5">
+      <button onClick={onAdd} className="w-full rounded-xl border border-dashed border-slate-300 py-2.5 text-sm text-slate-500 hover:border-[#2E3F58] hover:text-[#1F2A3D] flex items-center justify-center gap-1.5">
         <Plus size={15} /> {addLabel}
       </button>
     </div>
@@ -1384,7 +1384,7 @@ function PairListEditor({ pares, onChange, placeholderA = "Etiqueta", placeholde
           </button>
         </div>
       ))}
-      <button onClick={agregar} className="text-xs text-blue-900 font-medium flex items-center gap-1">
+      <button onClick={agregar} className="text-xs text-[#1F2A3D] font-medium flex items-center gap-1">
         <Plus size={13} /> Agregar fila
       </button>
     </div>
@@ -1406,7 +1406,7 @@ function StringListEditor({ items, onChange, placeholder = "Texto" }) {
           </button>
         </div>
       ))}
-      <button onClick={agregar} className="text-xs text-blue-900 font-medium flex items-center gap-1">
+      <button onClick={agregar} className="text-xs text-[#1F2A3D] font-medium flex items-center gap-1">
         <Plus size={13} /> Agregar
       </button>
     </div>
@@ -1473,7 +1473,7 @@ function RevisarGuiaPanel({ propertyId, adminKey, urlGuia }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
       <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Guía pública externa (guia.zafiropm.com)</p>
-      <p className="text-xs text-slate-400">Compara contra lo ya cargado — nada se cambia hasta que elijas qué aceptar.</p>
+      <p className="text-xs text-slate-500">Compara contra lo ya cargado — nada se cambia hasta que elijas qué aceptar.</p>
       <button onClick={revisar} disabled={cargando}
         className="text-sm rounded-lg border border-slate-300 px-3 py-2 text-slate-600 disabled:opacity-40 flex items-center gap-1.5">
         <RefreshCw size={14} className={cargando ? "animate-spin" : ""} />
@@ -1483,7 +1483,7 @@ function RevisarGuiaPanel({ propertyId, adminKey, urlGuia }) {
       {aviso && <p className="text-xs text-emerald-700">{aviso}</p>}
 
       {comparacion && comparacion.length === 0 && (
-        <p className="text-xs text-slate-400">No se encontró nada en la guía para comparar.</p>
+        <p className="text-xs text-slate-500">No se encontró nada en la guía para comparar.</p>
       )}
 
       {comparacion && comparacion.length > 0 && (
@@ -1494,7 +1494,7 @@ function RevisarGuiaPanel({ propertyId, adminKey, urlGuia }) {
                 <p className="font-semibold text-slate-700">
                   {fila.etiqueta}
                   {fila.hay_diferencia === true && <span className="ml-1.5 text-amber-700">· diferente</span>}
-                  {fila.hay_diferencia === false && <span className="ml-1.5 text-slate-400">· igual</span>}
+                  {fila.hay_diferencia === false && <span className="ml-1.5 text-slate-500">· igual</span>}
                 </p>
                 {fila.aplicable && (
                   <label className="flex items-center gap-1.5 text-slate-600 shrink-0">
@@ -1506,7 +1506,7 @@ function RevisarGuiaPanel({ propertyId, adminKey, urlGuia }) {
               </div>
               <p className="text-slate-500 mt-1 whitespace-pre-line"><span className="font-medium">Actual:</span> {fila.valor_actual || "(no cargado)"}</p>
               <p className="text-slate-700 mt-0.5 whitespace-pre-line"><span className="font-medium">Guía:</span> {fila.valor_guia}</p>
-              {fila.nota && <p className="text-slate-400 italic mt-1">{fila.nota}</p>}
+              {fila.nota && <p className="text-slate-500 italic mt-1">{fila.nota}</p>}
             </div>
           ))}
           <button onClick={aplicar} disabled={aplicando || !Object.values(seleccionados).some(Boolean)}
@@ -1538,7 +1538,7 @@ function MessageListEditor({ items, onChange }) {
             className="w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
         </div>
       ))}
-      <button onClick={agregar} className="text-xs text-blue-900 font-medium flex items-center gap-1">
+      <button onClick={agregar} className="text-xs text-[#1F2A3D] font-medium flex items-center gap-1">
         <Plus size={13} /> Agregar mensaje
       </button>
     </div>
@@ -1674,7 +1674,7 @@ function UnitsEditor({ unidades, onChange, camposUnidad }) {
       {unidades.map((u, i) => (
         <UnitEditCard key={u.id || i} unidad={u} onChange={(n) => actualizar(i, n)} onEliminar={() => eliminar(i)} camposUnidad={camposUnidad} />
       ))}
-      <button onClick={agregar} className="w-full rounded-xl border border-dashed border-slate-300 py-2.5 text-sm text-slate-500 hover:border-blue-800 hover:text-blue-900 flex items-center justify-center gap-1.5">
+      <button onClick={agregar} className="w-full rounded-xl border border-dashed border-slate-300 py-2.5 text-sm text-slate-500 hover:border-[#2E3F58] hover:text-[#1F2A3D] flex items-center justify-center gap-1.5">
         <Plus size={15} /> Agregar unidad (casa/apartamento)
       </button>
     </div>
@@ -1736,7 +1736,7 @@ function PropertyForm({ propiedadInicial, esNueva, camposPersonalizados, onGuard
           <label className="text-xs text-slate-500">Id (slug único)
             <input value={form.id} disabled={!esNueva} onChange={(e) => set("id", e.target.value.trim())}
               placeholder="ej. casa-nueva"
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-slate-100 disabled:text-slate-400" />
+              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-slate-100 disabled:text-slate-500" />
           </label>
           <label className="text-xs text-slate-500">Nombre
             <input value={form.name} onChange={(e) => set("name", e.target.value)}
@@ -1807,13 +1807,13 @@ function PropertyForm({ propiedadInicial, esNueva, camposPersonalizados, onGuard
 
       <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
         <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Unidades (casas / apartamentos)</p>
-        <p className="text-xs text-slate-400">Cada unidad es una casa o apartamento real dentro de esta propiedad/condominio.</p>
+        <p className="text-xs text-slate-500">Cada unidad es una casa o apartamento real dentro de esta propiedad/condominio.</p>
         <UnitsEditor unidades={units} onChange={setUnits} camposUnidad={camposUnidad} />
       </div>
 
       <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-2">
         <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Mensajes de la propiedad</p>
-        <p className="text-xs text-slate-400">Bienvenida, check-out, y otros mensajes generales de toda la propiedad (no de una unidad puntual).</p>
+        <p className="text-xs text-slate-500">Bienvenida, check-out, y otros mensajes generales de toda la propiedad (no de una unidad puntual).</p>
         <MessageListEditor items={messages} onChange={setMessages} />
       </div>
 
@@ -1859,7 +1859,7 @@ function PropertyForm({ propiedadInicial, esNueva, camposPersonalizados, onGuard
 
       <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-2">
         <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Guía digital de la propiedad</p>
-        <p className="text-xs text-slate-400">Solo si aplica a toda la propiedad y no a una unidad puntual (esas se cargan dentro de cada unidad).</p>
+        <p className="text-xs text-slate-500">Solo si aplica a toda la propiedad y no a una unidad puntual (esas se cargan dentro de cada unidad).</p>
         <input value={guiaDigitalProp.url || ""} onChange={(e) => setGuiaPropField("url", e.target.value)} placeholder="URL de la guía"
           className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
         <input value={guiaDigitalProp.comoLlegar || ""} onChange={(e) => setGuiaPropField("comoLlegar", e.target.value)} placeholder="Cómo llegar"
@@ -1878,7 +1878,7 @@ function PropertyForm({ propiedadInicial, esNueva, camposPersonalizados, onGuard
 
       <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-2">
         <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Nota interna de la propiedad</p>
-        <p className="text-xs text-slate-400">Nunca se le muestra al huésped.</p>
+        <p className="text-xs text-slate-500">Nunca se le muestra al huésped.</p>
         <textarea value={notaInterna} onChange={(e) => setNotaInterna(e.target.value)} rows={3}
           className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
       </div>
@@ -1937,13 +1937,13 @@ function CamposPersonalizadosPanel({ campos, adminKey, onCambio }) {
       <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
         Campos personalizados
       </p>
-      <p className="text-xs text-slate-400">
+      <p className="text-xs text-slate-500">
         "Propiedad" agrega el campo una vez por propiedad. "Unidad" agrega el campo a cada casa/apartamento por separado.
       </p>
       {campos.map((c) => (
         <div key={c.id} className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 px-3 py-2">
           <span className="text-sm text-slate-700">
-            {c.etiqueta} <span className="text-slate-400">({c.id})</span>
+            {c.etiqueta} <span className="text-slate-500">({c.id})</span>
           </span>
           <div className="flex items-center gap-2 shrink-0">
             <span className={`text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ${c.nivel === "unidad" ? "bg-amber-50 text-amber-700" : "bg-blue-50 text-blue-700"}`}>
@@ -2034,7 +2034,7 @@ function ImportarJsonPanel({ adminKey }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
       <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Importar JSON completo (carga inicial o reemplazo total)</p>
-      <p className="text-xs text-slate-400">
+      <p className="text-xs text-slate-500">
         Sube tu propiedades.json completo. Reemplaza TODAS las propiedades y la info general en Supabase.
         Puede tardar varios minutos — se hace en segundo plano, podés cerrar esta pestaña y volver después.
       </p>
@@ -2180,7 +2180,7 @@ function ConfiguracionGeneralPanel({ adminKey }) {
         <input value={config.informe_mensual_destinatarios || ""} onChange={(e) => set("informe_mensual_destinatarios", e.target.value)}
           placeholder="gerencia@zafiropm.com, dueno@ejemplo.com" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
       </label>
-      <p className="text-xs text-slate-400">
+      <p className="text-xs text-slate-500">
         Si una propiedad puntual necesita un número distinto, se puede anular con un campo personalizado
         ("whatsapp_mantenimiento" / "whatsapp_limpieza") en esa propiedad.
       </p>
@@ -2270,7 +2270,7 @@ function InformeMensualPanel({ adminKey }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
       <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Informe mensual de consultas</p>
-      <p className="text-xs text-slate-400">
+      <p className="text-xs text-slate-500">
         Desglose de las consultas del mes por tipo (informativa, mantenimiento, limpieza, queja...) y por
         sentimiento (positivo/neutral/negativo), en base al historial histórico.
       </p>
@@ -2427,7 +2427,7 @@ function AdminView() {
             <p className="text-sm text-slate-500">Agregar, editar y eliminar propiedades — se guarda en Supabase y el sitio se actualiza solo.</p>
           </div>
           {vista !== "lista" && (
-            <button onClick={() => { setVista("lista"); setPropiedadEditando(null); }} className="text-sm text-blue-900 font-medium">
+            <button onClick={() => { setVista("lista"); setPropiedadEditando(null); }} className="text-sm text-[#1F2A3D] font-medium">
               ← Volver a la lista
             </button>
           )}
@@ -2435,7 +2435,7 @@ function AdminView() {
 
         {aviso && <p className="text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">{aviso}</p>}
         {error && <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{error}</p>}
-        {cargando && <p className="text-sm text-slate-400">Cargando…</p>}
+        {cargando && <p className="text-sm text-slate-500">Cargando…</p>}
 
         {vista === "lista" && !cargando && (
           <>
@@ -2450,7 +2450,7 @@ function AdminView() {
                 renderLabel={(p) => (
                   <div>
                     <p className="text-sm font-medium text-slate-800">{p.nombre}</p>
-                    <p className="text-xs text-slate-400">{p.zona}</p>
+                    <p className="text-xs text-slate-500">{p.zona}</p>
                     {p.avisos?.length > 0 && (
                       <details className="mt-1">
                         <summary className="text-xs text-red-600 font-medium cursor-pointer">
@@ -2671,7 +2671,7 @@ export default function App() {
               {searchFocused && search.trim() && (
                 <div className="absolute left-0 right-0 top-full mt-1 bg-white rounded-2xl border border-slate-200 shadow-lg max-h-80 overflow-y-auto z-30">
                   {searchResults.length === 0 ? (
-                    <p className="text-sm text-slate-400 px-4 py-3">Sin resultados para "{search}"</p>
+                    <p className="text-sm text-slate-500 px-4 py-3">Sin resultados para "{search}"</p>
                   ) : (
                     searchResults.map((r, i) => (
                       <button
@@ -2680,7 +2680,7 @@ export default function App() {
                         className="w-full text-left px-4 py-2.5 border-b border-slate-100 last:border-0 hover:bg-slate-50"
                       >
                         <p className="text-sm font-medium text-slate-800 truncate">{r.label}</p>
-                        <p className="text-xs text-slate-400 truncate">{r.sub}</p>
+                        <p className="text-xs text-slate-500 truncate">{r.sub}</p>
                       </button>
                     ))
                   )}
@@ -2713,7 +2713,7 @@ export default function App() {
             {searchFocused && search.trim() && (
               <div className="absolute left-4 right-4 sm:left-6 top-full mt-1 bg-white rounded-2xl border border-slate-200 shadow-lg max-h-80 overflow-y-auto z-30">
                 {searchResults.length === 0 ? (
-                  <p className="text-sm text-slate-400 px-4 py-3">Sin resultados para "{search}"</p>
+                  <p className="text-sm text-slate-500 px-4 py-3">Sin resultados para "{search}"</p>
                 ) : (
                   searchResults.map((r, i) => (
                     <button
@@ -2722,7 +2722,7 @@ export default function App() {
                       className="w-full text-left px-4 py-2.5 border-b border-slate-100 last:border-0 hover:bg-slate-50"
                     >
                       <p className="text-sm font-medium text-slate-800 truncate">{r.label}</p>
-                      <p className="text-xs text-slate-400 truncate">{r.sub}</p>
+                      <p className="text-xs text-slate-500 truncate">{r.sub}</p>
                     </button>
                   ))
                 )}
@@ -2811,7 +2811,7 @@ export default function App() {
           ) : selectedProperty ? (
             <PropertyView property={selectedProperty} />
           ) : (
-            <p className="text-sm text-slate-400 text-center pt-10">Selecciona una propiedad arriba.</p>
+            <p className="text-sm text-slate-500 text-center pt-10">Selecciona una propiedad arriba.</p>
           )}
         </HighlightContext.Provider>
       </div>
