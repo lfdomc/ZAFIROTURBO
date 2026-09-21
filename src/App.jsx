@@ -2503,6 +2503,73 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [highlightTerm, setHighlightTerm] = useState("");
 
+  // Efecto "S.O.F.I.A.": revela las tarjetas (mismo patrón visual que usa toda la
+  // app: rounded-2xl + border-slate-200 + bg-white) con un fade + slide al entrar
+  // en pantalla. Usa un MutationObserver además del IntersectionObserver para que
+  // también funcione con tarjetas que aparecen después (acordeones, cambio de tab,
+  // resultados de búsqueda, panel Admin), sin tener que tocar cada componente.
+  useEffect(() => {
+    const seen = new WeakSet();
+    const supportsIO = typeof IntersectionObserver !== "undefined";
+    const io = supportsIO
+      ? new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("in-view");
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+        )
+      : null;
+
+    const claim = (el) => {
+      if (seen.has(el)) return;
+      seen.add(el);
+      if (io) io.observe(el);
+      else el.classList.add("in-view");
+    };
+
+    const scan = (root) => {
+      if (!root.querySelectorAll) return;
+      root.querySelectorAll(".rounded-2xl.border.border-slate-200.bg-white").forEach(claim);
+    };
+
+    scan(document);
+
+    const mo = new MutationObserver((mutations) => {
+      mutations.forEach((m) => {
+        m.addedNodes.forEach((node) => {
+          if (node.nodeType !== 1) return;
+          if (node.matches && node.matches(".rounded-2xl.border.border-slate-200.bg-white")) claim(node);
+          scan(node);
+        });
+      });
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      mo.disconnect();
+      if (io) io.disconnect();
+    };
+  }, []);
+
+  // Barra de progreso de scroll (acento coral), igual que en el informe S.O.F.I.A.
+  useEffect(() => {
+    const bar = document.getElementById("sofia-progress");
+    if (!bar) return;
+    const update = () => {
+      const h = document.documentElement;
+      const scrolled = (h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)) * 100;
+      bar.style.width = `${Math.min(100, Math.max(0, isFinite(scrolled) ? scrolled : 0))}%`;
+    };
+    window.addEventListener("scroll", update, { passive: true });
+    update();
+    return () => window.removeEventListener("scroll", update);
+  }, []);
+
   // Propiedades en orden alfabético para el menú (Inicio siempre va primero, fijo)
   const alphabeticalProperties = useMemo(
     () => [...DATA.properties].sort((a, b) => a.name.localeCompare(b.name, "es")),
@@ -2643,9 +2710,10 @@ export default function App() {
 
   return (
     <div className="min-h-screen w-full max-w-full bg-[#E7ECF2] pb-10">
+      <div id="sofia-progress" />
       <TelegramFloat />
       {/* Header */}
-      <div className="sticky top-0 z-20 bg-[#1F2A3D] border-b border-[#16202F] shadow-sm">
+      <div className="sofia-header-fx sticky top-0 z-20 bg-[#1F2A3D] border-b border-[#16202F] shadow-sm">
         <div className="max-w-6xl mx-auto">
           <div className="px-4 sm:px-6 lg:px-8 pt-3 pb-2 flex items-center gap-2">
             <button onClick={() => goToProperty("home")} className="flex items-center gap-2 min-w-0 shrink-0 lg:flex-initial text-left">
