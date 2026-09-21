@@ -2642,19 +2642,19 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen w-full max-w-full bg-slate-50 pb-10">
+    <div className="min-h-screen w-full max-w-full bg-[#E7ECF2] pb-10">
       <TelegramFloat />
       {/* Header */}
-      <div className="sticky top-0 z-20 bg-white border-b border-slate-200 shadow-sm">
+      <div className="sticky top-0 z-20 bg-[#1F2A3D] border-b border-[#16202F] shadow-sm">
         <div className="max-w-6xl mx-auto">
           <div className="px-4 sm:px-6 lg:px-8 pt-3 pb-2 flex items-center gap-2">
             <button onClick={() => goToProperty("home")} className="flex items-center gap-2 min-w-0 shrink-0 lg:flex-initial text-left">
-              <div className="w-8 h-8 rounded-lg bg-blue-900 flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-[#E1543C] flex items-center justify-center shrink-0">
                 <ZafiroDiamond size={17} className="text-white" />
               </div>
               <div className="min-w-0">
-                <p className="font-bold text-slate-900 text-sm leading-tight whitespace-nowrap">Property Management</p>
-                <p className="text-[11px] text-slate-400 leading-tight">Panel interno · Varo & Michi</p>
+                <p className="font-bold text-white text-sm leading-tight whitespace-nowrap">Property Management</p>
+                <p className="text-[11px] text-[#93A2B8] leading-tight">Panel interno · Varo & Michi</p>
               </div>
             </button>
 
@@ -2666,7 +2666,7 @@ export default function App() {
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setTimeout(() => setSearchFocused(false), 150)}
                 placeholder="Buscar en el contenido... (ej. 42, S2P34, wifi)"
-                className="w-full rounded-full bg-slate-100 px-4 py-2 text-sm text-slate-700 placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-blue-800"
+                className="w-full rounded-full bg-white/10 px-4 py-2 text-sm text-white placeholder:text-[#93A2B8] outline-none focus:ring-2 focus:ring-white/30"
               />
               {searchFocused && search.trim() && (
                 <div className="absolute left-0 right-0 top-full mt-1 bg-white rounded-2xl border border-slate-200 shadow-lg max-h-80 overflow-y-auto z-30">
@@ -2693,7 +2693,7 @@ export default function App() {
             {/* Hamburguesa: visible en todos los tamaños */}
             <button
               onClick={() => setMenuOpen((v) => !v)}
-              className="shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-slate-600 bg-slate-100 active:bg-slate-200"
+              className="shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-white bg-white/10 active:bg-white/20"
               aria-label="Abrir menú"
             >
               {menuOpen ? <X size={18} /> : <Menu size={18} />}
@@ -2708,7 +2708,7 @@ export default function App() {
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setTimeout(() => setSearchFocused(false), 150)}
               placeholder="Buscar en el contenido... (ej. 42, S2P34, wifi)"
-              className="w-full rounded-full bg-slate-100 px-4 py-2 text-sm text-slate-700 placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-blue-800"
+              className="w-full rounded-full bg-white/10 px-4 py-2 text-sm text-white placeholder:text-[#93A2B8] outline-none focus:ring-2 focus:ring-white/30"
             />
             {searchFocused && search.trim() && (
               <div className="absolute left-4 right-4 sm:left-6 top-full mt-1 bg-white rounded-2xl border border-slate-200 shadow-lg max-h-80 overflow-y-auto z-30">
@@ -2733,11 +2733,11 @@ export default function App() {
           {/* Menú desplegable (grupos San José / Guanacaste-Jacó): en todos los tamaños, con hamburguesa */}
           {menuOpen && (
             <div className="px-4 sm:px-6 lg:px-8 pb-3 max-h-[60vh] overflow-y-auto">
-              <div className="flex flex-col gap-1 border-t border-slate-100 pt-2">
+              <div className="flex flex-col gap-1 border-t border-white/10 pt-2">
                 <button
                   onClick={() => goToProperty("home")}
                   className={`text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
-                    selected === "home" ? "bg-blue-900 text-white" : "text-slate-600 active:bg-slate-100"
+                    selected === "home" ? "bg-[#E1543C] text-white" : "text-[#C7D2E0] active:bg-white/10"
                   }`}
                 >
                   <Home size={14} />
@@ -2746,7 +2746,7 @@ export default function App() {
                 <button
                   onClick={() => goToProperty("calendario")}
                   className={`text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
-                    selected === "calendario" ? "bg-blue-900 text-white" : "text-slate-600 active:bg-slate-100"
+                    selected === "calendario" ? "bg-[#E1543C] text-white" : "text-[#C7D2E0] active:bg-white/10"
                   }`}
                 >
                   <CalendarDays size={14} />
@@ -2755,7 +2755,7 @@ export default function App() {
                 <button
                   onClick={() => goToProperty("admin")}
                   className={`text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
-                    selected === "admin" ? "bg-blue-900 text-white" : "text-slate-600 active:bg-slate-100"
+                    selected === "admin" ? "bg-[#E1543C] text-white" : "text-[#C7D2E0] active:bg-white/10"
                   }`}
                 >
                   <Settings size={14} />
@@ -2767,7 +2767,7 @@ export default function App() {
                   const gm = GROUP_META[groupId];
                   return (
                     <div key={groupId} className="mt-2">
-                      <p className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide px-3 mb-1 ${gm.badgeText}`}>
+                      <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide px-3 mb-1 text-[#93A2B8]">
                         <span className={`w-1.5 h-1.5 rounded-full ${gm.dot}`} />
                         {gm.label}
                       </p>
@@ -2777,7 +2777,7 @@ export default function App() {
                             key={item.id}
                             onClick={() => goToProperty(item.id)}
                             className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
-                              selected === item.id ? `${gm.pillActive} text-white` : "text-slate-600 active:bg-slate-100"
+                              selected === item.id ? "bg-[#E1543C] text-white" : "text-[#C7D2E0] active:bg-white/10"
                             }`}
                           >
                             {item.name}
