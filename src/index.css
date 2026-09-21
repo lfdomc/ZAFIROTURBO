@@ -1,74 +1,52 @@
 @import "tailwindcss";
 
 /* ============================================================================
-   Efectos "S.O.F.I.A." — misma paleta y sensación del informe mensual:
-   tarjetas que aparecen al hacer scroll, leve elevación al pasar el mouse,
-   textura de puntos + resplandor coral en el header, barra de progreso.
+   Tema S.O.F.I.A. — navy oscuro con acentos naranja (acción/marca) y verde
+   (positivo/confianza). Se sobreescriben las utilidades de Tailwind que ya
+   usa todo el panel, así el tema se aplica de punta a punta sin reescribir
+   cada componente.
    ============================================================================ */
 
-/* Tarjetas: fade + slide al entrar en pantalla (activado por App.jsx) */
-.rounded-2xl.border.border-slate-200.bg-white {
-  opacity: 0;
-  transform: translateY(14px);
-  transition:
-    opacity 0.55s cubic-bezier(0.2, 0.7, 0.2, 1),
-    transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1),
-    box-shadow 0.25s ease,
-    border-color 0.25s ease;
-}
-.rounded-2xl.border.border-slate-200.bg-white.in-view {
-  opacity: 1;
-  transform: translateY(0);
-}
-.rounded-2xl.border.border-slate-200.bg-white:hover {
-  box-shadow: 0 14px 30px -18px rgba(31, 42, 61, 0.35);
-  border-color: #e1543c;
-}
-@media (prefers-reduced-motion: reduce) {
-  .rounded-2xl.border.border-slate-200.bg-white {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-}
+body { background: #0b1220; }
 
-/* Barra de progreso de scroll */
-#sofia-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 3px;
-  width: 0%;
-  background: linear-gradient(90deg, #e1543c, #c2431f);
-  z-index: 60;
-  transition: width 0.1s linear;
-}
+.bg-white { background-color: #131c2e !important; }
+.bg-slate-50 { background-color: #0b1220 !important; }
+.bg-slate-100 { background-color: #1a2438 !important; }
 
-/* Textura + resplandor sutil en el header navy */
-.sofia-header-fx {
-  position: relative;
-  overflow: hidden;
+.text-slate-900, .text-slate-800, .text-slate-700 { color: #e5eaf3 !important; }
+.text-slate-600 { color: #b7c2d6 !important; }
+.text-slate-500, .text-slate-400 { color: #8291ab !important; }
+
+.border-slate-200, .border-slate-100, .border-slate-300 { border-color: #253150 !important; }
+.divide-slate-100 > * + * { border-color: #253150 !important; }
+
+/* Marca: naranja en vez del azul, para acción y elementos activos */
+.bg-blue-900 { background-color: #e1543c !important; }
+.bg-blue-900:hover, .hover\:bg-blue-800:hover { background-color: #c2431f !important; }
+.text-blue-900, .text-blue-800, .text-blue-700 { color: #ff8a65 !important; }
+.bg-blue-50 { background-color: #24304a !important; }
+.ring-blue-800, .focus\:ring-blue-800:focus { --tw-ring-color: #e1543c !important; }
+.border-blue-800, .border-blue-900 { border-color: #e1543c !important; }
+
+/* Positivo/confianza alta → verde, se mantiene legible sobre fondo oscuro */
+.bg-green-50 { background-color: #10261c !important; }
+.text-green-700, .text-green-800, .text-green-600 { color: #4ade80 !important; }
+.bg-green-100 { background-color: #10261c !important; }
+
+/* Negativo/alerta → se mantiene el rojo, ajustado para contraste en oscuro */
+.bg-red-50 { background-color: #2a1416 !important; }
+.text-red-700, .text-red-600, .text-red-800 { color: #f87171 !important; }
+.bg-amber-50, .bg-yellow-50 { background-color: #2a2311 !important; }
+.text-amber-700, .text-yellow-700 { color: #fbbf24 !important; }
+
+input, textarea, select {
+  background-color: #1a2438 !important;
+  color: #e5eaf3 !important;
+  border-color: #253150 !important;
 }
-.sofia-header-fx::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-  background-size: 16px 16px;
-  opacity: 0.35;
-  pointer-events: none;
-}
-.sofia-header-fx::after {
-  content: "";
-  position: absolute;
-  top: -60%;
-  right: -5%;
-  width: 320px;
-  height: 220px;
-  background: radial-gradient(circle, rgba(225, 84, 60, 0.28), transparent 65%);
-  pointer-events: none;
-}
-.sofia-header-fx > * {
-  position: relative;
-  z-index: 1;
-}
+input::placeholder, textarea::placeholder { color: #5b6b8a !important; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #0b1220; }
+::-webkit-scrollbar-thumb { background: #253150; border-radius: 6px; }
+

@@ -114,7 +114,7 @@ const PROPERTY_GROUP = Object.fromEntries(DATA.properties.map((p) => [p.id, p.gr
 function TelegramFloat() {
   return (
     <a
-      href="https://t.me/TurboZafiro_bot"
+      href="https://t.me/Zafirocrbot"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat en Telegram"
@@ -166,7 +166,7 @@ function CopyButton({ text, small }) {
     <button
       onClick={onCopy}
       className={`flex items-center gap-1.5 rounded-full font-medium transition-all active:scale-95 ${
-        copied ? "bg-emerald-600 text-white" : "bg-[#E1543C] text-white active:bg-[#C2431F]"
+        copied ? "bg-emerald-600 text-white" : "bg-blue-900 text-white active:bg-blue-950"
       } ${small ? "px-3 py-1.5 text-xs" : "px-4 py-2 text-sm"}`}
     >
       {copied ? <Check size={small ? 14 : 16} /> : <Copy size={small ? 14 : 16} />}
@@ -198,10 +198,10 @@ function tipoDeMensaje(tituloBaseTexto) {
 // Colores muy tenues por tipo de mensaje (gris verdoso = check-in,
 // gris rojizo = check-out, gris = bienvenida, blanco = el resto).
 const ESTILOS_TIPO_MENSAJE = {
-  checkin: { card: "#eef3ee", border: "#dbe6db", body: "#ffffff" },
-  checkout: { card: "#f5eeee", border: "#e6dbdb", body: "#ffffff" },
-  bienvenida: { card: "#f1f5f9", border: "#cbd5e1", body: "#ffffff" },
-  otro: { card: "#ffffff", border: "#e2e8f0", body: "#f8fafc" }
+  checkin: { card: "#14231c", border: "#23392c", body: "#0f1a14" },
+  checkout: { card: "#251a1a", border: "#3a2626", body: "#1a1212" },
+  bienvenida: { card: "#16202f", border: "#26364d", body: "#101825" },
+  otro: { card: "#131c2e", border: "#253150", body: "#0f1728" }
 };
 
 // Agrupa un array de mensajes por título base, juntando la versión en
@@ -259,7 +259,7 @@ function MessageCard({ msg, variantes: variantesProp, baseTitle: baseTitleProp }
         className="w-full flex items-center justify-between px-4 py-3 text-left"
       >
         <div className="flex items-center gap-2 min-w-0">
-          <MessageSquareText size={16} className="text-[#1F2A3D] shrink-0" />
+          <MessageSquareText size={16} className="text-blue-900 shrink-0" />
           <span className="font-semibold text-slate-800 text-sm truncate"><Highlight text={base} /></span>
           {nota && (
             <span className="shrink-0 inline-flex items-center gap-1 text-[10px] font-bold text-amber-700 bg-amber-100 border border-amber-300 rounded-full px-2 py-0.5">
@@ -267,7 +267,7 @@ function MessageCard({ msg, variantes: variantesProp, baseTitle: baseTitleProp }
             </span>
           )}
         </div>
-        {open ? <ChevronUp size={18} className="text-slate-500 shrink-0" /> : <ChevronDown size={18} className="text-slate-500 shrink-0" />}
+        {open ? <ChevronUp size={18} className="text-slate-400 shrink-0" /> : <ChevronDown size={18} className="text-slate-400 shrink-0" />}
       </button>
       {open && (
         <div className="px-4 pb-4">
@@ -283,7 +283,7 @@ function MessageCard({ msg, variantes: variantesProp, baseTitle: baseTitleProp }
                   key={v.lang}
                   onClick={() => setTab(i)}
                   className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors ${
-                    i === tab ? "bg-[#E1543C] text-white" : "bg-white text-slate-600 border border-slate-300"
+                    i === tab ? "bg-blue-900 text-white" : "bg-white text-slate-600 border border-slate-300"
                   }`}
                 >
                   {v.lang === "es" ? "🇪🇸 Español" : "🇬🇧 English"}
@@ -403,12 +403,12 @@ function ListingGallery({ listing }) {
           </button>
         )}
         {listing.url && listing.url !== listing.airbnbUrl && (
-          <a href={listing.url} target="_blank" rel="noreferrer" className="text-[#1F2A3D] text-xs font-semibold underline">
+          <a href={listing.url} target="_blank" rel="noreferrer" className="text-blue-900 text-xs font-semibold underline">
             Ver ficha pública en Zafiro PM ↗
           </a>
         )}
         {listing.airbnbUrl && (
-          <a href={listing.airbnbUrl} target="_blank" rel="noreferrer" className="block text-[#1F2A3D] text-xs font-semibold underline mt-1">
+          <a href={listing.airbnbUrl} target="_blank" rel="noreferrer" className="block text-blue-900 text-xs font-semibold underline mt-1">
             Ver anuncio en Airbnb ↗
           </a>
         )}
@@ -433,7 +433,7 @@ function InfoRow({ k, v }) {
     <div className="flex justify-between gap-3 py-1.5 border-b border-slate-100 last:border-0 text-sm break-inside-avoid">
       <span className="text-slate-500 shrink-0"><Highlight text={k} /></span>
       {esLink ? (
-        <a href={v} target="_blank" rel="noreferrer" className="text-[#1F2A3D] font-semibold text-right underline break-all min-w-0">
+        <a href={v} target="_blank" rel="noreferrer" className="text-blue-900 font-semibold text-right underline break-all min-w-0">
           {v} ↗
         </a>
       ) : (
@@ -448,25 +448,25 @@ function GuiaDigitalCard({ guia }) {
     <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-2">
       {guia.nota && <p className="text-sm text-slate-600 mb-1">{guia.nota}</p>}
       {guia.comoLlegar && (
-        <a href={guia.comoLlegar} target="_blank" rel="noreferrer" className="block text-[#1F2A3D] text-sm font-semibold underline break-all">
+        <a href={guia.comoLlegar} target="_blank" rel="noreferrer" className="block text-blue-900 text-sm font-semibold underline break-all">
           Cómo llegar (Google Maps) ↗
         </a>
       )}
-      <a href={guia.url} target="_blank" rel="noreferrer" className="block text-[#1F2A3D] text-sm font-semibold underline break-all">
+      <a href={guia.url} target="_blank" rel="noreferrer" className="block text-blue-900 text-sm font-semibold underline break-all">
         Abrir guía digital ↗
       </a>
       {guia.whatsappConcierge && (
-        <a href={guia.whatsappConcierge} target="_blank" rel="noreferrer" className="block text-[#1F2A3D] text-sm underline break-all">
+        <a href={guia.whatsappConcierge} target="_blank" rel="noreferrer" className="block text-blue-900 text-sm underline break-all">
           WhatsApp concierge de experiencias (Localbird) ↗
         </a>
       )}
       {guia.linkReview && (
-        <a href={guia.linkReview} target="_blank" rel="noreferrer" className="block text-[#1F2A3D] text-sm underline break-all">
+        <a href={guia.linkReview} target="_blank" rel="noreferrer" className="block text-blue-900 text-sm underline break-all">
           Link de reseña en Airbnb ↗
         </a>
       )}
       {guia.linkReservaDirecta && (
-        <a href={guia.linkReservaDirecta} target="_blank" rel="noreferrer" className="block text-[#1F2A3D] text-sm underline break-all">
+        <a href={guia.linkReservaDirecta} target="_blank" rel="noreferrer" className="block text-blue-900 text-sm underline break-all">
           Link de reserva directa (Zafiro PM) ↗
         </a>
       )}
@@ -483,11 +483,11 @@ function UnitCard({ unit }) {
         <div className="min-w-0">
           <p className="font-semibold text-slate-800 text-sm break-words"><Highlight text={unit.name} />{unit.num ? ` · ${unit.num}` : ""}</p>
           {unit.listing && unit.listing.airbnbTitle && (
-            <p className="text-xs text-slate-500 italic mt-0.5"><Highlight text={unit.listing.airbnbTitle} /> (Airbnb)</p>
+            <p className="text-xs text-slate-400 italic mt-0.5"><Highlight text={unit.listing.airbnbTitle} /> (Airbnb)</p>
           )}
         </div>
         {hasDetail && (
-          <button onClick={() => setOpen(!open)} className="text-[#1F2A3D] text-xs font-medium shrink-0 flex items-center gap-0.5">
+          <button onClick={() => setOpen(!open)} className="text-blue-900 text-xs font-medium shrink-0 flex items-center gap-0.5">
             {open ? "Ocultar" : "Detalle"} {open ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
           </button>
         )}
@@ -520,14 +520,14 @@ function UnitCard({ unit }) {
             <div>
               <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Habitaciones</p>
               <ul className="space-y-1">
-                {unit.rooms.map((r, i) => <li key={i} className="text-sm text-slate-700 flex gap-2"><span className="text-[#2E3F58]">•</span><Highlight text={r} /></li>)}
+                {unit.rooms.map((r, i) => <li key={i} className="text-sm text-slate-700 flex gap-2"><span className="text-blue-800">•</span><Highlight text={r} /></li>)}
               </ul>
             </div>
           )}
           {unit.listing && <ListingGallery listing={unit.listing} />}
           {unit.guiaDigital && <GuiaDigitalCard guia={unit.guiaDigital} />}
           {!unit.guiaDigital && unit.comoLlegar && (
-            <a href={unit.comoLlegar} target="_blank" rel="noreferrer" className="block text-[#1F2A3D] text-sm font-semibold underline break-all">
+            <a href={unit.comoLlegar} target="_blank" rel="noreferrer" className="block text-blue-900 text-sm font-semibold underline break-all">
               Cómo llegar (Google Maps) ↗
             </a>
           )}
@@ -602,7 +602,7 @@ function PropertyView({ property }) {
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
           <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Horarios de áreas comunes</p>
           <ul className="space-y-1.5 lg:columns-2 lg:gap-x-8">
-            {property.rules.map((r, i) => <li key={i} className="text-sm text-slate-700 flex gap-2 break-inside-avoid"><span className="text-[#2E3F58]">•</span><Highlight text={r} /></li>)}
+            {property.rules.map((r, i) => <li key={i} className="text-sm text-slate-700 flex gap-2 break-inside-avoid"><span className="text-blue-800">•</span><Highlight text={r} /></li>)}
           </ul>
         </div>
       )}
@@ -667,7 +667,7 @@ function LocalExperiencesCard({ info }) {
         className="w-full flex items-center justify-between px-4 py-3 text-left"
       >
         <span className="font-semibold text-slate-800 text-sm">Tours, actividades y experiencias</span>
-        {open ? <ChevronUp size={18} className="text-slate-500 shrink-0" /> : <ChevronDown size={18} className="text-slate-500 shrink-0" />}
+        {open ? <ChevronUp size={18} className="text-slate-400 shrink-0" /> : <ChevronDown size={18} className="text-slate-400 shrink-0" />}
       </button>
       {open && (
         <div className="px-4 pb-4 space-y-4">
@@ -691,15 +691,15 @@ function LocalExperiencesCard({ info }) {
                 {info.destacados.map((d, i) => (
                   <li key={i} className="text-sm text-slate-700 flex justify-between gap-2">
                     <span>{d.nombre}</span>
-                    <span className="text-slate-500 shrink-0">{d.precio}</span>
+                    <span className="text-slate-400 shrink-0">{d.precio}</span>
                   </li>
                 ))}
               </ul>
-              <p className="text-xs text-slate-500 italic mt-2">Precios y ofertas cambian seguido — confirmar siempre en el link antes de citarle un precio a un huésped.</p>
+              <p className="text-xs text-slate-400 italic mt-2">Precios y ofertas cambian seguido — confirmar siempre en el link antes de citarle un precio a un huésped.</p>
             </div>
           )}
 
-          <a href={info.url} target="_blank" rel="noreferrer" className="text-[#1F2A3D] text-xs font-semibold underline">
+          <a href={info.url} target="_blank" rel="noreferrer" className="text-blue-900 text-xs font-semibold underline">
             Ver todas las experiencias en Localbird ↗
           </a>
         </div>
@@ -718,7 +718,7 @@ function PublicInfoCard({ info }) {
         className="w-full flex items-center justify-between px-4 py-3 text-left"
       >
         <span className="font-semibold text-slate-800 text-sm">Amenidades y reglas de la casa</span>
-        {open ? <ChevronUp size={18} className="text-slate-500 shrink-0" /> : <ChevronDown size={18} className="text-slate-500 shrink-0" />}
+        {open ? <ChevronUp size={18} className="text-slate-400 shrink-0" /> : <ChevronDown size={18} className="text-slate-400 shrink-0" />}
       </button>
       {open && (
         <div className="px-4 pb-4 space-y-4">
@@ -742,9 +742,9 @@ function PublicInfoCard({ info }) {
                   const text = isLink ? n.text : n;
                   return (
                     <li key={i} className="text-sm text-slate-700 flex gap-2 break-words">
-                      <span className="text-[#2E3F58]">•</span>
+                      <span className="text-blue-800">•</span>
                       {isLink ? (
-                        <a href={n.url} target="_blank" rel="noreferrer" className="text-[#1F2A3D] underline">
+                        <a href={n.url} target="_blank" rel="noreferrer" className="text-blue-900 underline">
                           <Highlight text={text} />
                         </a>
                       ) : (
@@ -764,13 +764,13 @@ function PublicInfoCard({ info }) {
                 <CopyButton text={rulesText} small />
               </div>
               <ul className="space-y-1.5">
-                {info.rules.map((r, i) => <li key={i} className="text-sm text-slate-700 flex gap-2 break-words"><span className="text-[#2E3F58]">•</span><Highlight text={r} /></li>)}
+                {info.rules.map((r, i) => <li key={i} className="text-sm text-slate-700 flex gap-2 break-words"><span className="text-blue-800">•</span><Highlight text={r} /></li>)}
               </ul>
             </div>
           )}
 
           {info.note && (
-            <p className="text-xs text-slate-500 italic"><Highlight text={info.note} /></p>
+            <p className="text-xs text-slate-400 italic"><Highlight text={info.note} /></p>
           )}
         </div>
       )}
@@ -783,7 +783,7 @@ function Badge({ label, value }) {
   return (
     <span
       className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-md ${
-        neutral ? "bg-slate-100 text-slate-500" : positive ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-500"
+        neutral ? "bg-slate-100 text-slate-400" : positive ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-500"
       }`}
       title={label}
     >
@@ -803,7 +803,7 @@ function MasterTableRow({ row, onOpen }) {
       <div className="min-w-0 flex-1 pl-1.5">
         <p className="font-semibold text-slate-800 text-sm truncate">{row.property}</p>
         <p className="text-xs text-slate-500 truncate mt-0.5">{row.unit} · Pax {row.pax}</p>
-        <p className="text-xs text-slate-500 truncate mt-0.5">Parqueo: {row.parqueo}</p>
+        <p className="text-xs text-slate-400 truncate mt-0.5">Parqueo: {row.parqueo}</p>
         <div className="flex flex-wrap gap-1 mt-1.5">
           <Badge label="Form" value={row.forms} />
           <Badge label="WSP" value={row.whatsapp} />
@@ -984,7 +984,7 @@ function CalendarioView() {
   }, [datos]);
 
   if (cargando) {
-    return <p className="text-sm text-slate-500 text-center pt-10">Cargando calendario…</p>;
+    return <p className="text-sm text-slate-400 text-center pt-10">Cargando calendario…</p>;
   }
 
   return (
@@ -1059,8 +1059,8 @@ function CalendarioView() {
                       key={i}
                       className={`text-center py-2 border-r border-slate-300 ${finde ? "bg-slate-50" : ""} ${esHoy ? "bg-blue-50" : ""}`}
                     >
-                      <div className={`text-[10px] ${esHoy ? "text-[#1F2A3D] font-bold" : "text-slate-500"}`}>{DIAS_SEMANA_CORTO[d.getDay()]}</div>
-                      <div className={`text-xs ${esHoy ? "text-[#1F2A3D] font-bold" : "text-slate-700 font-medium"}`}>{d.getDate()}</div>
+                      <div className={`text-[10px] ${esHoy ? "text-blue-900 font-bold" : "text-slate-400"}`}>{DIAS_SEMANA_CORTO[d.getDay()]}</div>
+                      <div className={`text-xs ${esHoy ? "text-blue-900 font-bold" : "text-slate-700 font-medium"}`}>{d.getDate()}</div>
                     </div>
                   );
                 })}
@@ -1159,7 +1159,7 @@ function CalendarioView() {
       </div>
 
       {datos.actualizado && (
-        <p className="text-[11px] text-slate-500 text-center">
+        <p className="text-[11px] text-slate-400 text-center">
           Última actualización: {new Date(datos.actualizado).toLocaleString("es-CR")}
         </p>
       )}
@@ -1188,7 +1188,7 @@ function HomeView({ general, checkInGeneral, checkOutGeneral, masterTable, onOpe
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
           <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Formulario diario</p>
           <p className="text-sm text-slate-700 mb-2"><Highlight text={general.formulario.texto} /></p>
-          <a href={general.formulario.link} target="_blank" rel="noreferrer" className="text-[#1F2A3D] text-sm font-medium underline break-all">
+          <a href={general.formulario.link} target="_blank" rel="noreferrer" className="text-blue-900 text-sm font-medium underline break-all">
             {general.formulario.linkLabel}
           </a>
           {general.formulario.espaciosObligatorios && (
@@ -1202,7 +1202,7 @@ function HomeView({ general, checkInGeneral, checkOutGeneral, masterTable, onOpe
           <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">{general.comunicacion.titulo}</p>
           <ul className="space-y-1.5">
             {general.comunicacion.bullets.map((b, i) => (
-              <li key={i} className="text-sm text-slate-700 flex gap-2"><span className="text-[#2E3F58]">•</span><Highlight text={b} /></li>
+              <li key={i} className="text-sm text-slate-700 flex gap-2"><span className="text-blue-800">•</span><Highlight text={b} /></li>
             ))}
           </ul>
         </div>
@@ -1212,7 +1212,7 @@ function HomeView({ general, checkInGeneral, checkOutGeneral, masterTable, onOpe
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
           <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Reserva directa (Zafiro PM)</p>
           <p className="text-sm text-slate-600 mb-2">{general.reservaDirecta.nota}</p>
-          <a href={general.reservaDirecta.url} target="_blank" rel="noreferrer" className="text-[#1F2A3D] text-sm font-semibold underline break-all">
+          <a href={general.reservaDirecta.url} target="_blank" rel="noreferrer" className="text-blue-900 text-sm font-semibold underline break-all">
             Abrir zafiropm.com ↗
           </a>
         </div>
@@ -1234,10 +1234,10 @@ function HomeView({ general, checkInGeneral, checkOutGeneral, masterTable, onOpe
             <div key={c.label} className="rounded-2xl border border-slate-200 bg-white p-4 flex items-center justify-between gap-3">
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-slate-800 flex items-center gap-1.5">
-                  <Phone size={13} className="text-[#1F2A3D] shrink-0" /> <Highlight text={c.label} />
+                  <Phone size={13} className="text-blue-900 shrink-0" /> <Highlight text={c.label} />
                 </p>
                 <p className="text-sm text-slate-600"><Highlight text={c.value} /></p>
-                {c.note && <p className="text-xs text-slate-500 mt-0.5"><Highlight text={c.note} /></p>}
+                {c.note && <p className="text-xs text-slate-400 mt-0.5"><Highlight text={c.note} /></p>}
               </div>
               <CopyButton text={c.value} small />
             </div>
@@ -1332,7 +1332,7 @@ function AdminKeyGate({ adminKey, onSave, children }) {
       <button
         onClick={() => onSave(input)}
         disabled={!input.trim()}
-        className="w-full rounded-lg bg-[#E1543C] text-white text-sm font-semibold py-2 disabled:opacity-40"
+        className="w-full rounded-lg bg-blue-900 text-white text-sm font-semibold py-2 disabled:opacity-40"
       >
         Continuar
       </button>
@@ -1356,7 +1356,7 @@ function ListaConEdicion({ items, renderLabel, onEdit, onDelete, addLabel, onAdd
           </div>
         </div>
       ))}
-      <button onClick={onAdd} className="w-full rounded-xl border border-dashed border-slate-300 py-2.5 text-sm text-slate-500 hover:border-[#2E3F58] hover:text-[#1F2A3D] flex items-center justify-center gap-1.5">
+      <button onClick={onAdd} className="w-full rounded-xl border border-dashed border-slate-300 py-2.5 text-sm text-slate-500 hover:border-blue-800 hover:text-blue-900 flex items-center justify-center gap-1.5">
         <Plus size={15} /> {addLabel}
       </button>
     </div>
@@ -1384,7 +1384,7 @@ function PairListEditor({ pares, onChange, placeholderA = "Etiqueta", placeholde
           </button>
         </div>
       ))}
-      <button onClick={agregar} className="text-xs text-[#1F2A3D] font-medium flex items-center gap-1">
+      <button onClick={agregar} className="text-xs text-blue-900 font-medium flex items-center gap-1">
         <Plus size={13} /> Agregar fila
       </button>
     </div>
@@ -1406,7 +1406,7 @@ function StringListEditor({ items, onChange, placeholder = "Texto" }) {
           </button>
         </div>
       ))}
-      <button onClick={agregar} className="text-xs text-[#1F2A3D] font-medium flex items-center gap-1">
+      <button onClick={agregar} className="text-xs text-blue-900 font-medium flex items-center gap-1">
         <Plus size={13} /> Agregar
       </button>
     </div>
@@ -1473,7 +1473,7 @@ function RevisarGuiaPanel({ propertyId, adminKey, urlGuia }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
       <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Guía pública externa (guia.zafiropm.com)</p>
-      <p className="text-xs text-slate-500">Compara contra lo ya cargado — nada se cambia hasta que elijas qué aceptar.</p>
+      <p className="text-xs text-slate-400">Compara contra lo ya cargado — nada se cambia hasta que elijas qué aceptar.</p>
       <button onClick={revisar} disabled={cargando}
         className="text-sm rounded-lg border border-slate-300 px-3 py-2 text-slate-600 disabled:opacity-40 flex items-center gap-1.5">
         <RefreshCw size={14} className={cargando ? "animate-spin" : ""} />
@@ -1483,7 +1483,7 @@ function RevisarGuiaPanel({ propertyId, adminKey, urlGuia }) {
       {aviso && <p className="text-xs text-emerald-700">{aviso}</p>}
 
       {comparacion && comparacion.length === 0 && (
-        <p className="text-xs text-slate-500">No se encontró nada en la guía para comparar.</p>
+        <p className="text-xs text-slate-400">No se encontró nada en la guía para comparar.</p>
       )}
 
       {comparacion && comparacion.length > 0 && (
@@ -1494,7 +1494,7 @@ function RevisarGuiaPanel({ propertyId, adminKey, urlGuia }) {
                 <p className="font-semibold text-slate-700">
                   {fila.etiqueta}
                   {fila.hay_diferencia === true && <span className="ml-1.5 text-amber-700">· diferente</span>}
-                  {fila.hay_diferencia === false && <span className="ml-1.5 text-slate-500">· igual</span>}
+                  {fila.hay_diferencia === false && <span className="ml-1.5 text-slate-400">· igual</span>}
                 </p>
                 {fila.aplicable && (
                   <label className="flex items-center gap-1.5 text-slate-600 shrink-0">
@@ -1506,11 +1506,11 @@ function RevisarGuiaPanel({ propertyId, adminKey, urlGuia }) {
               </div>
               <p className="text-slate-500 mt-1 whitespace-pre-line"><span className="font-medium">Actual:</span> {fila.valor_actual || "(no cargado)"}</p>
               <p className="text-slate-700 mt-0.5 whitespace-pre-line"><span className="font-medium">Guía:</span> {fila.valor_guia}</p>
-              {fila.nota && <p className="text-slate-500 italic mt-1">{fila.nota}</p>}
+              {fila.nota && <p className="text-slate-400 italic mt-1">{fila.nota}</p>}
             </div>
           ))}
           <button onClick={aplicar} disabled={aplicando || !Object.values(seleccionados).some(Boolean)}
-            className="w-full rounded-lg bg-[#E1543C] text-white text-sm font-semibold py-2 disabled:opacity-40">
+            className="w-full rounded-lg bg-blue-900 text-white text-sm font-semibold py-2 disabled:opacity-40">
             {aplicando ? "Aplicando…" : "Aplicar cambios seleccionados"}
           </button>
         </div>
@@ -1538,7 +1538,7 @@ function MessageListEditor({ items, onChange }) {
             className="w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
         </div>
       ))}
-      <button onClick={agregar} className="text-xs text-[#1F2A3D] font-medium flex items-center gap-1">
+      <button onClick={agregar} className="text-xs text-blue-900 font-medium flex items-center gap-1">
         <Plus size={13} /> Agregar mensaje
       </button>
     </div>
@@ -1674,7 +1674,7 @@ function UnitsEditor({ unidades, onChange, camposUnidad }) {
       {unidades.map((u, i) => (
         <UnitEditCard key={u.id || i} unidad={u} onChange={(n) => actualizar(i, n)} onEliminar={() => eliminar(i)} camposUnidad={camposUnidad} />
       ))}
-      <button onClick={agregar} className="w-full rounded-xl border border-dashed border-slate-300 py-2.5 text-sm text-slate-500 hover:border-[#2E3F58] hover:text-[#1F2A3D] flex items-center justify-center gap-1.5">
+      <button onClick={agregar} className="w-full rounded-xl border border-dashed border-slate-300 py-2.5 text-sm text-slate-500 hover:border-blue-800 hover:text-blue-900 flex items-center justify-center gap-1.5">
         <Plus size={15} /> Agregar unidad (casa/apartamento)
       </button>
     </div>
@@ -1736,7 +1736,7 @@ function PropertyForm({ propiedadInicial, esNueva, camposPersonalizados, onGuard
           <label className="text-xs text-slate-500">Id (slug único)
             <input value={form.id} disabled={!esNueva} onChange={(e) => set("id", e.target.value.trim())}
               placeholder="ej. casa-nueva"
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-slate-100 disabled:text-slate-500" />
+              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:bg-slate-100 disabled:text-slate-400" />
           </label>
           <label className="text-xs text-slate-500">Nombre
             <input value={form.name} onChange={(e) => set("name", e.target.value)}
@@ -1807,13 +1807,13 @@ function PropertyForm({ propiedadInicial, esNueva, camposPersonalizados, onGuard
 
       <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
         <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Unidades (casas / apartamentos)</p>
-        <p className="text-xs text-slate-500">Cada unidad es una casa o apartamento real dentro de esta propiedad/condominio.</p>
+        <p className="text-xs text-slate-400">Cada unidad es una casa o apartamento real dentro de esta propiedad/condominio.</p>
         <UnitsEditor unidades={units} onChange={setUnits} camposUnidad={camposUnidad} />
       </div>
 
       <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-2">
         <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Mensajes de la propiedad</p>
-        <p className="text-xs text-slate-500">Bienvenida, check-out, y otros mensajes generales de toda la propiedad (no de una unidad puntual).</p>
+        <p className="text-xs text-slate-400">Bienvenida, check-out, y otros mensajes generales de toda la propiedad (no de una unidad puntual).</p>
         <MessageListEditor items={messages} onChange={setMessages} />
       </div>
 
@@ -1859,7 +1859,7 @@ function PropertyForm({ propiedadInicial, esNueva, camposPersonalizados, onGuard
 
       <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-2">
         <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Guía digital de la propiedad</p>
-        <p className="text-xs text-slate-500">Solo si aplica a toda la propiedad y no a una unidad puntual (esas se cargan dentro de cada unidad).</p>
+        <p className="text-xs text-slate-400">Solo si aplica a toda la propiedad y no a una unidad puntual (esas se cargan dentro de cada unidad).</p>
         <input value={guiaDigitalProp.url || ""} onChange={(e) => setGuiaPropField("url", e.target.value)} placeholder="URL de la guía"
           className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
         <input value={guiaDigitalProp.comoLlegar || ""} onChange={(e) => setGuiaPropField("comoLlegar", e.target.value)} placeholder="Cómo llegar"
@@ -1878,7 +1878,7 @@ function PropertyForm({ propiedadInicial, esNueva, camposPersonalizados, onGuard
 
       <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-2">
         <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Nota interna de la propiedad</p>
-        <p className="text-xs text-slate-500">Nunca se le muestra al huésped.</p>
+        <p className="text-xs text-slate-400">Nunca se le muestra al huésped.</p>
         <textarea value={notaInterna} onChange={(e) => setNotaInterna(e.target.value)} rows={3}
           className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
       </div>
@@ -1889,7 +1889,7 @@ function PropertyForm({ propiedadInicial, esNueva, camposPersonalizados, onGuard
 
       <div className="flex gap-2">
         <button onClick={submit} disabled={guardando}
-          className="flex-1 rounded-lg bg-[#E1543C] text-white text-sm font-semibold py-2.5 flex items-center justify-center gap-1.5 disabled:opacity-50">
+          className="flex-1 rounded-lg bg-blue-900 text-white text-sm font-semibold py-2.5 flex items-center justify-center gap-1.5 disabled:opacity-50">
           <Save size={15} /> {guardando ? "Guardando…" : "Guardar y publicar"}
         </button>
         <button onClick={onCancelar} className="rounded-lg border border-slate-300 text-sm text-slate-600 px-4">Cancelar</button>
@@ -1937,13 +1937,13 @@ function CamposPersonalizadosPanel({ campos, adminKey, onCambio }) {
       <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
         Campos personalizados
       </p>
-      <p className="text-xs text-slate-500">
+      <p className="text-xs text-slate-400">
         "Propiedad" agrega el campo una vez por propiedad. "Unidad" agrega el campo a cada casa/apartamento por separado.
       </p>
       {campos.map((c) => (
         <div key={c.id} className="flex items-center justify-between gap-2 rounded-lg border border-slate-100 px-3 py-2">
           <span className="text-sm text-slate-700">
-            {c.etiqueta} <span className="text-slate-500">({c.id})</span>
+            {c.etiqueta} <span className="text-slate-400">({c.id})</span>
           </span>
           <div className="flex items-center gap-2 shrink-0">
             <span className={`text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded ${c.nivel === "unidad" ? "bg-amber-50 text-amber-700" : "bg-blue-50 text-blue-700"}`}>
@@ -1965,7 +1965,7 @@ function CamposPersonalizadosPanel({ campos, adminKey, onCambio }) {
           <option value="unidad">Por unidad</option>
         </select>
         <button onClick={crear} disabled={creando || !nuevaEtiqueta.trim()}
-          className="rounded-lg bg-[#E1543C] text-white text-sm font-semibold px-3 disabled:opacity-40">
+          className="rounded-lg bg-blue-900 text-white text-sm font-semibold px-3 disabled:opacity-40">
           Agregar
         </button>
       </div>
@@ -2034,7 +2034,7 @@ function ImportarJsonPanel({ adminKey }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
       <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Importar JSON completo (carga inicial o reemplazo total)</p>
-      <p className="text-xs text-slate-500">
+      <p className="text-xs text-slate-400">
         Sube tu propiedades.json completo. Reemplaza TODAS las propiedades y la info general en Supabase.
         Puede tardar varios minutos — se hace en segundo plano, podés cerrar esta pestaña y volver después.
       </p>
@@ -2047,7 +2047,7 @@ function ImportarJsonPanel({ adminKey }) {
       {estado?.corriendo ? (
         <div className="space-y-1.5">
           <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-            <div className="h-full bg-[#E1543C] transition-all" style={{ width: `${Math.min(100, (estado.completadas / Math.max(1, estado.total)) * 100)}%` }} />
+            <div className="h-full bg-blue-900 transition-all" style={{ width: `${Math.min(100, (estado.completadas / Math.max(1, estado.total)) * 100)}%` }} />
           </div>
           <p className="text-xs text-slate-500">
             {estado.completadas} / {estado.total} {estado.propiedad_actual ? `— ${estado.propiedad_actual}` : ""}
@@ -2123,7 +2123,7 @@ function NuevaPropiedadIntro({ adminKey, onListo, onOmitir }) {
       {error && <p className="text-xs text-red-600">{error}</p>}
       <div className="flex gap-2">
         <button onClick={cargarDesdeGuia} disabled={cargando || !idSugerido.trim() || !url.trim()}
-          className="flex-1 rounded-lg bg-[#E1543C] text-white text-sm font-semibold py-2 disabled:opacity-40">
+          className="flex-1 rounded-lg bg-blue-900 text-white text-sm font-semibold py-2 disabled:opacity-40">
           {cargando ? "Cargando…" : "Cargar desde la guía"}
         </button>
         <button onClick={onOmitir} className="rounded-lg border border-slate-300 text-sm text-slate-600 px-4">
@@ -2180,14 +2180,14 @@ function ConfiguracionGeneralPanel({ adminKey }) {
         <input value={config.informe_mensual_destinatarios || ""} onChange={(e) => set("informe_mensual_destinatarios", e.target.value)}
           placeholder="gerencia@zafiropm.com, dueno@ejemplo.com" className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
       </label>
-      <p className="text-xs text-slate-500">
+      <p className="text-xs text-slate-400">
         Si una propiedad puntual necesita un número distinto, se puede anular con un campo personalizado
         ("whatsapp_mantenimiento" / "whatsapp_limpieza") en esa propiedad.
       </p>
       {error && <p className="text-xs text-red-600">{error}</p>}
       {aviso && <p className="text-xs text-emerald-700">{aviso}</p>}
       <button onClick={guardar} disabled={guardando}
-        className="rounded-lg bg-[#E1543C] text-white text-sm font-semibold px-4 py-2 disabled:opacity-40">
+        className="rounded-lg bg-blue-900 text-white text-sm font-semibold px-4 py-2 disabled:opacity-40">
         {guardando ? "Guardando…" : "Guardar"}
       </button>
     </div>
@@ -2270,7 +2270,7 @@ function InformeMensualPanel({ adminKey }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
       <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Informe mensual de consultas</p>
-      <p className="text-xs text-slate-500">
+      <p className="text-xs text-slate-400">
         Desglose de las consultas del mes por tipo (informativa, mantenimiento, limpieza, queja...) y por
         sentimiento (positivo/neutral/negativo), en base al historial histórico.
       </p>
@@ -2282,7 +2282,7 @@ function InformeMensualPanel({ adminKey }) {
         <input type="number" value={anio} onChange={(e) => setAnio(Number(e.target.value))}
           className="w-24 rounded-lg border border-slate-300 px-2 py-2 text-sm" />
         <button onClick={cargar} disabled={cargando}
-          className="rounded-lg bg-[#E1543C] text-white text-sm font-semibold px-4 disabled:opacity-40">
+          className="rounded-lg bg-blue-900 text-white text-sm font-semibold px-4 disabled:opacity-40">
           {cargando ? "Cargando…" : "Ver"}
         </button>
       </div>
@@ -2332,7 +2332,7 @@ function InformeMensualPanel({ adminKey }) {
               📄 Descargar (PDF)
             </button>
             <button onClick={enviarPorCorreo} disabled={enviando}
-              className="text-sm rounded-lg bg-[#E1543C] text-white px-3 py-2 disabled:opacity-40">
+              className="text-sm rounded-lg bg-blue-900 text-white px-3 py-2 disabled:opacity-40">
               {enviando ? "Enviando…" : "✉ Enviar por correo"}
             </button>
           </div>
@@ -2427,7 +2427,7 @@ function AdminView() {
             <p className="text-sm text-slate-500">Agregar, editar y eliminar propiedades — se guarda en Supabase y el sitio se actualiza solo.</p>
           </div>
           {vista !== "lista" && (
-            <button onClick={() => { setVista("lista"); setPropiedadEditando(null); }} className="text-sm text-[#1F2A3D] font-medium">
+            <button onClick={() => { setVista("lista"); setPropiedadEditando(null); }} className="text-sm text-blue-900 font-medium">
               ← Volver a la lista
             </button>
           )}
@@ -2435,7 +2435,7 @@ function AdminView() {
 
         {aviso && <p className="text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">{aviso}</p>}
         {error && <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{error}</p>}
-        {cargando && <p className="text-sm text-slate-500">Cargando…</p>}
+        {cargando && <p className="text-sm text-slate-400">Cargando…</p>}
 
         {vista === "lista" && !cargando && (
           <>
@@ -2450,7 +2450,7 @@ function AdminView() {
                 renderLabel={(p) => (
                   <div>
                     <p className="text-sm font-medium text-slate-800">{p.nombre}</p>
-                    <p className="text-xs text-slate-500">{p.zona}</p>
+                    <p className="text-xs text-slate-400">{p.zona}</p>
                     {p.avisos?.length > 0 && (
                       <details className="mt-1">
                         <summary className="text-xs text-red-600 font-medium cursor-pointer">
@@ -2502,73 +2502,6 @@ export default function App() {
   const [search, setSearch] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [highlightTerm, setHighlightTerm] = useState("");
-
-  // Efecto "S.O.F.I.A.": revela las tarjetas (mismo patrón visual que usa toda la
-  // app: rounded-2xl + border-slate-200 + bg-white) con un fade + slide al entrar
-  // en pantalla. Usa un MutationObserver además del IntersectionObserver para que
-  // también funcione con tarjetas que aparecen después (acordeones, cambio de tab,
-  // resultados de búsqueda, panel Admin), sin tener que tocar cada componente.
-  useEffect(() => {
-    const seen = new WeakSet();
-    const supportsIO = typeof IntersectionObserver !== "undefined";
-    const io = supportsIO
-      ? new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("in-view");
-                io.unobserve(entry.target);
-              }
-            });
-          },
-          { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
-        )
-      : null;
-
-    const claim = (el) => {
-      if (seen.has(el)) return;
-      seen.add(el);
-      if (io) io.observe(el);
-      else el.classList.add("in-view");
-    };
-
-    const scan = (root) => {
-      if (!root.querySelectorAll) return;
-      root.querySelectorAll(".rounded-2xl.border.border-slate-200.bg-white").forEach(claim);
-    };
-
-    scan(document);
-
-    const mo = new MutationObserver((mutations) => {
-      mutations.forEach((m) => {
-        m.addedNodes.forEach((node) => {
-          if (node.nodeType !== 1) return;
-          if (node.matches && node.matches(".rounded-2xl.border.border-slate-200.bg-white")) claim(node);
-          scan(node);
-        });
-      });
-    });
-    mo.observe(document.body, { childList: true, subtree: true });
-
-    return () => {
-      mo.disconnect();
-      if (io) io.disconnect();
-    };
-  }, []);
-
-  // Barra de progreso de scroll (acento coral), igual que en el informe S.O.F.I.A.
-  useEffect(() => {
-    const bar = document.getElementById("sofia-progress");
-    if (!bar) return;
-    const update = () => {
-      const h = document.documentElement;
-      const scrolled = (h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight)) * 100;
-      bar.style.width = `${Math.min(100, Math.max(0, isFinite(scrolled) ? scrolled : 0))}%`;
-    };
-    window.addEventListener("scroll", update, { passive: true });
-    update();
-    return () => window.removeEventListener("scroll", update);
-  }, []);
 
   // Propiedades en orden alfabético para el menú (Inicio siempre va primero, fijo)
   const alphabeticalProperties = useMemo(
@@ -2709,22 +2642,24 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen w-full max-w-full bg-[#E7ECF2] pb-10">
-      <div id="sofia-progress" />
+    <div className="min-h-screen w-full max-w-full bg-slate-50 pb-10">
       <TelegramFloat />
       {/* Header */}
-      <div className="sofia-header-fx sticky top-0 z-20 bg-[#1F2A3D] border-b border-[#16202F] shadow-sm">
+      <div className="sticky top-0 z-20 bg-white border-b border-slate-200 shadow-sm">
         <div className="max-w-6xl mx-auto">
           <div className="px-4 sm:px-6 lg:px-8 pt-3 pb-2 flex items-center gap-2">
             <button onClick={() => goToProperty("home")} className="flex items-center gap-2 min-w-0 shrink-0 lg:flex-initial text-left">
-              <div className="w-8 h-8 rounded-lg bg-[#E1543C] flex items-center justify-center shrink-0">
-                <ZafiroDiamond size={17} className="text-white" />
+              <div className="w-9 h-9 rounded-xl bg-blue-900 flex items-center justify-center shrink-0">
+                <ZafiroDiamond size={18} className="text-white" />
               </div>
               <div className="min-w-0">
-                <p className="font-bold text-white text-sm leading-tight whitespace-nowrap">Property Management</p>
-                <p className="text-[11px] text-[#93A2B8] leading-tight">Panel interno · Varo & Michi</p>
+                <p className="font-bold text-slate-900 text-sm leading-tight whitespace-nowrap">S.O.F.I.A.</p>
+                <p className="text-[11px] text-slate-400 leading-tight whitespace-nowrap">Sistema Operativo de Fidelización e Información Avanzada</p>
               </div>
             </button>
+            <span className="hidden sm:inline-block text-[11px] text-slate-400 bg-slate-100 border border-slate-200 rounded-full px-3 py-1 whitespace-nowrap ml-1">
+              Cliente: Zafiro Property Management
+            </span>
 
             {/* Búsqueda inline: solo en desktop/tablet (lg+), al lado del nombre */}
             <div className="hidden lg:block flex-1 max-w-sm relative ml-2">
@@ -2734,12 +2669,12 @@ export default function App() {
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setTimeout(() => setSearchFocused(false), 150)}
                 placeholder="Buscar en el contenido... (ej. 42, S2P34, wifi)"
-                className="w-full rounded-full bg-white/10 px-4 py-2 text-sm text-white placeholder:text-[#93A2B8] outline-none focus:ring-2 focus:ring-white/30"
+                className="w-full rounded-full bg-slate-100 px-4 py-2 text-sm text-slate-700 placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-blue-800"
               />
               {searchFocused && search.trim() && (
                 <div className="absolute left-0 right-0 top-full mt-1 bg-white rounded-2xl border border-slate-200 shadow-lg max-h-80 overflow-y-auto z-30">
                   {searchResults.length === 0 ? (
-                    <p className="text-sm text-slate-500 px-4 py-3">Sin resultados para "{search}"</p>
+                    <p className="text-sm text-slate-400 px-4 py-3">Sin resultados para "{search}"</p>
                   ) : (
                     searchResults.map((r, i) => (
                       <button
@@ -2748,7 +2683,7 @@ export default function App() {
                         className="w-full text-left px-4 py-2.5 border-b border-slate-100 last:border-0 hover:bg-slate-50"
                       >
                         <p className="text-sm font-medium text-slate-800 truncate">{r.label}</p>
-                        <p className="text-xs text-slate-500 truncate">{r.sub}</p>
+                        <p className="text-xs text-slate-400 truncate">{r.sub}</p>
                       </button>
                     ))
                   )}
@@ -2761,7 +2696,7 @@ export default function App() {
             {/* Hamburguesa: visible en todos los tamaños */}
             <button
               onClick={() => setMenuOpen((v) => !v)}
-              className="shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-white bg-white/10 active:bg-white/20"
+              className="shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-slate-600 bg-slate-100 active:bg-slate-200"
               aria-label="Abrir menú"
             >
               {menuOpen ? <X size={18} /> : <Menu size={18} />}
@@ -2776,12 +2711,12 @@ export default function App() {
               onFocus={() => setSearchFocused(true)}
               onBlur={() => setTimeout(() => setSearchFocused(false), 150)}
               placeholder="Buscar en el contenido... (ej. 42, S2P34, wifi)"
-              className="w-full rounded-full bg-white/10 px-4 py-2 text-sm text-white placeholder:text-[#93A2B8] outline-none focus:ring-2 focus:ring-white/30"
+              className="w-full rounded-full bg-slate-100 px-4 py-2 text-sm text-slate-700 placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-blue-800"
             />
             {searchFocused && search.trim() && (
               <div className="absolute left-4 right-4 sm:left-6 top-full mt-1 bg-white rounded-2xl border border-slate-200 shadow-lg max-h-80 overflow-y-auto z-30">
                 {searchResults.length === 0 ? (
-                  <p className="text-sm text-slate-500 px-4 py-3">Sin resultados para "{search}"</p>
+                  <p className="text-sm text-slate-400 px-4 py-3">Sin resultados para "{search}"</p>
                 ) : (
                   searchResults.map((r, i) => (
                     <button
@@ -2790,7 +2725,7 @@ export default function App() {
                       className="w-full text-left px-4 py-2.5 border-b border-slate-100 last:border-0 hover:bg-slate-50"
                     >
                       <p className="text-sm font-medium text-slate-800 truncate">{r.label}</p>
-                      <p className="text-xs text-slate-500 truncate">{r.sub}</p>
+                      <p className="text-xs text-slate-400 truncate">{r.sub}</p>
                     </button>
                   ))
                 )}
@@ -2801,11 +2736,11 @@ export default function App() {
           {/* Menú desplegable (grupos San José / Guanacaste-Jacó): en todos los tamaños, con hamburguesa */}
           {menuOpen && (
             <div className="px-4 sm:px-6 lg:px-8 pb-3 max-h-[60vh] overflow-y-auto">
-              <div className="flex flex-col gap-1 border-t border-white/10 pt-2">
+              <div className="flex flex-col gap-1 border-t border-slate-100 pt-2">
                 <button
                   onClick={() => goToProperty("home")}
                   className={`text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
-                    selected === "home" ? "bg-[#E1543C] text-white" : "text-[#C7D2E0] active:bg-white/10"
+                    selected === "home" ? "bg-blue-900 text-white" : "text-slate-600 active:bg-slate-100"
                   }`}
                 >
                   <Home size={14} />
@@ -2814,7 +2749,7 @@ export default function App() {
                 <button
                   onClick={() => goToProperty("calendario")}
                   className={`text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
-                    selected === "calendario" ? "bg-[#E1543C] text-white" : "text-[#C7D2E0] active:bg-white/10"
+                    selected === "calendario" ? "bg-blue-900 text-white" : "text-slate-600 active:bg-slate-100"
                   }`}
                 >
                   <CalendarDays size={14} />
@@ -2823,7 +2758,7 @@ export default function App() {
                 <button
                   onClick={() => goToProperty("admin")}
                   className={`text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
-                    selected === "admin" ? "bg-[#E1543C] text-white" : "text-[#C7D2E0] active:bg-white/10"
+                    selected === "admin" ? "bg-blue-900 text-white" : "text-slate-600 active:bg-slate-100"
                   }`}
                 >
                   <Settings size={14} />
@@ -2835,7 +2770,7 @@ export default function App() {
                   const gm = GROUP_META[groupId];
                   return (
                     <div key={groupId} className="mt-2">
-                      <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide px-3 mb-1 text-[#93A2B8]">
+                      <p className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide px-3 mb-1 ${gm.badgeText}`}>
                         <span className={`w-1.5 h-1.5 rounded-full ${gm.dot}`} />
                         {gm.label}
                       </p>
@@ -2845,7 +2780,7 @@ export default function App() {
                             key={item.id}
                             onClick={() => goToProperty(item.id)}
                             className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
-                              selected === item.id ? "bg-[#E1543C] text-white" : "text-[#C7D2E0] active:bg-white/10"
+                              selected === item.id ? `${gm.pillActive} text-white` : "text-slate-600 active:bg-slate-100"
                             }`}
                           >
                             {item.name}
@@ -2879,7 +2814,7 @@ export default function App() {
           ) : selectedProperty ? (
             <PropertyView property={selectedProperty} />
           ) : (
-            <p className="text-sm text-slate-500 text-center pt-10">Selecciona una propiedad arriba.</p>
+            <p className="text-sm text-slate-400 text-center pt-10">Selecciona una propiedad arriba.</p>
           )}
         </HighlightContext.Provider>
       </div>
