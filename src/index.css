@@ -37,7 +37,7 @@ body { background: #0b1220; }
 .bg-red-50 { background-color: #2a1416 !important; }
 .text-red-700, .text-red-600, .text-red-800 { color: #f87171 !important; }
 .bg-amber-50, .bg-yellow-50 { background-color: #2a2311 !important; }
-.text-amber-700, .text-yellow-700 { color: #fbbf24 !important; }
+.text-amber-700, .text-amber-800, .text-amber-900, .text-yellow-700, .text-yellow-800 { color: #ffffff !important; }
 
 input, textarea, select {
   background-color: #1a2438 !important;
@@ -49,4 +49,23 @@ input::placeholder, textarea::placeholder { color: #5b6b8a !important; }
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: #0b1220; }
 ::-webkit-scrollbar-thumb { background: #253150; border-radius: 6px; }
+
+/* Aparición de tarjetas: de izquierda a derecha + fade, al entrar en pantalla
+   (activado por el observador global en App.jsx, agrega/quita .in-view) */
+.rounded-2xl.border.border-slate-200.bg-white {
+  opacity: 0;
+  transform: translateX(-24px);
+  transition: opacity 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.rounded-2xl.border.border-slate-200.bg-white.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .rounded-2xl.border.border-slate-200.bg-white {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
 

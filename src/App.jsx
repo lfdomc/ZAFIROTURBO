@@ -569,19 +569,19 @@ function PropertyView({ property }) {
 
       {property.requisitosCheckIn && (
         <div className="rounded-2xl border-2 border-amber-300 bg-amber-50 p-4">
-          <p className="text-xs font-bold text-amber-800 uppercase tracking-wide mb-1.5 flex items-center gap-1.5">
+          <p className="text-xs font-bold text-amber-500 uppercase tracking-wide mb-1.5 flex items-center gap-1.5">
             ⚠️ Requisitos para el Check-In
           </p>
-          <p className="text-sm font-semibold text-amber-900"><Highlight text={property.requisitosCheckIn.resumen} /></p>
+          <p className="text-sm font-semibold text-white"><Highlight text={property.requisitosCheckIn.resumen} /></p>
           {property.requisitosCheckIn.detalle && (
-            <p className="text-sm text-amber-800 mt-1"><Highlight text={property.requisitosCheckIn.detalle} /></p>
+            <p className="text-sm text-white/90 mt-1"><Highlight text={property.requisitosCheckIn.detalle} /></p>
           )}
           {property.requisitosCheckIn.link && (
             <a
               href={property.requisitosCheckIn.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block mt-2 text-sm font-semibold text-amber-900 underline"
+              className="inline-block mt-2 text-sm font-semibold text-white underline"
             >
               {property.requisitosCheckIn.linkLabel || "Abrir enlace"} →
             </a>
@@ -2194,6 +2194,47 @@ function ConfiguracionGeneralPanel({ adminKey }) {
   );
 }
 
+// Número que "cuenta" desde 0 hasta su valor final cuando aparece en
+// pantalla (se dispara una sola vez, con IntersectionObserver + rAF).
+function Contador({ valor, sufijo = "", duracionMs = 900 }) {
+  const ref = React.useRef(null);
+  const [mostrado, setMostrado] = useState(0);
+  const yaAnimado = React.useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entradas) => {
+        entradas.forEach((entrada) => {
+          if (entrada.isIntersecting && !yaAnimado.current) {
+            yaAnimado.current = true;
+            const inicio = performance.now();
+            const paso = (ahora) => {
+              const progreso = Math.min((ahora - inicio) / duracionMs, 1);
+              const facilitado = 1 - Math.pow(1 - progreso, 3); // ease-out
+              setMostrado(Math.round(facilitado * valor));
+              if (progreso < 1) requestAnimationFrame(paso);
+            };
+            requestAnimationFrame(paso);
+            io.unobserve(el);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [valor, duracionMs]);
+
+  return (
+    <span ref={ref}>
+      {mostrado}
+      {sufijo}
+    </span>
+  );
+}
+
 function InformeMensualPanel({ adminKey }) {
   const ahora = new Date();
   const [anio, setAnio] = useState(ahora.getFullYear());
@@ -2292,7 +2333,7 @@ function InformeMensualPanel({ adminKey }) {
       {informe && (
         <div className="space-y-3 pt-2 border-t border-slate-100">
           <p className="text-sm text-slate-700">
-            <span className="font-semibold">{informe.total_consultas}</span> consultas en {nombresMes[informe.mes - 1]} {informe.anio}
+            <span className="font-semibold text-2xl text-white"><Contador valor={informe.total_consultas} /></span> consultas en {nombresMes[informe.mes - 1]} {informe.anio}
           </p>
 
           {informe.total_consultas > 0 && (
@@ -2301,7 +2342,7 @@ function InformeMensualPanel({ adminKey }) {
                 <p className="text-xs font-semibold text-slate-500 mb-1">Por tipo</p>
                 {Object.entries(informe.por_tipo).sort((a, b) => b[1] - a[1]).map(([tipo, n]) => (
                   <p key={tipo} className="text-xs text-slate-600">
-                    {tipo}: {n} ({Math.round((n / informe.total_consultas) * 100)}%)
+                    {tipo}: {n} (<Contador valor={Math.round((n / informe.total_consultas) * 100)} sufijo="%" />)
                   </p>
                 ))}
               </div>
@@ -2502,6 +2543,42 @@ export default function App() {
   const [search, setSearch] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [highlightTerm, setHighlightTerm] = useState("");
+
+  // Animación "aparecer al entrar en pantalla": observa cualquier tarjeta
+  // (patrón .rounded-2xl.border.border-slate-200.bg-white) que exista o se
+  // agregue al DOM — como el contenido cambia al navegar entre propiedades,
+  // un MutationObserver detecta las tarjetas nuevas y las suma al mismo
+  // IntersectionObserver, sin tener que tocar cada componente.
+  useEffect(() => {
+    const SELECTOR = ".rounded-2xl.border.border-slate-200.bg-white";
+    const observadas = new WeakSet();
+    const io = new IntersectionObserver(
+      (entradas) => {
+        entradas.forEach((entrada) => {
+          if (entrada.isIntersecting) {
+            entrada.target.classList.add("in-view");
+            io.unobserve(entrada.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+    );
+    const observarNuevas = () => {
+      document.querySelectorAll(SELECTOR).forEach((el) => {
+        if (!observadas.has(el)) {
+          observadas.add(el);
+          io.observe(el);
+        }
+      });
+    };
+    observarNuevas();
+    const mo = new MutationObserver(observarNuevas);
+    mo.observe(document.body, { childList: true, subtree: true });
+    return () => {
+      io.disconnect();
+      mo.disconnect();
+    };
+  }, []);
 
   // Propiedades en orden alfabético para el menú (Inicio siempre va primero, fijo)
   const alphabeticalProperties = useMemo(
