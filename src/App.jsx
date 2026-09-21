@@ -2402,6 +2402,80 @@ function BarraViva({ etiqueta, pct, color = "#e1543c" }) {
 }
 
 const COLOR_SEMAFORO_DASH = { verde: "#16a34a", amarillo: "#d97706", rojo: "#dc2626" };
+const PALETA_DASH = ["#1e3a8a", "#2563eb", "#3b82f6", "#60a5fa", "#93c5fd", "#bfdbfe"];
+const COLOR_SENTIMIENTO = { positivo: "#16a34a", neutral: "#2563eb", negativo: "#dc2626" };
+const COLOR_CONFIANZA = { alta: "#16a34a", media: "#d97706", baja: "#dc2626" };
+
+// Dona multi-segmento (CSS conic-gradient, sin librería de gráficos) — el
+// centro muestra el % del segmento más grande, y abajo su etiqueta con el
+// color que le corresponde en el anillo.
+function DonutMulti({ titulo, entradas, colorPara }) {
+  const total = entradas.reduce((s, [, n]) => s + n, 0);
+  let acumulado = 0;
+  const paradas = entradas.map(([label, n], i) => {
+    const desde = total ? (acumulado / total) * 100 : 0;
+    acumulado += n;
+    const hasta = total ? (acumulado / total) * 100 : 0;
+    return `${colorPara(label, i)} ${desde}% ${hasta}%`;
+  });
+  const dominante = entradas[0] || ["—", 0];
+  const pctDominante = total ? Math.round((dominante[1] / total) * 100) : 0;
+
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-4 flex flex-col items-center">
+      <p className="text-sm font-semibold text-slate-800 self-start mb-3">{titulo}</p>
+      <div
+        className="relative w-28 h-28 rounded-full transition-all duration-700"
+        style={{ background: total ? `conic-gradient(${paradas.join(", ")})` : "#1a2438" }}
+      >
+        <div className="absolute inset-3 rounded-full flex items-center justify-center" style={{ background: "#131c2e" }}>
+          <span className="text-xl font-extrabold text-white"><Contador valor={pctDominante} sufijo="%" /></span>
+        </div>
+      </div>
+      <div className="flex items-center gap-1.5 mt-3 text-xs text-slate-400">
+        <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: colorPara(dominante[0], 0) }} />
+        {dominante[0]}
+      </div>
+      <table className="w-full mt-3 text-xs">
+        <tbody>
+          {entradas.map(([label, n], i) => (
+            <tr key={label} className="border-t border-slate-100">
+              <td className="py-1.5 text-slate-600 capitalize">{label}</td>
+              <td className="py-1.5 text-slate-500 text-right">{n}</td>
+              <td className="py-1.5 text-slate-500 text-right w-12">{total ? Math.round((n / total) * 100) : 0}%</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// Tarjeta de alerta: verde con check si no hay nada que revisar, o naranja
+// con la lista de propiedades puntuales si sí hay.
+function TarjetaAlerta({ vacia, tituloVacio, subtituloVacio, tituloConDatos, datos }) {
+  if (vacia) {
+    return (
+      <div className="rounded-2xl border p-4 flex items-start gap-3" style={{ background: "#10261c", borderColor: "#1e3a2c" }}>
+        <span className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-white text-xs" style={{ background: "#16a34a" }}>✓</span>
+        <div>
+          <p className="text-sm font-semibold text-white">{tituloVacio}</p>
+          <p className="text-xs text-slate-400 mt-0.5">{subtituloVacio}</p>
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className="rounded-2xl border p-4" style={{ background: "#2a2311", borderColor: "#4a3a12" }}>
+      <p className="text-sm font-semibold text-white mb-2">⚠️ {tituloConDatos}</p>
+      {Object.entries(datos).sort((a, b) => b[1] - a[1]).map(([prop, n]) => (
+        <p key={prop} className="text-xs text-amber-200 flex justify-between py-0.5">
+          <span>{prop}</span><span className="font-semibold">{n}</span>
+        </p>
+      ))}
+    </div>
+  );
+}
 
 const DASHBOARD_CACHE_KEY = "sofia_dashboard_cache";
 const DASHBOARD_CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutos — suficiente para no repetir la consulta al ir y venir de pestañas, pero sigue "casi en vivo"
@@ -2501,35 +2575,90 @@ function DashboardLive({ adminKey }) {
           </div>
 
           {total > 0 && (
-            <div className="grid gap-3 lg:grid-cols-2">
-              <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">Por tipo de consulta</p>
-                {Object.entries(informe.por_tipo).sort((a, b) => b[1] - a[1]).map(([tipo, n]) => (
-                  <BarraViva key={tipo} etiqueta={tipo} pct={Math.round((n / total) * 100)} color="#e1543c" />
-                ))}
+            <>
+              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-sm bg-orange-500" /> Por tipo, sentimiento y confianza
+              </p>
+              <div className="grid gap-3 lg:grid-cols-3">
+                <DonutMulti
+                  titulo="Consultas por tipo"
+                  entradas={Object.entries(informe.por_tipo).sort((a, b) => b[1] - a[1])}
+                  colorPara={(_, i) => PALETA_DASH[i % PALETA_DASH.length]}
+                />
+                <DonutMulti
+                  titulo="Consultas por sentimiento"
+                  entradas={Object.entries(informe.por_sentimiento).sort((a, b) => b[1] - a[1])}
+                  colorPara={(label) => COLOR_SENTIMIENTO[label] || "#94a3b8"}
+                />
+                <DonutMulti
+                  titulo="Confianza de respuestas"
+                  entradas={Object.entries(informe.por_confianza).sort((a, b) => b[1] - a[1])}
+                  colorPara={(label) => COLOR_CONFIANZA[label] || "#94a3b8"}
+                />
               </div>
-              <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">Por sentimiento</p>
-                {Object.entries(informe.por_sentimiento).sort((a, b) => b[1] - a[1]).map(([s, n]) => (
-                  <BarraViva key={s} etiqueta={s} pct={Math.round((n / total) * 100)}
-                    color={s === "negativo" ? "#dc2626" : s === "positivo" ? "#16a34a" : "#2563eb"} />
-                ))}
-              </div>
-            </div>
-          )}
 
-          {(informe.rendimiento_por_unidad || []).length > 0 && (
-            <div className="rounded-2xl border border-slate-200 bg-white p-4">
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Rendimiento del bot por unidad</p>
-              <p className="text-xs text-slate-400 mb-3">Verde = va bien · amarillo = revisar · rojo = necesita atención.</p>
-              {informe.rendimiento_por_unidad.map((r) => (
-                <div key={r.unidad} className="mb-3 pb-3 border-b border-slate-100 last:border-0 last:mb-0 last:pb-0">
-                  <p className="text-xs font-medium text-slate-700 mb-1.5">{r.unidad} <span className="text-slate-400">({r.total_consultas} consultas)</span></p>
-                  <BarraViva etiqueta="Confianza alta" pct={r.confianza_pct} color={COLOR_SEMAFORO_DASH[r.confianza_color]} />
-                  <BarraViva etiqueta="Sin sentimiento negativo" pct={r.sentimiento_pct} color={COLOR_SEMAFORO_DASH[r.sentimiento_color]} />
+              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide flex items-center gap-1.5 pt-1">
+                <span className="w-1.5 h-1.5 rounded-sm bg-orange-500" /> Por propiedad
+              </p>
+              <div className="grid gap-3 lg:grid-cols-2">
+                <div className="rounded-2xl border border-slate-200 bg-white p-4">
+                  <p className="text-sm font-semibold text-slate-800 mb-3">Consultas por propiedad</p>
+                  {Object.entries(informe.por_propiedad)
+                    .map(([prop, tipos]) => [prop, Object.values(tipos).reduce((a, b) => a + b, 0)])
+                    .sort((a, b) => b[1] - a[1])
+                    .map(([prop, n]) => (
+                      <BarraViva key={prop} etiqueta={prop} pct={Math.round((n / total) * 100)} color="#e1543c" />
+                    ))}
+                  <table className="w-full mt-2 text-xs">
+                    <thead>
+                      <tr className="text-slate-500"><th className="text-left font-semibold pb-1">Propiedad</th><th className="text-left font-semibold pb-1">Desglose</th></tr>
+                    </thead>
+                    <tbody>
+                      {Object.entries(informe.por_propiedad).map(([prop, tipos]) => (
+                        <tr key={prop} className="border-t border-slate-100">
+                          <td className="py-1.5 text-slate-700 font-medium">{prop}</td>
+                          <td className="py-1.5 text-slate-500">{Object.entries(tipos).map(([t, n]) => `${t}: ${n}`).join(", ")}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
-              ))}
-            </div>
+
+                {(informe.rendimiento_por_unidad || []).length > 0 && (
+                  <div className="rounded-2xl border border-slate-200 bg-white p-4">
+                    <p className="text-sm font-semibold text-slate-800 mb-1">Rendimiento del bot por unidad</p>
+                    <p className="text-xs text-slate-400 mb-3">Verde = va bien · amarillo = revisar · rojo = necesita atención.</p>
+                    {informe.rendimiento_por_unidad.map((r) => (
+                      <div key={r.unidad} className="mb-3 pb-3 border-b border-slate-100 last:border-0 last:mb-0 last:pb-0">
+                        <p className="text-xs font-medium text-slate-700 mb-1.5">{r.unidad} <span className="text-slate-400">({r.total_consultas} consultas)</span></p>
+                        <BarraViva etiqueta="Confianza alta" pct={r.confianza_pct} color={COLOR_SEMAFORO_DASH[r.confianza_color]} />
+                        <BarraViva etiqueta="Sin sentimiento negativo" pct={r.sentimiento_pct} color={COLOR_SEMAFORO_DASH[r.sentimiento_color]} />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide flex items-center gap-1.5 pt-1">
+                <span className="w-1.5 h-1.5 rounded-sm bg-orange-500" /> Alertas
+              </p>
+              <div className="space-y-3">
+                <TarjetaAlerta
+                  vacia={Object.keys(informe.confianza_baja_por_propiedad || {}).length === 0}
+                  tituloVacio="Ninguna propiedad con respuestas de baja confianza este mes."
+                  subtituloVacio="Cruzalo con los avisos de la lista de propiedades en Admin."
+                  tituloConDatos="Propiedades con respuestas de baja confianza"
+                  datos={informe.confianza_baja_por_propiedad}
+                />
+                <TarjetaAlerta
+                  vacia={Object.keys(informe.sentimiento_negativo_por_propiedad || {}).length === 0}
+                  tituloVacio="Ninguna propiedad con sentimiento negativo este mes."
+                  subtituloVacio="Sin ejemplos de baja confianza que revisar."
+                  tituloConDatos="Propiedades con sentimiento negativo"
+                  datos={informe.sentimiento_negativo_por_propiedad}
+                />
+              </div>
+            </>
           )}
 
           {actualizadoEn && (
@@ -2995,11 +3124,12 @@ export default function App() {
 
           {/* Menú desplegable (grupos San José / Guanacaste-Jacó): en todos los tamaños, con hamburguesa */}
           {menuOpen && (
-            <div className="px-4 sm:px-6 lg:px-8 pb-3 max-h-[60vh] overflow-y-auto">
+            <div className="px-4 sm:px-6 lg:px-8 pb-3 max-h-[60vh] overflow-y-auto sofia-menu-desplegable">
               <div className="flex flex-col gap-1 border-t border-slate-100 pt-2">
                 <button
                   onClick={() => goToProperty("home")}
-                  className={`text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                  style={{ animationDelay: "0ms" }}
+                  className={`sofia-menu-item text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
                     selected === "home" ? "bg-blue-900 text-white" : "text-slate-600 active:bg-slate-100"
                   }`}
                 >
@@ -3008,7 +3138,8 @@ export default function App() {
                 </button>
                 <button
                   onClick={() => goToProperty("calendario")}
-                  className={`text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                  style={{ animationDelay: "30ms" }}
+                  className={`sofia-menu-item text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
                     selected === "calendario" ? "bg-blue-900 text-white" : "text-slate-600 active:bg-slate-100"
                   }`}
                 >
@@ -3017,7 +3148,8 @@ export default function App() {
                 </button>
                 <button
                   onClick={() => goToProperty("dashboard")}
-                  className={`text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                  style={{ animationDelay: "60ms" }}
+                  className={`sofia-menu-item text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
                     selected === "dashboard" ? "bg-blue-900 text-white" : "text-slate-600 active:bg-slate-100"
                   }`}
                 >
@@ -3026,29 +3158,31 @@ export default function App() {
                 </button>
                 <button
                   onClick={() => goToProperty("admin")}
-                  className={`text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                  style={{ animationDelay: "90ms" }}
+                  className={`sofia-menu-item text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
                     selected === "admin" ? "bg-blue-900 text-white" : "text-slate-600 active:bg-slate-100"
                   }`}
                 >
                   <Settings size={14} />
                   Admin
                 </button>
-                {["sanjose", "jaco", "guanacaste"].map((groupId) => {
+                {["sanjose", "jaco", "guanacaste"].map((groupId, gi) => {
                   const items = navItems.filter((i) => i.group === groupId);
                   if (items.length === 0) return null;
                   const gm = GROUP_META[groupId];
                   return (
-                    <div key={groupId} className="mt-2">
-                      <p className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide px-3 mb-1 ${gm.badgeText}`}>
+                    <div key={groupId} className="mt-2" style={{ animationDelay: `${120 + gi * 20}ms` }}>
+                      <p className={`sofia-menu-item flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide px-3 mb-1 ${gm.badgeText}`} style={{ animationDelay: `${120 + gi * 20}ms` }}>
                         <span className={`w-1.5 h-1.5 rounded-full ${gm.dot}`} />
                         {gm.label}
                       </p>
                       <div className="lg:grid lg:grid-cols-3 lg:gap-1">
-                        {items.map((item) => (
+                        {items.map((item, ii) => (
                           <button
                             key={item.id}
                             onClick={() => goToProperty(item.id)}
-                            className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                            style={{ animationDelay: `${140 + gi * 20 + ii * 15}ms` }}
+                            className={`sofia-menu-item w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
                               selected === item.id ? `${gm.pillActive} text-white` : "text-slate-600 active:bg-slate-100"
                             }`}
                           >
