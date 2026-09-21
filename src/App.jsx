@@ -166,7 +166,7 @@ function CopyButton({ text, small }) {
     <button
       onClick={onCopy}
       className={`flex items-center gap-1.5 rounded-full font-medium transition-all active:scale-95 ${
-        copied ? "bg-emerald-600 text-white" : "bg-blue-900 text-white active:bg-blue-950"
+        copied ? "bg-emerald-600 text-white" : "bg-[#E1543C] text-white active:bg-[#C2431F]"
       } ${small ? "px-3 py-1.5 text-xs" : "px-4 py-2 text-sm"}`}
     >
       {copied ? <Check size={small ? 14 : 16} /> : <Copy size={small ? 14 : 16} />}
@@ -283,7 +283,7 @@ function MessageCard({ msg, variantes: variantesProp, baseTitle: baseTitleProp }
                   key={v.lang}
                   onClick={() => setTab(i)}
                   className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors ${
-                    i === tab ? "bg-blue-900 text-white" : "bg-white text-slate-600 border border-slate-300"
+                    i === tab ? "bg-[#E1543C] text-white" : "bg-white text-slate-600 border border-slate-300"
                   }`}
                 >
                   {v.lang === "es" ? "🇪🇸 Español" : "🇬🇧 English"}
@@ -1332,7 +1332,7 @@ function AdminKeyGate({ adminKey, onSave, children }) {
       <button
         onClick={() => onSave(input)}
         disabled={!input.trim()}
-        className="w-full rounded-lg bg-blue-900 text-white text-sm font-semibold py-2 disabled:opacity-40"
+        className="w-full rounded-lg bg-[#E1543C] text-white text-sm font-semibold py-2 disabled:opacity-40"
       >
         Continuar
       </button>
@@ -1510,7 +1510,7 @@ function RevisarGuiaPanel({ propertyId, adminKey, urlGuia }) {
             </div>
           ))}
           <button onClick={aplicar} disabled={aplicando || !Object.values(seleccionados).some(Boolean)}
-            className="w-full rounded-lg bg-blue-900 text-white text-sm font-semibold py-2 disabled:opacity-40">
+            className="w-full rounded-lg bg-[#E1543C] text-white text-sm font-semibold py-2 disabled:opacity-40">
             {aplicando ? "Aplicando…" : "Aplicar cambios seleccionados"}
           </button>
         </div>
@@ -1889,7 +1889,7 @@ function PropertyForm({ propiedadInicial, esNueva, camposPersonalizados, onGuard
 
       <div className="flex gap-2">
         <button onClick={submit} disabled={guardando}
-          className="flex-1 rounded-lg bg-blue-900 text-white text-sm font-semibold py-2.5 flex items-center justify-center gap-1.5 disabled:opacity-50">
+          className="flex-1 rounded-lg bg-[#E1543C] text-white text-sm font-semibold py-2.5 flex items-center justify-center gap-1.5 disabled:opacity-50">
           <Save size={15} /> {guardando ? "Guardando…" : "Guardar y publicar"}
         </button>
         <button onClick={onCancelar} className="rounded-lg border border-slate-300 text-sm text-slate-600 px-4">Cancelar</button>
@@ -1965,7 +1965,7 @@ function CamposPersonalizadosPanel({ campos, adminKey, onCambio }) {
           <option value="unidad">Por unidad</option>
         </select>
         <button onClick={crear} disabled={creando || !nuevaEtiqueta.trim()}
-          className="rounded-lg bg-blue-900 text-white text-sm font-semibold px-3 disabled:opacity-40">
+          className="rounded-lg bg-[#E1543C] text-white text-sm font-semibold px-3 disabled:opacity-40">
           Agregar
         </button>
       </div>
@@ -2047,7 +2047,7 @@ function ImportarJsonPanel({ adminKey }) {
       {estado?.corriendo ? (
         <div className="space-y-1.5">
           <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
-            <div className="h-full bg-blue-900 transition-all" style={{ width: `${Math.min(100, (estado.completadas / Math.max(1, estado.total)) * 100)}%` }} />
+            <div className="h-full bg-[#E1543C] transition-all" style={{ width: `${Math.min(100, (estado.completadas / Math.max(1, estado.total)) * 100)}%` }} />
           </div>
           <p className="text-xs text-slate-500">
             {estado.completadas} / {estado.total} {estado.propiedad_actual ? `— ${estado.propiedad_actual}` : ""}
@@ -2123,7 +2123,7 @@ function NuevaPropiedadIntro({ adminKey, onListo, onOmitir }) {
       {error && <p className="text-xs text-red-600">{error}</p>}
       <div className="flex gap-2">
         <button onClick={cargarDesdeGuia} disabled={cargando || !idSugerido.trim() || !url.trim()}
-          className="flex-1 rounded-lg bg-blue-900 text-white text-sm font-semibold py-2 disabled:opacity-40">
+          className="flex-1 rounded-lg bg-[#E1543C] text-white text-sm font-semibold py-2 disabled:opacity-40">
           {cargando ? "Cargando…" : "Cargar desde la guía"}
         </button>
         <button onClick={onOmitir} className="rounded-lg border border-slate-300 text-sm text-slate-600 px-4">
@@ -2187,7 +2187,7 @@ function ConfiguracionGeneralPanel({ adminKey }) {
       {error && <p className="text-xs text-red-600">{error}</p>}
       {aviso && <p className="text-xs text-emerald-700">{aviso}</p>}
       <button onClick={guardar} disabled={guardando}
-        className="rounded-lg bg-blue-900 text-white text-sm font-semibold px-4 py-2 disabled:opacity-40">
+        className="rounded-lg bg-[#E1543C] text-white text-sm font-semibold px-4 py-2 disabled:opacity-40">
         {guardando ? "Guardando…" : "Guardar"}
       </button>
     </div>
@@ -2282,7 +2282,7 @@ function InformeMensualPanel({ adminKey }) {
         <input type="number" value={anio} onChange={(e) => setAnio(Number(e.target.value))}
           className="w-24 rounded-lg border border-slate-300 px-2 py-2 text-sm" />
         <button onClick={cargar} disabled={cargando}
-          className="rounded-lg bg-blue-900 text-white text-sm font-semibold px-4 disabled:opacity-40">
+          className="rounded-lg bg-[#E1543C] text-white text-sm font-semibold px-4 disabled:opacity-40">
           {cargando ? "Cargando…" : "Ver"}
         </button>
       </div>
@@ -2332,7 +2332,7 @@ function InformeMensualPanel({ adminKey }) {
               📄 Descargar (PDF)
             </button>
             <button onClick={enviarPorCorreo} disabled={enviando}
-              className="text-sm rounded-lg bg-blue-900 text-white px-3 py-2 disabled:opacity-40">
+              className="text-sm rounded-lg bg-[#E1543C] text-white px-3 py-2 disabled:opacity-40">
               {enviando ? "Enviando…" : "✉ Enviar por correo"}
             </button>
           </div>
