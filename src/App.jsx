@@ -2401,6 +2401,34 @@ function BarraViva({ etiqueta, pct, color = "#e1543c" }) {
   );
 }
 
+// Botoncito "i" con la descripción de cómo se calcula un dato — funciona
+// tanto con click (mouse) como con toque (mobile), a diferencia de un
+// tooltip nativo por :hover que no sirve en celular.
+function InfoTip({ texto }) {
+  const [abierto, setAbierto] = useState(false);
+  return (
+    <span className="relative inline-block ml-1 align-middle">
+      <button
+        type="button"
+        onClick={(e) => { e.stopPropagation(); setAbierto((v) => !v); }}
+        onBlur={() => setTimeout(() => setAbierto(false), 150)}
+        className="w-3.5 h-3.5 rounded-full bg-slate-500 text-white text-[9px] flex items-center justify-center leading-none shrink-0"
+        aria-label="Cómo se calcula este dato"
+      >
+        i
+      </button>
+      {abierto && (
+        <span
+          className="absolute z-30 left-0 top-5 w-56 text-[11px] font-normal normal-case leading-snug text-slate-200 rounded-lg p-2.5 shadow-lg"
+          style={{ background: "#1a2438", border: "1px solid #334155" }}
+        >
+          {texto}
+        </span>
+      )}
+    </span>
+  );
+}
+
 const COLOR_SEMAFORO_DASH = { verde: "#16a34a", amarillo: "#d97706", rojo: "#dc2626" };
 const PALETA_DASH = ["#1e3a8a", "#2563eb", "#3b82f6", "#60a5fa", "#93c5fd", "#bfdbfe"];
 const COLOR_SENTIMIENTO = { positivo: "#16a34a", neutral: "#2563eb", negativo: "#dc2626" };
@@ -2409,7 +2437,7 @@ const COLOR_CONFIANZA = { alta: "#16a34a", media: "#d97706", baja: "#dc2626" };
 // Dona multi-segmento (CSS conic-gradient, sin librería de gráficos) — el
 // centro muestra el % del segmento más grande, y abajo su etiqueta con el
 // color que le corresponde en el anillo.
-function DonutMulti({ titulo, entradas, colorPara }) {
+function DonutMulti({ titulo, entradas, colorPara, infoTexto }) {
   const total = entradas.reduce((s, [, n]) => s + n, 0);
   let acumulado = 0;
   const paradas = entradas.map(([label, n], i) => {
@@ -2423,7 +2451,7 @@ function DonutMulti({ titulo, entradas, colorPara }) {
 
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4 flex flex-col items-center">
-      <p className="text-sm font-semibold text-slate-800 self-start mb-3">{titulo}</p>
+      <p className="text-sm font-semibold text-slate-800 self-start mb-3">{titulo}{infoTexto && <InfoTip texto={infoTexto} />}</p>
       <div
         className="relative w-28 h-28 rounded-full transition-all duration-700"
         style={{ background: total ? `conic-gradient(${paradas.join(", ")})` : "#1a2438" }}
@@ -2432,14 +2460,19 @@ function DonutMulti({ titulo, entradas, colorPara }) {
           <span className="text-xl font-extrabold text-white"><Contador valor={pctDominante} sufijo="%" /></span>
         </div>
       </div>
-      <div className="flex items-center gap-1.5 mt-3 text-xs text-slate-400">
-        <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: colorPara(dominante[0], 0) }} />
-        {dominante[0]}
+      <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 mt-3 text-xs text-slate-400">
+        {entradas.map(([label], i) => (
+          <span key={label} className="flex items-center gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: colorPara(label, i) }} />
+            {label}
+          </span>
+        ))}
       </div>
       <table className="w-full mt-3 text-xs">
         <tbody>
           {entradas.map(([label, n], i) => (
             <tr key={label} className="border-t border-slate-100">
+              <td className="py-1.5 w-4"><span className="block w-2.5 h-2.5 rounded-sm" style={{ background: colorPara(label, i) }} /></td>
               <td className="py-1.5 text-slate-600 capitalize">{label}</td>
               <td className="py-1.5 text-slate-500 text-right">{n}</td>
               <td className="py-1.5 text-slate-500 text-right w-12">{total ? Math.round((n / total) * 100) : 0}%</td>
@@ -2554,23 +2587,35 @@ function DashboardLive({ adminKey }) {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             <div className="rounded-2xl border border-slate-200 bg-white p-4">
               <p className="text-2xl font-extrabold text-blue-900"><Contador valor={total} /></p>
-              <p className="text-[11px] text-slate-500 uppercase tracking-wide mt-1">Consultas este mes</p>
+              <p className="text-[11px] text-slate-500 uppercase tracking-wide mt-1">
+                Consultas este mes
+                <InfoTip texto="Cuenta cada mensaje de huésped que Sofía clasificó este mes. No incluye las respuestas del bot, solo lo que preguntó la gente." />
+              </p>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-4">
               <p className="text-2xl font-extrabold" style={{ color: pctConfianzaAlta >= 70 ? "#16a34a" : pctConfianzaAlta >= 40 ? "#d97706" : "#dc2626" }}>
                 <Contador valor={pctConfianzaAlta} sufijo="%" />
               </p>
-              <p className="text-[11px] text-slate-500 uppercase tracking-wide mt-1">Confianza alta</p>
+              <p className="text-[11px] text-slate-500 uppercase tracking-wide mt-1">
+                Confianza alta
+                <InfoTip texto="% de consultas donde Sofía identificó con certeza la propiedad Y la unidad, y encontró información para responder. Sin eso, la respuesta queda en confianza media o baja." />
+              </p>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-4">
               <p className="text-2xl font-extrabold" style={{ color: pctSentimientoNeg >= 20 ? "#dc2626" : pctSentimientoNeg >= 10 ? "#d97706" : "#16a34a" }}>
                 <Contador valor={pctSentimientoNeg} sufijo="%" />
               </p>
-              <p className="text-[11px] text-slate-500 uppercase tracking-wide mt-1">Sentimiento negativo</p>
+              <p className="text-[11px] text-slate-500 uppercase tracking-wide mt-1">
+                Sentimiento negativo
+                <InfoTip texto="% de consultas donde Gemini clasificó el tono del mensaje del huésped como negativo (queja, molestia). No mide si Sofía respondió bien, solo cómo llegó el huésped." />
+              </p>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-4">
               <p className="text-2xl font-extrabold text-blue-900">{fcrPct != null ? <Contador valor={fcrPct} sufijo="%" /> : "—"}</p>
-              <p className="text-[11px] text-slate-500 uppercase tracking-wide mt-1">First Contact Resolution</p>
+              <p className="text-[11px] text-slate-500 uppercase tracking-wide mt-1">
+                First Contact Resolution
+                <InfoTip texto="De los reportes de mantenimiento/limpieza del mes: % que NO tuvo otro reporte del mismo tipo, en la misma propiedad y unidad, dentro de los 7 días siguientes. Es una aproximación — todavía no hay un botón para marcar un reporte como 'resuelto'." />
+              </p>
             </div>
           </div>
 
@@ -2584,16 +2629,19 @@ function DashboardLive({ adminKey }) {
                   titulo="Consultas por tipo"
                   entradas={Object.entries(informe.por_tipo).sort((a, b) => b[1] - a[1])}
                   colorPara={(_, i) => PALETA_DASH[i % PALETA_DASH.length]}
+                  infoTexto="Gemini clasifica cada mensaje del huésped en una categoría: informativa, mantenimiento, limpieza, queja, solicitud de excepción o emergencia. El % del centro es el de la categoría más frecuente."
                 />
                 <DonutMulti
                   titulo="Consultas por sentimiento"
                   entradas={Object.entries(informe.por_sentimiento).sort((a, b) => b[1] - a[1])}
                   colorPara={(label) => COLOR_SENTIMIENTO[label] || "#94a3b8"}
+                  infoTexto="Gemini evalúa el tono del mensaje del huésped: positivo, neutral o negativo. No mide la respuesta de Sofía, solo cómo llegó el huésped."
                 />
                 <DonutMulti
                   titulo="Confianza de respuestas"
                   entradas={Object.entries(informe.por_confianza).sort((a, b) => b[1] - a[1])}
                   colorPara={(label) => COLOR_CONFIANZA[label] || "#94a3b8"}
+                  infoTexto="Alta: se identificó la propiedad y la unidad, y había información para responder. Media: se identificó la propiedad pero no la unidad exacta. Baja: no se identificó la propiedad o no se encontró información."
                 />
               </div>
 
@@ -2626,7 +2674,10 @@ function DashboardLive({ adminKey }) {
 
                 {(informe.rendimiento_por_unidad || []).length > 0 && (
                   <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                    <p className="text-sm font-semibold text-slate-800 mb-1">Rendimiento del bot por unidad</p>
+                    <p className="text-sm font-semibold text-slate-800 mb-1">
+                      Rendimiento del bot por unidad
+                      <InfoTip texto="Confianza = % de respuestas de esa unidad puntual con confianza alta. Sentimiento = % de respuestas sin sentimiento negativo. Verde ≥70%/80%, amarillo ≥40%/60%, rojo por debajo." />
+                    </p>
                     <p className="text-xs text-slate-400 mb-3">Verde = va bien · amarillo = revisar · rojo = necesita atención.</p>
                     {informe.rendimiento_por_unidad.map((r) => (
                       <div key={r.unidad} className="mb-3 pb-3 border-b border-slate-100 last:border-0 last:mb-0 last:pb-0">
