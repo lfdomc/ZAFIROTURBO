@@ -2891,8 +2891,8 @@ export default function App() {
         <div className="max-w-6xl mx-auto">
           <div className="px-4 sm:px-6 lg:px-8 pt-3 pb-2 flex items-center gap-2">
             <button onClick={() => goToProperty("home")} className="flex items-center gap-2 min-w-0 shrink-0 lg:flex-initial text-left">
-              <div className="h-9 rounded-lg bg-black flex items-center justify-center shrink-0 overflow-hidden px-1">
-                <img src={logoSofia} alt="S.O.F.I.A." className="h-7 w-auto object-contain" />
+              <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
+                <img src={logoSofia} alt="S.O.F.I.A." className="w-full h-full object-contain" />
               </div>
               <div className="min-w-0">
                 <p className="font-bold text-slate-900 text-sm leading-tight whitespace-nowrap">S.O.F.I.A.</p>
