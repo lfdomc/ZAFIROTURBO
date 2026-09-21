@@ -115,6 +115,7 @@ const PROPERTY_GROUP = Object.fromEntries(DATA.properties.map((p) => [p.id, p.gr
 function TelegramFloat() {
   return (
     <a
+      id="sofia-telegram-float"
       href="https://t.me/Zafirocrbot"
       target="_blank"
       rel="noopener noreferrer"
@@ -2739,9 +2740,25 @@ export default function App() {
     observarNuevas();
     const mo = new MutationObserver(observarNuevas);
     mo.observe(document.body, { childList: true, subtree: true });
+
+    // Spotlight que sigue el cursor: en cada movimiento, si el mouse está
+    // sobre una tarjeta, actualiza --mx/--my con la posición relativa
+    // (usadas por el ::before de la tarjeta en index.css).
+    const alMoverMouse = (e) => {
+      const tarjeta = e.target.closest(SELECTOR);
+      if (!tarjeta) return;
+      const rect = tarjeta.getBoundingClientRect();
+      const mx = ((e.clientX - rect.left) / rect.width) * 100;
+      const my = ((e.clientY - rect.top) / rect.height) * 100;
+      tarjeta.style.setProperty("--mx", `${mx}%`);
+      tarjeta.style.setProperty("--my", `${my}%`);
+    };
+    document.addEventListener("mousemove", alMoverMouse);
+
     return () => {
       io.disconnect();
       mo.disconnect();
+      document.removeEventListener("mousemove", alMoverMouse);
     };
   }, []);
 
@@ -2874,6 +2891,7 @@ export default function App() {
   const [searchFocused, setSearchFocused] = useState(false);
 
   const selectedProperty = DATA.properties.find((p) => p.id === selected);
+  const touchInicio = React.useRef(null); // para detectar deslizamiento (swipe) entre propiedades en mobile
 
   const goToProperty = (id, term) => {
     setSelected(id);
@@ -3048,7 +3066,22 @@ export default function App() {
       </div>
 
       {/* Content */}
-      <div className="px-4 sm:px-6 lg:px-8 pt-4 max-w-6xl mx-auto">
+      <div
+        className="px-4 sm:px-6 lg:px-8 pt-4 max-w-6xl mx-auto"
+        onTouchStart={(e) => { touchInicio.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }; }}
+        onTouchEnd={(e) => {
+          if (!touchInicio.current || !selectedProperty) return;
+          const dx = e.changedTouches[0].clientX - touchInicio.current.x;
+          const dy = e.changedTouches[0].clientY - touchInicio.current.y;
+          touchInicio.current = null;
+          if (Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 1.5) return; // debe ser un deslizamiento sobre todo horizontal
+          const idx = alphabeticalProperties.findIndex((p) => p.id === selected);
+          if (idx === -1) return;
+          const siguienteIdx = dx < 0 ? idx + 1 : idx - 1; // izquierda = siguiente, derecha = anterior
+          const destino = alphabeticalProperties[siguienteIdx];
+          if (destino) goToProperty(destino.id);
+        }}
+      >
         <HighlightContext.Provider value={highlightTerm}>
           {selected === "home" ? (
             <HomeView

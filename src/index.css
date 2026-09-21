@@ -69,3 +69,95 @@ input::placeholder, textarea::placeholder { color: #5b6b8a !important; }
   }
 }
 
+/* ============================================================================
+   Efectos de mouse — pensados para reforzar la sensación "tecnológica":
+   elevación + brillo naranja en tarjetas, spotlight que sigue el cursor,
+   botones con resplandor, foco naranja en inputs, subrayado animado.
+   ============================================================================ */
+
+/* Tarjetas: elevación + glow naranja sutil al pasar el mouse (además del
+   fade/slide que ya tenían) */
+.rounded-2xl.border.border-slate-200.bg-white {
+  transition:
+    opacity 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.25s ease, border-color 0.25s ease;
+  position: relative;
+}
+.rounded-2xl.border.border-slate-200.bg-white:hover {
+  border-color: #e1543c;
+  box-shadow: 0 12px 32px -14px rgba(225, 84, 60, 0.35), 0 0 0 1px rgba(225, 84, 60, 0.15);
+}
+
+/* Spotlight que sigue el cursor dentro de la tarjeta — activado por
+   --mx/--my (0 a 100, %) que actualiza App.jsx en cada mousemove */
+.rounded-2xl.border.border-slate-200.bg-white::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), rgba(225, 84, 60, 0.10), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.rounded-2xl.border.border-slate-200.bg-white:hover::before { opacity: 1; }
+
+/* Botones sólidos (naranja, ex-azul): resplandor + leve elevación al pasar
+   el mouse y al presionar */
+button.bg-blue-900 {
+  transition: box-shadow 0.2s ease, transform 0.15s ease, background-color 0.2s ease;
+}
+button.bg-blue-900:hover:not(:disabled) {
+  box-shadow: 0 6px 20px -4px rgba(225, 84, 60, 0.5);
+  transform: translateY(-1px);
+}
+button.bg-blue-900:active:not(:disabled) { transform: translateY(0); }
+
+/* Inputs: anillo naranja al enfocar, en vez del azul por defecto */
+input:focus, textarea:focus, select:focus {
+  outline: none !important;
+  border-color: #e1543c !important;
+  box-shadow: 0 0 0 3px rgba(225, 84, 60, 0.25) !important;
+}
+
+/* Links de texto (naranja): subrayado que crece de izquierda a derecha al
+   pasar el mouse, en vez de aparecer entero de golpe */
+a.underline {
+  text-decoration: none !important;
+  background-image: linear-gradient(#e1543c, #e1543c);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1.5px;
+  transition: background-size 0.3s ease;
+}
+a.underline:hover { background-size: 100% 1.5px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rounded-2xl.border.border-slate-200.bg-white::before { display: none; }
+  button.bg-blue-900:hover:not(:disabled) { transform: none; }
+}
+
+/* ============================================================================
+   Táctil (mobile) — el mouse no existe acá, así que hover/spotlight no
+   aplican. En su lugar: feedback al tocar (:active), y respetar las zonas
+   seguras del teléfono (notch / barra de gestos) para que nada quede tapado.
+   ============================================================================ */
+
+@media (hover: none) {
+  /* Al tocar una tarjeta: breve "hundimiento" en vez del glow de mouse */
+  .rounded-2xl.border.border-slate-200.bg-white:active {
+    transform: scale(0.985);
+    border-color: #e1543c;
+    transition: transform 0.1s ease, border-color 0.1s ease;
+  }
+  /* Botones: mismo criterio, feedback inmediato al soltar el dedo */
+  button.bg-blue-900:active:not(:disabled) {
+    transform: scale(0.96);
+    box-shadow: 0 4px 14px -4px rgba(225, 84, 60, 0.5);
+  }
+}
+
+/* Zonas seguras del teléfono (notch arriba, barra de gestos abajo) */
+.sticky.top-0 { padding-top: env(safe-area-inset-top, 0px); }
+#sofia-telegram-float { bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); }
+
