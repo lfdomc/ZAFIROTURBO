@@ -2230,6 +2230,27 @@ function InformeMensualPanel({ adminKey }) {
     URL.revokeObjectURL(url);
   };
 
+  const descargarPdf = async () => {
+    setError("");
+    try {
+      const resp = await fetch(`${BOT_API_URL}/admin/informe-mensual/pdf?anio=${anio}&mes=${mes}`, {
+        headers: { "X-Admin-Key": adminKey },
+      });
+      if (!resp.ok) throw new Error(`No se pudo generar el PDF (HTTP ${resp.status})`);
+      const blob = await resp.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `informe_${anio}-${String(mes).padStart(2, "0")}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      setError(e.message);
+    }
+  };
+
   const enviarPorCorreo = async () => {
     setEnviando(true);
     setError("");
@@ -2303,9 +2324,12 @@ function InformeMensualPanel({ adminKey }) {
             </>
           )}
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             <button onClick={descargar} className="text-sm rounded-lg border border-slate-300 px-3 py-2 text-slate-600">
               ⬇ Descargar (JSON)
+            </button>
+            <button onClick={descargarPdf} className="text-sm rounded-lg border border-slate-300 px-3 py-2 text-slate-600">
+              📄 Descargar (PDF)
             </button>
             <button onClick={enviarPorCorreo} disabled={enviando}
               className="text-sm rounded-lg bg-blue-900 text-white px-3 py-2 disabled:opacity-40">
