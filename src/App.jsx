@@ -1,7 +1,8 @@
 import React, { useState, useMemo, useEffect, useContext, createContext } from "react";
 import { createPortal } from "react-dom";
-import { Copy, Check, ChevronDown, ChevronUp, ChevronRight, ChevronLeft, Home, MessageSquareText, Phone, Menu, X, Calendar, CalendarDays, RefreshCw, Settings, Plus, Trash2, Save, Pencil } from "lucide-react";
+import { Copy, Check, ChevronDown, ChevronUp, ChevronRight, ChevronLeft, Home, MessageSquareText, Phone, Menu, X, Calendar, CalendarDays, RefreshCw, Settings, Plus, Trash2, Save, Pencil, LayoutDashboard } from "lucide-react";
 import DATA from "./propiedades.json";
+import logoSofia from "./assets/logo-sofia.png";
 
 // Blindaje: normaliza DATA una sola vez acá, para que todos los usos de
 // DATA.general / DATA.properties / etc. en el resto del archivo sean
@@ -132,19 +133,6 @@ function TelegramFloat() {
   );
 }
 
-function ZafiroDiamond({ size = 16, className = "" }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 28" fill="none" className={className} xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 1 L21 8 L12 27 L3 8 Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" fill="none" />
-      <path d="M3 8 L21 8" stroke="currentColor" strokeWidth="1" />
-      <path d="M7.5 8 L12 1 L16.5 8" stroke="currentColor" strokeWidth="1" />
-      <path d="M7.5 8 L12 27" stroke="currentColor" strokeWidth="1" />
-      <path d="M16.5 8 L12 27" stroke="currentColor" strokeWidth="1" />
-      <path d="M3 8 L12 12 L21 8" stroke="currentColor" strokeWidth="1" />
-      <path d="M12 12 L12 27" stroke="currentColor" strokeWidth="1" />
-    </svg>
-  );
-}
 
 function CopyButton({ text, small }) {
   const [copied, setCopied] = useState(false);
@@ -2246,11 +2234,23 @@ function InformeMensualPanel({ adminKey }) {
   const [error, setError] = useState("");
 
   const cargar = async () => {
+    const clave = `sofia_informe_cache_${anio}-${mes}`;
+    try {
+      const crudo = sessionStorage.getItem(clave);
+      if (crudo) {
+        const { datos, en } = JSON.parse(crudo);
+        if (Date.now() - en < 5 * 60 * 1000) {
+          setInforme(datos);
+          return; // datos frescos en caché (< 5 min) — no repetir la consulta a la base de datos
+        }
+      }
+    } catch {}
     setCargando(true);
     setError("");
     try {
       const datos = await adminFetch(`/admin/informe-mensual?anio=${anio}&mes=${mes}`, adminKey);
       setInforme(datos);
+      sessionStorage.setItem(clave, JSON.stringify({ datos, en: Date.now() }));
     } catch (e) {
       setError(e.message);
     } finally {
@@ -2381,6 +2381,171 @@ function InformeMensualPanel({ adminKey }) {
         </div>
       )}
     </div>
+  );
+}
+
+// Barra horizontal simple (CSS, sin librería de gráficos) — para el
+// dashboard en vivo: una barra de progreso coloreada + etiqueta + %.
+function BarraViva({ etiqueta, pct, color = "#e1543c" }) {
+  return (
+    <div className="mb-2">
+      <div className="flex justify-between text-xs text-slate-600 mb-1">
+        <span className="truncate pr-2">{etiqueta}</span>
+        <span className="font-semibold shrink-0"><Contador valor={pct} sufijo="%" /></span>
+      </div>
+      <div className="h-2 rounded-full bg-slate-100 overflow-hidden">
+        <div className="h-full rounded-full transition-all duration-700" style={{ width: `${pct}%`, background: color }} />
+      </div>
+    </div>
+  );
+}
+
+const COLOR_SEMAFORO_DASH = { verde: "#16a34a", amarillo: "#d97706", rojo: "#dc2626" };
+
+const DASHBOARD_CACHE_KEY = "sofia_dashboard_cache";
+const DASHBOARD_CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutos — suficiente para no repetir la consulta al ir y venir de pestañas, pero sigue "casi en vivo"
+
+function DashboardLive({ adminKey }) {
+  const ahora = new Date();
+  const claveMes = `${ahora.getFullYear()}-${ahora.getMonth() + 1}`;
+  const [informe, setInforme] = useState(null);
+  const [cargando, setCargando] = useState(false);
+  const [error, setError] = useState("");
+  const [actualizadoEn, setActualizadoEn] = useState(null);
+
+  const leerCache = () => {
+    try {
+      const crudo = sessionStorage.getItem(DASHBOARD_CACHE_KEY);
+      if (!crudo) return null;
+      const { clave, datos, en } = JSON.parse(crudo);
+      if (clave !== claveMes) return null; // cambió el mes, no sirve
+      if (Date.now() - en > DASHBOARD_CACHE_TTL_MS) return null; // venció
+      return { datos, en };
+    } catch {
+      return null;
+    }
+  };
+
+  const cargar = async (forzar = false) => {
+    if (!forzar) {
+      const cache = leerCache();
+      if (cache) {
+        setInforme(cache.datos);
+        setActualizadoEn(new Date(cache.en));
+        return;
+      }
+    }
+    setCargando(true);
+    setError("");
+    try {
+      const datos = await adminFetch(`/admin/informe-mensual?anio=${ahora.getFullYear()}&mes=${ahora.getMonth() + 1}`, adminKey);
+      setInforme(datos);
+      const en = Date.now();
+      setActualizadoEn(new Date(en));
+      sessionStorage.setItem(DASHBOARD_CACHE_KEY, JSON.stringify({ clave: claveMes, datos, en }));
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setCargando(false);
+    }
+  };
+
+  useEffect(() => { cargar(false); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const nombresMes = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+  const total = informe?.total_consultas || 0;
+  const pctConfianzaAlta = total ? Math.round(((informe.por_confianza?.alta || 0) / total) * 100) : 0;
+  const pctSentimientoNeg = total ? Math.round(((informe.por_sentimiento?.negativo || 0) / total) * 100) : 0;
+  const fcrPct = informe?.fcr?.fcr_pct;
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2"><LayoutDashboard size={18} /> Dashboard</h2>
+          <p className="text-sm text-slate-500">
+            {nombresMes[ahora.getMonth()]} {ahora.getFullYear()} · datos guardados en este navegador hasta 5 min, para no golpear la base de datos en cada visita.
+          </p>
+        </div>
+        <button onClick={() => cargar(true)} disabled={cargando} className="text-sm rounded-lg border border-slate-300 px-3 py-2 text-slate-600 flex items-center gap-1.5 disabled:opacity-40">
+          <RefreshCw size={14} className={cargando ? "animate-spin" : ""} /> Actualizar
+        </button>
+      </div>
+
+      {error && <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{error}</p>}
+
+      {informe && (
+        <>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="rounded-2xl border border-slate-200 bg-white p-4">
+              <p className="text-2xl font-extrabold text-blue-900"><Contador valor={total} /></p>
+              <p className="text-[11px] text-slate-500 uppercase tracking-wide mt-1">Consultas este mes</p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-white p-4">
+              <p className="text-2xl font-extrabold" style={{ color: pctConfianzaAlta >= 70 ? "#16a34a" : pctConfianzaAlta >= 40 ? "#d97706" : "#dc2626" }}>
+                <Contador valor={pctConfianzaAlta} sufijo="%" />
+              </p>
+              <p className="text-[11px] text-slate-500 uppercase tracking-wide mt-1">Confianza alta</p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-white p-4">
+              <p className="text-2xl font-extrabold" style={{ color: pctSentimientoNeg >= 20 ? "#dc2626" : pctSentimientoNeg >= 10 ? "#d97706" : "#16a34a" }}>
+                <Contador valor={pctSentimientoNeg} sufijo="%" />
+              </p>
+              <p className="text-[11px] text-slate-500 uppercase tracking-wide mt-1">Sentimiento negativo</p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-white p-4">
+              <p className="text-2xl font-extrabold text-blue-900">{fcrPct != null ? <Contador valor={fcrPct} sufijo="%" /> : "—"}</p>
+              <p className="text-[11px] text-slate-500 uppercase tracking-wide mt-1">First Contact Resolution</p>
+            </div>
+          </div>
+
+          {total > 0 && (
+            <div className="grid gap-3 lg:grid-cols-2">
+              <div className="rounded-2xl border border-slate-200 bg-white p-4">
+                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">Por tipo de consulta</p>
+                {Object.entries(informe.por_tipo).sort((a, b) => b[1] - a[1]).map(([tipo, n]) => (
+                  <BarraViva key={tipo} etiqueta={tipo} pct={Math.round((n / total) * 100)} color="#e1543c" />
+                ))}
+              </div>
+              <div className="rounded-2xl border border-slate-200 bg-white p-4">
+                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">Por sentimiento</p>
+                {Object.entries(informe.por_sentimiento).sort((a, b) => b[1] - a[1]).map(([s, n]) => (
+                  <BarraViva key={s} etiqueta={s} pct={Math.round((n / total) * 100)}
+                    color={s === "negativo" ? "#dc2626" : s === "positivo" ? "#16a34a" : "#2563eb"} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {(informe.rendimiento_por_unidad || []).length > 0 && (
+            <div className="rounded-2xl border border-slate-200 bg-white p-4">
+              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Rendimiento del bot por unidad</p>
+              <p className="text-xs text-slate-400 mb-3">Verde = va bien · amarillo = revisar · rojo = necesita atención.</p>
+              {informe.rendimiento_por_unidad.map((r) => (
+                <div key={r.unidad} className="mb-3 pb-3 border-b border-slate-100 last:border-0 last:mb-0 last:pb-0">
+                  <p className="text-xs font-medium text-slate-700 mb-1.5">{r.unidad} <span className="text-slate-400">({r.total_consultas} consultas)</span></p>
+                  <BarraViva etiqueta="Confianza alta" pct={r.confianza_pct} color={COLOR_SEMAFORO_DASH[r.confianza_color]} />
+                  <BarraViva etiqueta="Sin sentimiento negativo" pct={r.sentimiento_pct} color={COLOR_SEMAFORO_DASH[r.sentimiento_color]} />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {actualizadoEn && (
+            <p className="text-[11px] text-slate-400 text-right">Actualizado {actualizadoEn.toLocaleTimeString("es-CR")}</p>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
+function DashboardView() {
+  const [adminKey, setAdminKey] = useAdminKey();
+  return (
+    <AdminKeyGate adminKey={adminKey} onSave={setAdminKey}>
+      <DashboardLive adminKey={adminKey} />
+    </AdminKeyGate>
   );
 }
 
@@ -2726,8 +2891,8 @@ export default function App() {
         <div className="max-w-6xl mx-auto">
           <div className="px-4 sm:px-6 lg:px-8 pt-3 pb-2 flex items-center gap-2">
             <button onClick={() => goToProperty("home")} className="flex items-center gap-2 min-w-0 shrink-0 lg:flex-initial text-left">
-              <div className="w-9 h-9 rounded-xl bg-blue-900 flex items-center justify-center shrink-0">
-                <ZafiroDiamond size={18} className="text-white" />
+              <div className="h-9 rounded-lg bg-black flex items-center justify-center shrink-0 overflow-hidden px-1">
+                <img src={logoSofia} alt="S.O.F.I.A." className="h-7 w-auto object-contain" />
               </div>
               <div className="min-w-0">
                 <p className="font-bold text-slate-900 text-sm leading-tight whitespace-nowrap">S.O.F.I.A.</p>
@@ -2833,6 +2998,15 @@ export default function App() {
                   Calendario
                 </button>
                 <button
+                  onClick={() => goToProperty("dashboard")}
+                  className={`text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                    selected === "dashboard" ? "bg-blue-900 text-white" : "text-slate-600 active:bg-slate-100"
+                  }`}
+                >
+                  <LayoutDashboard size={14} />
+                  Dashboard
+                </button>
+                <button
                   onClick={() => goToProperty("admin")}
                   className={`text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
                     selected === "admin" ? "bg-blue-900 text-white" : "text-slate-600 active:bg-slate-100"
@@ -2886,6 +3060,8 @@ export default function App() {
             />
           ) : selected === "calendario" ? (
             <CalendarioView />
+          ) : selected === "dashboard" ? (
+            <DashboardView />
           ) : selected === "admin" ? (
             <AdminView />
           ) : selectedProperty ? (
