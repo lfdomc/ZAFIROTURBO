@@ -2564,7 +2564,15 @@ function DashboardLive({ adminKey }) {
   const total = informe?.total_consultas || 0;
   const pctConfianzaAlta = total ? Math.round(((informe.por_confianza?.alta || 0) / total) * 100) : 0;
   const pctSentimientoNeg = total ? Math.round(((informe.por_sentimiento?.negativo || 0) / total) * 100) : 0;
-  const fcrPct = informe?.fcr?.fcr_pct;
+  const indicesServicio = informe?.indices_servicio || {};
+  const pctLimpieza = indicesServicio.limpieza?.pct;
+  const pctMantenimiento = indicesServicio.mantenimiento?.pct;
+  const colorIndice = (pct) => pct == null ? "#94a3b8" : pct >= 70 ? "#16a34a" : pct >= 40 ? "#d97706" : "#dc2626";
+  // Preferir los campos por unidad (más detallados); si el backend
+  // desplegado todavía no los manda, usar los de propiedad para no romper.
+  const porUnidadVolumen = informe?.por_unidad || informe?.por_propiedad || {};
+  const alertasConfianzaBaja = informe?.confianza_baja_por_unidad || informe?.confianza_baja_por_propiedad || {};
+  const alertasSentimientoNeg = informe?.sentimiento_negativo_por_unidad || informe?.sentimiento_negativo_por_propiedad || {};
 
   return (
     <div className="space-y-4">
@@ -2584,7 +2592,7 @@ function DashboardLive({ adminKey }) {
 
       {informe && (
         <>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
             <div className="rounded-2xl border border-slate-200 bg-white p-4">
               <p className="text-2xl font-extrabold text-blue-900"><Contador valor={total} /></p>
               <p className="text-[11px] text-slate-500 uppercase tracking-wide mt-1">
@@ -2611,10 +2619,21 @@ function DashboardLive({ adminKey }) {
               </p>
             </div>
             <div className="rounded-2xl border border-slate-200 bg-white p-4">
-              <p className="text-2xl font-extrabold text-blue-900">{fcrPct != null ? <Contador valor={fcrPct} sufijo="%" /> : "—"}</p>
+              <p className="text-2xl font-extrabold" style={{ color: colorIndice(pctLimpieza) }}>
+                {pctLimpieza != null ? <Contador valor={pctLimpieza} sufijo="%" /> : "—"}
+              </p>
               <p className="text-[11px] text-slate-500 uppercase tracking-wide mt-1">
-                First Contact Resolution
-                <InfoTip texto="De los reportes de mantenimiento/limpieza del mes: % que NO tuvo otro reporte del mismo tipo, en la misma propiedad y unidad, dentro de los 7 días siguientes. Es una aproximación — todavía no hay un botón para marcar un reporte como 'resuelto'." />
+                Índice de limpieza
+                <InfoTip texto="De los reportes de LIMPIEZA del mes: % que NO tuvo otro reporte del mismo tipo, en la misma unidad, dentro de los 7 días siguientes. Es una aproximación — todavía no hay un botón para marcar un reporte como 'resuelto'." />
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-white p-4">
+              <p className="text-2xl font-extrabold" style={{ color: colorIndice(pctMantenimiento) }}>
+                {pctMantenimiento != null ? <Contador valor={pctMantenimiento} sufijo="%" /> : "—"}
+              </p>
+              <p className="text-[11px] text-slate-500 uppercase tracking-wide mt-1">
+                Índice de mantenimiento
+                <InfoTip texto="De los reportes de MANTENIMIENTO del mes: % que NO tuvo otro reporte del mismo tipo, en la misma unidad, dentro de los 7 días siguientes. Es una aproximación — todavía no hay un botón para marcar un reporte como 'resuelto'." />
               </p>
             </div>
           </div>
@@ -2646,25 +2665,28 @@ function DashboardLive({ adminKey }) {
               </div>
 
               <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide flex items-center gap-1.5 pt-1">
-                <span className="w-1.5 h-1.5 rounded-sm bg-orange-500" /> Por propiedad
+                <span className="w-1.5 h-1.5 rounded-sm bg-orange-500" /> Por unidad
               </p>
               <div className="grid gap-3 lg:grid-cols-2">
                 <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                  <p className="text-sm font-semibold text-slate-800 mb-3">Consultas por propiedad</p>
-                  {Object.entries(informe.por_propiedad)
-                    .map(([prop, tipos]) => [prop, Object.values(tipos).reduce((a, b) => a + b, 0)])
+                  <p className="text-sm font-semibold text-slate-800 mb-3">
+                    Consultas por unidad
+                    <InfoTip texto="Cada casa/apartamento puntual, no la propiedad completa — ej. 'Urban Escalante — Vistas de Volcanes (1411)' en vez de solo 'Urban Escalante'." />
+                  </p>
+                  {Object.entries(porUnidadVolumen)
+                    .map(([u, tipos]) => [u, Object.values(tipos).reduce((a, b) => a + b, 0)])
                     .sort((a, b) => b[1] - a[1])
-                    .map(([prop, n]) => (
-                      <BarraViva key={prop} etiqueta={prop} pct={Math.round((n / total) * 100)} color="#e1543c" />
+                    .map(([u, n]) => (
+                      <BarraViva key={u} etiqueta={u} pct={Math.round((n / total) * 100)} color="#e1543c" />
                     ))}
                   <table className="w-full mt-2 text-xs">
                     <thead>
-                      <tr className="text-slate-500"><th className="text-left font-semibold pb-1">Propiedad</th><th className="text-left font-semibold pb-1">Desglose</th></tr>
+                      <tr className="text-slate-500"><th className="text-left font-semibold pb-1">Unidad</th><th className="text-left font-semibold pb-1">Desglose</th></tr>
                     </thead>
                     <tbody>
-                      {Object.entries(informe.por_propiedad).map(([prop, tipos]) => (
-                        <tr key={prop} className="border-t border-slate-100">
-                          <td className="py-1.5 text-slate-700 font-medium">{prop}</td>
+                      {Object.entries(porUnidadVolumen).map(([u, tipos]) => (
+                        <tr key={u} className="border-t border-slate-100">
+                          <td className="py-1.5 text-slate-700 font-medium">{u}</td>
                           <td className="py-1.5 text-slate-500">{Object.entries(tipos).map(([t, n]) => `${t}: ${n}`).join(", ")}</td>
                         </tr>
                       ))}
@@ -2690,23 +2712,52 @@ function DashboardLive({ adminKey }) {
                 )}
               </div>
 
+              {(indicesServicio.limpieza?.por_unidad?.length > 0 || indicesServicio.mantenimiento?.por_unidad?.length > 0) && (
+                <div className="grid gap-3 lg:grid-cols-2">
+                  {indicesServicio.limpieza?.por_unidad?.length > 0 && (
+                    <div className="rounded-2xl border border-slate-200 bg-white p-4">
+                      <p className="text-sm font-semibold text-slate-800 mb-1">
+                        Índice de limpieza por unidad
+                        <InfoTip texto="% de reportes de limpieza de esa unidad que no necesitaron un reporte de seguimiento del mismo tipo dentro de los 7 días siguientes." />
+                      </p>
+                      <p className="text-xs text-slate-400 mb-3">De {indicesServicio.limpieza.total_reportes} reportes de limpieza este mes.</p>
+                      {indicesServicio.limpieza.por_unidad.map((u) => (
+                        <BarraViva key={u.unidad} etiqueta={`${u.unidad} (${u.total_reportes})`} pct={u.pct} color={COLOR_SEMAFORO_DASH[u.color]} />
+                      ))}
+                    </div>
+                  )}
+                  {indicesServicio.mantenimiento?.por_unidad?.length > 0 && (
+                    <div className="rounded-2xl border border-slate-200 bg-white p-4">
+                      <p className="text-sm font-semibold text-slate-800 mb-1">
+                        Índice de mantenimiento por unidad
+                        <InfoTip texto="% de reportes de mantenimiento de esa unidad que no necesitaron un reporte de seguimiento del mismo tipo dentro de los 7 días siguientes." />
+                      </p>
+                      <p className="text-xs text-slate-400 mb-3">De {indicesServicio.mantenimiento.total_reportes} reportes de mantenimiento este mes.</p>
+                      {indicesServicio.mantenimiento.por_unidad.map((u) => (
+                        <BarraViva key={u.unidad} etiqueta={`${u.unidad} (${u.total_reportes})`} pct={u.pct} color={COLOR_SEMAFORO_DASH[u.color]} />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
               <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide flex items-center gap-1.5 pt-1">
                 <span className="w-1.5 h-1.5 rounded-sm bg-orange-500" /> Alertas
               </p>
               <div className="space-y-3">
                 <TarjetaAlerta
-                  vacia={Object.keys(informe.confianza_baja_por_propiedad || {}).length === 0}
-                  tituloVacio="Ninguna propiedad con respuestas de baja confianza este mes."
+                  vacia={Object.keys(alertasConfianzaBaja).length === 0}
+                  tituloVacio="Ninguna unidad con respuestas de baja confianza este mes."
                   subtituloVacio="Cruzalo con los avisos de la lista de propiedades en Admin."
-                  tituloConDatos="Propiedades con respuestas de baja confianza"
-                  datos={informe.confianza_baja_por_propiedad}
+                  tituloConDatos="Unidades con respuestas de baja confianza"
+                  datos={alertasConfianzaBaja}
                 />
                 <TarjetaAlerta
-                  vacia={Object.keys(informe.sentimiento_negativo_por_propiedad || {}).length === 0}
-                  tituloVacio="Ninguna propiedad con sentimiento negativo este mes."
+                  vacia={Object.keys(alertasSentimientoNeg).length === 0}
+                  tituloVacio="Ninguna unidad con sentimiento negativo este mes."
                   subtituloVacio="Sin ejemplos de baja confianza que revisar."
-                  tituloConDatos="Propiedades con sentimiento negativo"
-                  datos={informe.sentimiento_negativo_por_propiedad}
+                  tituloConDatos="Unidades con sentimiento negativo"
+                  datos={alertasSentimientoNeg}
                 />
               </div>
             </>
