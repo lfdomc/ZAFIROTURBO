@@ -1572,6 +1572,29 @@ function UnitEditCard({ unidad, onChange, onEliminar, camposUnidad }) {
         </label>
       </div>
 
+      <div className="space-y-2 pt-2 border-t border-slate-100">
+        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Chats de Telegram para reportes automáticos</p>
+        <p className="text-[11px] text-slate-400">
+          Si queda vacío, ese tipo de reporte de esta unidad usa el chat de la propiedad (si hay uno) o sigue
+          el camino normal por WhatsApp.
+        </p>
+        {[
+          ["telegram_chat_mantenimiento", "Mantenimiento"],
+          ["telegram_chat_limpieza", "Limpieza"],
+          ["telegram_chat_administrativo", "Administrativo"],
+        ].map(([clave, etiqueta]) => (
+          <label key={clave} className="block text-xs text-slate-500">
+            {etiqueta}
+            <input
+              value={(unidad.camposPersonalizados || {})[clave] || ""}
+              onChange={(e) => setCampoPersonalizado(clave, e.target.value)}
+              placeholder="ej. -1001234567890"
+              className="mt-1 w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm"
+            />
+          </label>
+        ))}
+      </div>
+
       {camposUnidad.length > 0 && (
         <div className="space-y-2 pt-2 border-t border-slate-100">
           <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Campos personalizados de esta unidad</p>
@@ -1777,6 +1800,29 @@ function PropertyForm({ propiedadInicial, esNueva, camposPersonalizados, onGuard
       {!esNueva && form.camposPersonalizados.link_guia_publica && (
         <RevisarGuiaPanel propertyId={form.id} adminKey={adminKey} urlGuia={form.camposPersonalizados.link_guia_publica} />
       )}
+
+      <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
+        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Chats de Telegram para reportes automáticos</p>
+        <p className="text-[11px] text-slate-400 -mt-2">
+          Se usa como respaldo cuando una unidad puntual no tiene su propio chat configurado. Si queda vacío,
+          ese tipo de reporte sigue el camino normal por WhatsApp.
+        </p>
+        {[
+          ["telegram_chat_mantenimiento", "Mantenimiento"],
+          ["telegram_chat_limpieza", "Limpieza"],
+          ["telegram_chat_administrativo", "Administrativo"],
+        ].map(([clave, etiqueta]) => (
+          <label key={clave} className="block text-xs text-slate-500">
+            {etiqueta}
+            <input
+              value={form.camposPersonalizados[clave] || ""}
+              onChange={(e) => set("camposPersonalizados", { ...form.camposPersonalizados, [clave]: e.target.value })}
+              placeholder="ej. -1001234567890"
+              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
+            />
+          </label>
+        ))}
+      </div>
 
       {camposPropiedad.length > 0 && (
         <div className="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
