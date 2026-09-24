@@ -2827,6 +2827,96 @@ function DashboardView() {
   );
 }
 
+function FaqsPanel({ adminKey }) {
+  const [general, setGeneral] = useState(null);
+  const [guardando, setGuardando] = useState(false);
+  const [error, setError] = useState("");
+  const [aviso, setAviso] = useState("");
+
+  const cargar = () => {
+    setError("");
+    adminFetch("/admin/general", adminKey)
+      .then((datos) => setGeneral({ faqs: [], ...datos }))
+      .catch((e) => setError(e.message));
+  };
+
+  useEffect(cargar, [adminKey]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const setFaq = (i, campo, valor) =>
+    setGeneral((g) => ({ ...g, faqs: g.faqs.map((f, idx) => (idx === i ? { ...f, [campo]: valor } : f)) }));
+
+  const agregarFaq = () => setGeneral((g) => ({ ...g, faqs: [...g.faqs, { q: "", a: "" }] }));
+  const eliminarFaq = (i) => setGeneral((g) => ({ ...g, faqs: g.faqs.filter((_, idx) => idx !== i) }));
+
+  const guardar = async () => {
+    setGuardando(true);
+    setError("");
+    setAviso("");
+    try {
+      // Solo se tocan las FAQs acá — el resto de "general" (mensajes
+      // frecuentes, contactos, formulario, etc.) se manda tal cual vino,
+      // para no perder nada que este panel no edita.
+      await adminFetch("/admin/general", adminKey, { method: "POST", body: JSON.stringify(general) });
+      setAviso("Guardado — el sitio y la búsqueda del bot se actualizan en un par de minutos.");
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setGuardando(false);
+    }
+  };
+
+  if (!general) {
+    return error ? <p className="text-sm text-red-600">{error}</p> : null;
+  }
+
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-4">
+      <p className="text-sm font-semibold text-slate-800 mb-1">Preguntas frecuentes (FAQs generales)</p>
+      <p className="text-xs text-slate-400 mb-3">
+        Se aplican a las 13 propiedades por igual — si algo solo aplica a una propiedad puntual, va en los
+        datos de esa propiedad, no acá.
+      </p>
+
+      <div className="space-y-3">
+        {general.faqs.map((f, i) => (
+          <div key={i} className="rounded-xl border border-slate-200 p-3 space-y-2">
+            <div className="flex items-start gap-2">
+              <input
+                value={f.q}
+                onChange={(e) => setFaq(i, "q", e.target.value)}
+                placeholder="Pregunta"
+                className="flex-1 rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm font-medium"
+              />
+              <button onClick={() => eliminarFaq(i)} className="shrink-0 text-red-500 p-1.5" aria-label="Eliminar">
+                <Trash2 size={16} />
+              </button>
+            </div>
+            <textarea
+              value={f.a}
+              onChange={(e) => setFaq(i, "a", e.target.value)}
+              placeholder="Respuesta"
+              rows={2}
+              className="w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm"
+            />
+          </div>
+        ))}
+      </div>
+
+      <button onClick={agregarFaq} className="mt-3 text-sm text-blue-900 font-medium flex items-center gap-1">
+        <Plus size={14} /> Agregar FAQ
+      </button>
+
+      <div className="flex items-center gap-3 mt-4 pt-3 border-t border-slate-100">
+        <button onClick={guardar} disabled={guardando} className="text-sm rounded-lg bg-blue-900 text-white px-3 py-2 disabled:opacity-40">
+          {guardando ? "Guardando…" : "Guardar"}
+        </button>
+        {aviso && <p className="text-xs text-emerald-700">{aviso}</p>}
+        {error && <p className="text-xs text-red-600">{error}</p>}
+      </div>
+    </div>
+  );
+}
+
 function AdminView() {
   const [adminKey, setAdminKey] = useAdminKey();
   const [vista, setVista] = useState("lista"); // 'lista' | 'nueva' | id de propiedad
@@ -2924,6 +3014,7 @@ function AdminView() {
         {vista === "lista" && !cargando && (
           <>
             <ConfiguracionGeneralPanel adminKey={adminKey} />
+            <FaqsPanel adminKey={adminKey} />
             <InformeMensualPanel adminKey={adminKey} />
             <ImportarJsonPanel adminKey={adminKey} />
             <CamposPersonalizadosPanel campos={camposPersonalizados} adminKey={adminKey} onCambio={cargarListas} />
