@@ -201,17 +201,24 @@ a.underline:hover { background-size: 100% 1.5px; }
    cartuchos de tinta imprimiendo un fondo navy de pared a pared.
    ============================================================================ */
 @media print {
+  /* Mantiene los colores/fondos oscuros del Dashboard al imprimir — por
+     default el navegador los descarta a menos que se le pida explícitamente
+     que los conserve con print-color-adjust/-webkit-print-color-adjust. */
+  html, body {
+    background: #0b1220 !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
   body * { visibility: hidden; }
   #sofia-dashboard-print, #sofia-dashboard-print * { visibility: visible; }
   #sofia-dashboard-print {
     position: absolute; left: 0; top: 0; width: 100%;
-    background: #ffffff !important; color: #0f172a !important;
+    background: #0b1220;
   }
   #sofia-dashboard-print .no-imprimir { display: none !important; }
   #sofia-dashboard-print * {
-    background: #ffffff !important;
-    color: #0f172a !important;
-    border-color: #cbd5e1 !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
     box-shadow: none !important;
   }
 }
