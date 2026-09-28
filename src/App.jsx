@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect, useContext, createContext } from "react";
 import { createPortal } from "react-dom";
-import { Copy, Check, ChevronDown, ChevronUp, ChevronRight, ChevronLeft, Home, MessageSquareText, Phone, Menu, X, Calendar, CalendarDays, RefreshCw, Settings, Plus, Trash2, Save, Pencil, LayoutDashboard } from "lucide-react";
+import { Copy, Check, ChevronDown, ChevronUp, ChevronRight, ChevronLeft, Home, MessageSquareText, Phone, Menu, X, Calendar, CalendarDays, RefreshCw, Settings, Plus, Trash2, Save, Pencil, LayoutDashboard, Wand2, ThumbsUp, ThumbsDown } from "lucide-react";
 import DATA from "./propiedades.json";
 import logoSofia from "./assets/logo-sofia.png";
 
@@ -2593,6 +2593,194 @@ function ListaPorRevisar({ ejemplos }) {
   );
 }
 
+/* ============================================================================
+   Correcciones — Fases 3 y 4 del autoaprendizaje por retrieval. Vive
+   SEPARADO de Admin (edición de propiedades) y de Dashboard (informe
+   mensual de atención al huésped): es su propia cola de revisión humana,
+   con su propio sub-"Informe" aparte de la de aprobación pendiente.
+   Nada de acá cambia una respuesta en vivo hasta que se aprueba a mano.
+   ============================================================================ */
+
+function TarjetaCorreccion({ c, procesando, onAprobar, onDescartar }) {
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-4">
+      <p className="text-xs text-slate-400 mb-2">
+        {c.nombre_propiedad || "Sin propiedad identificada"}
+        {c.etiqueta_unidad ? ` — ${c.etiqueta_unidad}` : ""}
+        {" · "}
+        {new Date(c.creado_en).toLocaleString("es-CR", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}
+      </p>
+      <div className="space-y-2">
+        <div className="rounded-lg bg-red-50 border border-red-100 px-3 py-2">
+          <p className="text-[10px] font-bold uppercase tracking-wide text-red-500 mb-0.5">Borrador de Sofía</p>
+          <p className="text-sm text-slate-700 whitespace-pre-wrap">{c.texto_original}</p>
+        </div>
+        <div className="rounded-lg bg-emerald-50 border border-emerald-100 px-3 py-2">
+          <p className="text-[10px] font-bold uppercase tracking-wide text-emerald-600 mb-0.5">Lo que mandó el admin</p>
+          <p className="text-sm text-slate-700 whitespace-pre-wrap">{c.texto_editado}</p>
+        </div>
+      </div>
+      {onAprobar && onDescartar && (
+        <div className="flex items-center gap-2 mt-3">
+          <button
+            onClick={() => onAprobar(c.id)}
+            disabled={procesando}
+            className="flex-1 flex items-center justify-center gap-1.5 rounded-lg bg-emerald-600 text-white text-sm font-semibold py-2 disabled:opacity-50"
+          >
+            <ThumbsUp size={14} /> Aprobar
+          </button>
+          <button
+            onClick={() => onDescartar(c.id)}
+            disabled={procesando}
+            className="flex-1 flex items-center justify-center gap-1.5 rounded-lg border border-slate-300 text-slate-600 text-sm font-semibold py-2 disabled:opacity-50"
+          >
+            <ThumbsDown size={14} /> Descartar
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CorreccionesPendientesPanel({ adminKey }) {
+  const [pendientes, setPendientes] = useState(null);
+  const [error, setError] = useState("");
+  const [procesandoId, setProcesandoId] = useState(null);
+
+  const cargar = async () => {
+    setError("");
+    try {
+      const datos = await adminFetch("/correcciones/pendientes", adminKey);
+      setPendientes(datos);
+    } catch (e) {
+      setError(e.message);
+    }
+  };
+
+  useEffect(() => { cargar(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const manejar = async (id, accion) => {
+    setProcesandoId(id);
+    setError("");
+    try {
+      await adminFetch(`/correcciones/${id}/${accion}`, adminKey, { method: "POST" });
+      setPendientes((prev) => prev.filter((c) => c.id !== id));
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setProcesandoId(null);
+    }
+  };
+
+  if (pendientes === null && !error) return <p className="text-sm text-slate-400">Cargando…</p>;
+
+  return (
+    <div className="space-y-3">
+      <p className="text-xs text-slate-500">
+        Cada vez que le hacés <span className="font-semibold">reply</span> a un mensaje de Sofía en Telegram para
+        corregirlo, si el cambio fue de tono (no de un dato), aparece acá. Aprobar hace que Sofía use ese ejemplo
+        como guía de estilo en consultas parecidas; descartar lo elimina de la cola sin ningún efecto.
+      </p>
+      {error && <p className="text-sm text-red-600">{error}</p>}
+      {pendientes && pendientes.length === 0 ? (
+        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+          <p className="text-sm font-semibold text-slate-800">No hay correcciones pendientes de revisar.</p>
+        </div>
+      ) : (
+        pendientes?.map((c) => (
+          <TarjetaCorreccion
+            key={c.id}
+            c={c}
+            procesando={procesandoId === c.id}
+            onAprobar={(id) => manejar(id, "aprobar")}
+            onDescartar={(id) => manejar(id, "descartar")}
+          />
+        ))
+      )}
+    </div>
+  );
+}
+
+function InformeCorreccionesPanel({ adminKey }) {
+  const [informe, setInforme] = useState(null);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    adminFetch("/correcciones/informe", adminKey)
+      .then(setInforme)
+      .catch((e) => setError(e.message));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (error) return <p className="text-sm text-red-600">{error}</p>;
+  if (!informe) return <p className="text-sm text-slate-400">Cargando…</p>;
+
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-3 gap-2">
+        <div className="rounded-2xl border border-slate-200 bg-white p-3 text-center">
+          <p className="text-2xl font-bold text-amber-600">{informe.total_pendientes}</p>
+          <p className="text-[11px] text-slate-500">Pendientes</p>
+        </div>
+        <div className="rounded-2xl border border-slate-200 bg-white p-3 text-center">
+          <p className="text-2xl font-bold text-emerald-600">{informe.total_aprobadas}</p>
+          <p className="text-[11px] text-slate-500">Aprobadas</p>
+        </div>
+        <div className="rounded-2xl border border-slate-200 bg-white p-3 text-center">
+          <p className="text-2xl font-bold text-slate-400">{informe.total_descartadas}</p>
+          <p className="text-[11px] text-slate-500">Descartadas</p>
+        </div>
+      </div>
+      <div>
+        <p className="text-sm font-semibold text-slate-800 mb-2">Aprobadas — hoy influyen en el tono de Sofía</p>
+        {informe.aprobadas.length === 0 ? (
+          <p className="text-sm text-slate-400">Todavía no se aprobó ninguna.</p>
+        ) : (
+          <div className="space-y-3">
+            {informe.aprobadas.map((c) => <TarjetaCorreccion key={c.id} c={c} />)}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function CorreccionesView() {
+  const [adminKey, setAdminKey] = useAdminKey();
+  const [subvista, setSubvista] = useState("pendientes");
+
+  return (
+    <AdminKeyGate adminKey={adminKey} onSave={setAdminKey}>
+      <div className="space-y-4">
+        <div>
+          <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2"><Wand2 size={18} /> Correcciones</h2>
+          <p className="text-sm text-slate-500">
+            Autoaprendizaje de tono a partir de tus correcciones por reply en Telegram — separado del Dashboard y de Admin.
+          </p>
+        </div>
+        <div className="flex gap-2 border-b border-slate-200">
+          <button
+            onClick={() => setSubvista("pendientes")}
+            className={`px-3 py-2 text-sm font-semibold border-b-2 -mb-px ${subvista === "pendientes" ? "border-blue-900 text-blue-900" : "border-transparent text-slate-400"}`}
+          >
+            Por aprobar
+          </button>
+          <button
+            onClick={() => setSubvista("informe")}
+            className={`px-3 py-2 text-sm font-semibold border-b-2 -mb-px ${subvista === "informe" ? "border-blue-900 text-blue-900" : "border-transparent text-slate-400"}`}
+          >
+            Informe
+          </button>
+        </div>
+        {subvista === "pendientes" ? (
+          <CorreccionesPendientesPanel adminKey={adminKey} />
+        ) : (
+          <InformeCorreccionesPanel adminKey={adminKey} />
+        )}
+      </div>
+    </AdminKeyGate>
+  );
+}
+
 const DASHBOARD_CACHE_KEY = "sofia_dashboard_cache";
 const DASHBOARD_CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutos — suficiente para no repetir la consulta al ir y venir de pestañas, pero sigue "casi en vivo"
 const RANGOS_DASHBOARD = [
@@ -3588,6 +3776,16 @@ export default function App() {
                   <Settings size={14} />
                   Admin
                 </button>
+                <button
+                  onClick={() => goToProperty("correcciones")}
+                  style={{ animationDelay: "105ms" }}
+                  className={`sofia-menu-item text-left px-3 py-2.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                    selected === "correcciones" ? "bg-blue-900 text-white" : "text-slate-600 active:bg-slate-100"
+                  }`}
+                >
+                  <Wand2 size={14} />
+                  Correcciones
+                </button>
                 {["sanjose", "jaco", "guanacaste"].map((groupId, gi) => {
                   const items = navItems.filter((i) => i.group === groupId);
                   if (items.length === 0) return null;
@@ -3653,6 +3851,8 @@ export default function App() {
             <DashboardView />
           ) : selected === "admin" ? (
             <AdminView />
+          ) : selected === "correcciones" ? (
+            <CorreccionesView />
           ) : selectedProperty ? (
             <PropertyView property={selectedProperty} />
           ) : (
