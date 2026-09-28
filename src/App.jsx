@@ -2558,21 +2558,28 @@ function TarjetaAlerta({ vacia, tituloVacio, subtituloVacio, tituloConDatos, dat
 
 const DASHBOARD_CACHE_KEY = "sofia_dashboard_cache";
 const DASHBOARD_CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutos — suficiente para no repetir la consulta al ir y venir de pestañas, pero sigue "casi en vivo"
+const RANGOS_DASHBOARD = [
+  { valor: "actual", etiqueta: "Mes actual" },
+  { valor: "3m", etiqueta: "Últimos 3 meses" },
+  { valor: "6m", etiqueta: "Semestral (6 meses)" },
+  { valor: "anio", etiqueta: "Año" },
+];
 
 function DashboardLive({ adminKey }) {
-  const ahora = new Date();
-  const claveMes = `${ahora.getFullYear()}-${ahora.getMonth() + 1}`;
+  const [rango, setRango] = useState("actual");
   const [informe, setInforme] = useState(null);
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState("");
   const [actualizadoEn, setActualizadoEn] = useState(null);
+  const [descargandoPdf, setDescargandoPdf] = useState(false);
+
+  const claveCache = `sofia_dashboard_cache_${rango}`;
 
   const leerCache = () => {
     try {
-      const crudo = sessionStorage.getItem(DASHBOARD_CACHE_KEY);
+      const crudo = sessionStorage.getItem(claveCache);
       if (!crudo) return null;
-      const { clave, datos, en } = JSON.parse(crudo);
-      if (clave !== claveMes) return null; // cambió el mes, no sirve
+      const { datos, en } = JSON.parse(crudo);
       if (Date.now() - en > DASHBOARD_CACHE_TTL_MS) return null; // venció
       return { datos, en };
     } catch {
@@ -2592,11 +2599,11 @@ function DashboardLive({ adminKey }) {
     setCargando(true);
     setError("");
     try {
-      const datos = await adminFetch(`/admin/informe-mensual?anio=${ahora.getFullYear()}&mes=${ahora.getMonth() + 1}`, adminKey);
+      const datos = await adminFetch(`/admin/informe-mensual?rango=${rango}`, adminKey);
       setInforme(datos);
       const en = Date.now();
       setActualizadoEn(new Date(en));
-      sessionStorage.setItem(DASHBOARD_CACHE_KEY, JSON.stringify({ clave: claveMes, datos, en }));
+      sessionStorage.setItem(claveCache, JSON.stringify({ datos, en }));
     } catch (e) {
       setError(e.message);
     } finally {
@@ -2604,9 +2611,34 @@ function DashboardLive({ adminKey }) {
     }
   };
 
-  useEffect(() => { cargar(false); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { cargar(false); }, [rango]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const descargarPdf = async () => {
+    setDescargandoPdf(true);
+    setError("");
+    try {
+      const resp = await fetch(`${BOT_API_URL}/admin/informe-mensual/pdf?rango=${rango}`, {
+        headers: { "X-Admin-Key": adminKey },
+      });
+      if (!resp.ok) throw new Error(`No se pudo generar el PDF (HTTP ${resp.status})`);
+      const blob = await resp.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `dashboard_${rango}_${new Date().toISOString().slice(0, 10)}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setDescargandoPdf(false);
+    }
+  };
 
   const nombresMes = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+  const ahora = new Date();
   const total = informe?.total_consultas || 0;
   const pctConfianzaAlta = total ? Math.round(((informe.por_confianza?.alta || 0) / total) * 100) : 0;
   const pctSentimientoNeg = total ? Math.round(((informe.por_sentimiento?.negativo || 0) / total) * 100) : 0;
@@ -2621,17 +2653,32 @@ function DashboardLive({ adminKey }) {
   const alertasSentimientoNeg = informe?.sentimiento_negativo_por_unidad || informe?.sentimiento_negativo_por_propiedad || {};
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" id="sofia-dashboard-print">
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
           <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2"><LayoutDashboard size={18} /> Dashboard</h2>
           <p className="text-sm text-slate-500">
-            {nombresMes[ahora.getMonth()]} {ahora.getFullYear()} · datos guardados en este navegador hasta 5 min, para no golpear la base de datos en cada visita.
+            {informe?.periodo_etiqueta || `${nombresMes[ahora.getMonth()]} ${ahora.getFullYear()}`} · datos guardados en este navegador hasta 5 min, para no golpear la base de datos en cada visita.
           </p>
         </div>
-        <button onClick={() => cargar(true)} disabled={cargando} className="text-sm rounded-lg border border-slate-300 px-3 py-2 text-slate-600 flex items-center gap-1.5 disabled:opacity-40">
-          <RefreshCw size={14} className={cargando ? "animate-spin" : ""} /> Actualizar
-        </button>
+        <div className="flex items-center gap-2 flex-wrap no-imprimir">
+          <select
+            value={rango}
+            onChange={(e) => setRango(e.target.value)}
+            className="rounded-lg border border-slate-300 px-2 py-2 text-sm bg-white text-slate-700"
+          >
+            {RANGOS_DASHBOARD.map((r) => <option key={r.valor} value={r.valor}>{r.etiqueta}</option>)}
+          </select>
+          <button onClick={() => cargar(true)} disabled={cargando} className="text-sm rounded-lg border border-slate-300 px-3 py-2 text-slate-600 flex items-center gap-1.5 disabled:opacity-40">
+            <RefreshCw size={14} className={cargando ? "animate-spin" : ""} /> Actualizar
+          </button>
+          <button onClick={() => window.print()} className="text-sm rounded-lg border border-slate-300 px-3 py-2 text-slate-600">
+            🖨️ Imprimir
+          </button>
+          <button onClick={descargarPdf} disabled={descargandoPdf} className="text-sm rounded-lg border border-slate-300 px-3 py-2 text-slate-600 disabled:opacity-40">
+            {descargandoPdf ? "Generando…" : "📄 Descargar PDF"}
+          </button>
+        </div>
       </div>
 
       {error && <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{error}</p>}
@@ -2917,6 +2964,99 @@ function FaqsPanel({ adminKey }) {
   );
 }
 
+// Preguntas que Sofía no pudo responder pero sí identificó de qué
+// propiedad se trataba — se responden una vez acá y quedan agregadas
+// como dato de esa propiedad/unidad (misma mecánica de "campos
+// personalizados" que ya usan los chats de Telegram).
+function VaciosInfoPanel({ adminKey }) {
+  const [vacios, setVacios] = useState(null);
+  const [respuestas, setRespuestas] = useState({});
+  const [guardandoId, setGuardandoId] = useState(null);
+  const [error, setError] = useState("");
+  const [aviso, setAviso] = useState("");
+
+  const cargar = () => {
+    setError("");
+    adminFetch("/admin/vacios-informacion", adminKey)
+      .then(setVacios)
+      .catch((e) => setError(e.message));
+  };
+
+  useEffect(cargar, [adminKey]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const responder = async (id) => {
+    const respuesta = (respuestas[id] || "").trim();
+    if (!respuesta) return;
+    setGuardandoId(id);
+    setError("");
+    setAviso("");
+    try {
+      await adminFetch(`/admin/vacios-informacion/${id}/responder`, adminKey, {
+        method: "POST", body: JSON.stringify({ respuesta }),
+      });
+      setVacios((lista) => lista.filter((v) => v.id !== id));
+      setAviso("Guardado — Sofía ya tiene el dato disponible (la búsqueda se actualiza en un par de minutos).");
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setGuardandoId(null);
+    }
+  };
+
+  if (!vacios) {
+    return error ? <p className="text-sm text-red-600">{error}</p> : null;
+  }
+
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-4">
+      <p className="text-sm font-semibold text-slate-800 mb-1">Vacíos de información</p>
+      <p className="text-xs text-slate-400 mb-3">
+        Preguntas que Sofía no pudo responder con los datos actuales, pero sí identificó de cuál propiedad
+        se trataba. Al guardar una respuesta, se agrega como dato de esa propiedad/unidad.
+      </p>
+
+      {vacios.length === 0 ? (
+        <p className="text-xs text-emerald-700">🎉 No hay vacíos pendientes de responder.</p>
+      ) : (
+        <div className="space-y-3">
+          {vacios.map((v) => (
+            <div key={v.id} className="rounded-xl border border-slate-200 p-3 space-y-2">
+              <div className="flex items-start justify-between gap-2 flex-wrap">
+                <div>
+                  <p className="text-sm font-medium text-slate-800">
+                    {v.nombre_propiedad}{v.etiqueta_unidad ? ` — ${v.etiqueta_unidad}` : ""}
+                  </p>
+                  <p className="text-xs text-slate-500 mt-0.5">"{v.pregunta}"</p>
+                </div>
+                <span className="shrink-0 text-[11px] rounded-full bg-slate-100 text-slate-600 px-2 py-0.5">
+                  {v.veces_detectado}× · desde {new Date(v.primera_vez).toLocaleDateString("es-CR")}
+                </span>
+              </div>
+              <textarea
+                value={respuestas[v.id] || ""}
+                onChange={(e) => setRespuestas((r) => ({ ...r, [v.id]: e.target.value }))}
+                placeholder="Respuesta a agregar a la base de conocimiento…"
+                rows={2}
+                className="w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm"
+              />
+              <button
+                onClick={() => responder(v.id)}
+                disabled={guardandoId === v.id || !(respuestas[v.id] || "").trim()}
+                className="text-sm rounded-lg bg-blue-900 text-white px-3 py-1.5 disabled:opacity-40"
+              >
+                {guardandoId === v.id ? "Guardando…" : "Guardar y agregar"}
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {aviso && <p className="text-xs text-emerald-700 mt-3">{aviso}</p>}
+      {error && <p className="text-xs text-red-600 mt-3">{error}</p>}
+    </div>
+  );
+}
+
 function AdminView() {
   const [adminKey, setAdminKey] = useAdminKey();
   const [vista, setVista] = useState("lista"); // 'lista' | 'nueva' | id de propiedad
@@ -3015,6 +3155,7 @@ function AdminView() {
           <>
             <ConfiguracionGeneralPanel adminKey={adminKey} />
             <FaqsPanel adminKey={adminKey} />
+            <VaciosInfoPanel adminKey={adminKey} />
             <InformeMensualPanel adminKey={adminKey} />
             <ImportarJsonPanel adminKey={adminKey} />
             <CamposPersonalizadosPanel campos={camposPersonalizados} adminKey={adminKey} onCambio={cargarListas} />

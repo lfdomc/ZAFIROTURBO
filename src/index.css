@@ -192,3 +192,26 @@ a.underline:hover { background-size: 100% 1.5px; }
   .sofia-menu-desplegable, .sofia-menu-item { animation: none !important; }
 }
 
+
+/* ============================================================================
+   Dashboard imprimible — al usar window.print() (botón "Imprimir" del
+   Dashboard en vivo) se oculta todo menos el contenido marcado con
+   #sofia-dashboard-print, y ese contenido se estira a todo el ancho de
+   la hoja. El fondo oscuro se cambia a blanco/negro para no gastar
+   cartuchos de tinta imprimiendo un fondo navy de pared a pared.
+   ============================================================================ */
+@media print {
+  body * { visibility: hidden; }
+  #sofia-dashboard-print, #sofia-dashboard-print * { visibility: visible; }
+  #sofia-dashboard-print {
+    position: absolute; left: 0; top: 0; width: 100%;
+    background: #ffffff !important; color: #0f172a !important;
+  }
+  #sofia-dashboard-print .no-imprimir { display: none !important; }
+  #sofia-dashboard-print * {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+    box-shadow: none !important;
+  }
+}
