@@ -116,7 +116,7 @@ function TelegramFloat() {
   return (
     <a
       id="sofia-telegram-float"
-      href="https://t.me/Zafirocrbot"
+      href="https://t.me/TurboZafiro_bot"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat en Telegram"
