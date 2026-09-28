@@ -2556,6 +2556,43 @@ function TarjetaAlerta({ vacia, tituloVacio, subtituloVacio, tituloConDatos, dat
   );
 }
 
+// Mismo contenido que la sección "Por revisar — confianza media o baja"
+// del informe PDF/mensual (ver _lista_ejemplos en admin.py) — acá en vivo,
+// con los mismos datos que ya trae /admin/informe-mensual (ejemplos_por_revisar).
+function ListaPorRevisar({ ejemplos }) {
+  if (!ejemplos || ejemplos.length === 0) {
+    return (
+      <div className="rounded-2xl border border-slate-200 bg-white p-4">
+        <p className="text-sm font-semibold text-slate-800">Ninguna en este período — todo en orden.</p>
+      </div>
+    );
+  }
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-4">
+      <p className="text-xs text-slate-400 mb-3">
+        Contexto real de la pregunta para poder revisar la conversación y ver si falta completar
+        información en esa unidad.
+      </p>
+      <div className="space-y-3">
+        {ejemplos.map((e, i) => (
+          <div key={i} className="pb-3 border-b border-slate-100 last:border-0 last:pb-0">
+            <p className="text-xs">
+              <span className="font-semibold text-slate-800">{e.propiedad}</span>
+              {e.confianza && (
+                <span className="ml-1.5 font-semibold" style={{ color: COLOR_CONFIANZA[e.confianza] || "#94a3b8" }}>
+                  ● {e.confianza === "media" ? "Media" : "Baja"}
+                </span>
+              )}
+              <span className="text-slate-400"> · {e.tipo} · {e.fecha}</span>
+            </p>
+            <p className="text-xs text-slate-500 mt-0.5">{e.mensaje}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const DASHBOARD_CACHE_KEY = "sofia_dashboard_cache";
 const DASHBOARD_CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutos — suficiente para no repetir la consulta al ir y venir de pestañas, pero sigue "casi en vivo"
 const RANGOS_DASHBOARD = [
@@ -2853,6 +2890,11 @@ function DashboardLive({ adminKey }) {
                   datos={alertasSentimientoNeg}
                 />
               </div>
+
+              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide flex items-center gap-1.5 pt-1">
+                <span style={{ color: "#d97706" }}>●</span><span style={{ color: "#dc2626" }}>●</span> Por revisar — confianza media o baja
+              </p>
+              <ListaPorRevisar ejemplos={informe.ejemplos_por_revisar} />
             </>
           )}
 
