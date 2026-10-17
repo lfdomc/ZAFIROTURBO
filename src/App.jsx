@@ -3233,6 +3233,22 @@ function VaciosInfoPanel({ adminKey }) {
     }
   };
 
+  const descartar = async (id) => {
+    if (!confirm("¿Descartar esta pregunta sin responderla? No se agrega ningún dato a la base de conocimiento.")) return;
+    setGuardandoId(id);
+    setError("");
+    setAviso("");
+    try {
+      await adminFetch(`/admin/vacios-informacion/${id}`, adminKey, { method: "DELETE" });
+      setVacios((lista) => lista.filter((v) => v.id !== id));
+      setAviso("Descartado.");
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setGuardandoId(null);
+    }
+  };
+
   if (!vacios) {
     return error ? <p className="text-sm text-red-600">{error}</p> : null;
   }
@@ -3269,13 +3285,22 @@ function VaciosInfoPanel({ adminKey }) {
                 rows={2}
                 className="w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm"
               />
-              <button
-                onClick={() => responder(v.id)}
-                disabled={guardandoId === v.id || !(respuestas[v.id] || "").trim()}
-                className="text-sm rounded-lg bg-blue-900 text-white px-3 py-1.5 disabled:opacity-40"
-              >
-                {guardandoId === v.id ? "Guardando…" : "Guardar y agregar"}
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => responder(v.id)}
+                  disabled={guardandoId === v.id || !(respuestas[v.id] || "").trim()}
+                  className="text-sm rounded-lg bg-blue-900 text-white px-3 py-1.5 disabled:opacity-40"
+                >
+                  {guardandoId === v.id ? "Guardando…" : "Guardar y agregar"}
+                </button>
+                <button
+                  onClick={() => descartar(v.id)}
+                  disabled={guardandoId === v.id}
+                  className="text-sm rounded-lg border border-red-300 text-red-700 px-3 py-1.5 disabled:opacity-40"
+                >
+                  {guardandoId === v.id ? "…" : "Descartar"}
+                </button>
+              </div>
             </div>
           ))}
         </div>
