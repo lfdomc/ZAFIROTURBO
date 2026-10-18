@@ -1665,6 +1665,20 @@ function UnitEditCard({ unidad, onChange, onEliminar, camposUnidad }) {
       </details>
 
       <label className="block text-xs text-slate-500 pt-2 border-t border-slate-100">
+        Destacados de marketing de esta unidad (Sofía los usa para sonar más cálida y vender la unidad)
+        <textarea
+          value={unidad.destacadosMarketing || ""}
+          onChange={(e) => set("destacadosMarketing", e.target.value)}
+          placeholder="ej. Vista despejada a la ciudad desde el piso 14, a pasos del Parque Francia y de los mejores restaurantes de Barrio Escalante."
+          rows={3}
+          className="mt-1 w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm"
+        />
+        <p className="text-[11px] text-slate-400 mt-1">
+          Solo datos reales (vista, ambiente, cercanías, acabados) — Sofía nunca inventa lo que no esté acá.
+        </p>
+      </label>
+
+      <label className="block text-xs text-slate-500 pt-2 border-t border-slate-100">
         Nota interna de esta unidad (nunca se le muestra al huésped)
         <textarea value={unidad.note || ""} onChange={(e) => set("note", e.target.value)} rows={2}
           className="mt-1 w-full rounded-lg border border-slate-300 px-2.5 py-1.5 text-sm" />
