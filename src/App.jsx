@@ -3489,40 +3489,16 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [highlightTerm, setHighlightTerm] = useState("");
 
-  // Animación "aparecer al entrar en pantalla": observa cualquier tarjeta
-  // (patrón .rounded-2xl.border.border-slate-200.bg-white) que exista o se
-  // agregue al DOM — como el contenido cambia al navegar entre propiedades,
-  // un MutationObserver detecta las tarjetas nuevas y las suma al mismo
-  // IntersectionObserver, sin tener que tocar cada componente.
+  // Spotlight que sigue el cursor: en cada movimiento, si el mouse está
+  // sobre una tarjeta, actualiza --mx/--my con la posición relativa
+  // (usadas por el ::before de la tarjeta en index.css).
+  // (Se quitó la animación "aparecer al entrar en pantalla" — con
+  // propiedades largas, varias tarjetas podían quedar con opacity:0 sin
+  // que el IntersectionObserver llegara a marcarlas .in-view, dejando
+  // espacios en blanco en la edición. Ahora todas las tarjetas se ven
+  // de una vez, sin depender de hacer scroll.)
   useEffect(() => {
     const SELECTOR = ".rounded-2xl.border.border-slate-200.bg-white";
-    const observadas = new WeakSet();
-    const io = new IntersectionObserver(
-      (entradas) => {
-        entradas.forEach((entrada) => {
-          if (entrada.isIntersecting) {
-            entrada.target.classList.add("in-view");
-            io.unobserve(entrada.target);
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
-    );
-    const observarNuevas = () => {
-      document.querySelectorAll(SELECTOR).forEach((el) => {
-        if (!observadas.has(el)) {
-          observadas.add(el);
-          io.observe(el);
-        }
-      });
-    };
-    observarNuevas();
-    const mo = new MutationObserver(observarNuevas);
-    mo.observe(document.body, { childList: true, subtree: true });
-
-    // Spotlight que sigue el cursor: en cada movimiento, si el mouse está
-    // sobre una tarjeta, actualiza --mx/--my con la posición relativa
-    // (usadas por el ::before de la tarjeta en index.css).
     const alMoverMouse = (e) => {
       const tarjeta = e.target.closest(SELECTOR);
       if (!tarjeta) return;
@@ -3533,12 +3509,7 @@ export default function App() {
       tarjeta.style.setProperty("--my", `${my}%`);
     };
     document.addEventListener("mousemove", alMoverMouse);
-
-    return () => {
-      io.disconnect();
-      mo.disconnect();
-      document.removeEventListener("mousemove", alMoverMouse);
-    };
+    return () => document.removeEventListener("mousemove", alMoverMouse);
   }, []);
 
   // Propiedades en orden alfabético para el menú (Inicio siempre va primero, fijo)

@@ -50,24 +50,10 @@ input::placeholder, textarea::placeholder { color: #5b6b8a !important; }
 ::-webkit-scrollbar-track { background: #0b1220; }
 ::-webkit-scrollbar-thumb { background: #253150; border-radius: 6px; }
 
-/* Aparición de tarjetas: de izquierda a derecha + fade, al entrar en pantalla
-   (activado por el observador global en App.jsx, agrega/quita .in-view) */
-.rounded-2xl.border.border-slate-200.bg-white {
-  opacity: 0;
-  transform: translateX(-24px);
-  transition: opacity 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-.rounded-2xl.border.border-slate-200.bg-white.in-view {
-  opacity: 1;
-  transform: translateX(0);
-}
-@media (prefers-reduced-motion: reduce) {
-  .rounded-2xl.border.border-slate-200.bg-white {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-}
+/* (Se quitó la animación "aparecer al entrar en pantalla" — dejaba
+   tarjetas en opacity:0 sin marcar .in-view en propiedades largas como
+   Praia, mostrando espacios en blanco. Ahora todas las tarjetas se ven
+   de una vez, sin scroll.) */
 
 /* ============================================================================
    Efectos de mouse — pensados para reforzar la sensación "tecnológica":
