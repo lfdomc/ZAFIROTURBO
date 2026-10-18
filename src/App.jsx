@@ -3467,6 +3467,7 @@ function AdminView() {
 
         {(vista === "nueva" || (vista !== "lista" && propiedadEditando)) && (
           <PropertyForm
+            key={propiedadEditando?.id || "nueva"}
             propiedadInicial={propiedadEditando}
             esNueva={vista === "nueva"}
             camposPersonalizados={camposPersonalizados}
